@@ -11,13 +11,12 @@ async function loadDailyBriefing() {
     const briefingContainer = document.getElementById('briefing-content');
     
     try {
-        // We use raw.githubusercontent.com to fetch the JSON file publicly
-        // REPLACE 'Jeromany' WITH YOUR ACTUAL GITHUB USERNAME BELOW
+        // FETCHING FROM YOUR EXACT GITHUB USERNAME: Jeromany
         const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/briefing.json');
         
         if (!response.ok) {
             throw new Error('Network response was not ok');
-                }
+        }
                 
         const data = await response.json();
         
@@ -35,7 +34,7 @@ async function loadDailyBriefing() {
         
     } catch (error) {
         console.error("Failed to load briefing:", error);
-        // Fallback to mock data if fetch fails (e.g., file not found yet)
+        // Fallback message if fetch fails
         briefingContainer.innerHTML = `
             <p class="briefing-text" style="color: #FF3D00;">⚠️ Live data is being generated. Check back after the 8:00 AM EST automation runs!</p>
         `;
