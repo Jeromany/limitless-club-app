@@ -1,32 +1,71 @@
-// Initialize Telegram Mini App (if opened inside Telegram)
+// Initialize Telegram Mini App
 if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand(); // Makes the app full screen
-    
-    // Set header color to match our black theme
+    window.Telegram.WebApp.expand();
     window.Telegram.WebApp.setHeaderColor('#000000');
     window.Telegram.WebApp.setBackgroundColor('#000000');
 }
 
-// Mock Daily Briefing Data (We will connect this to your GitHub automation later)
-const mockBriefing = {
-    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-    price: "4012.70",
-    change: "+0.68%",
-    analysis: "Gold is currently respecting the $3962.50 support and $4091.20 resistance levels. Watch for a reaction at the 61.8% Fib level ($4045.00) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
-    action: "Wait for liquidity sweep of Asia high before seeking short entries at key supply."
-};
-
-// Render the briefing to the screen
-document.addEventListener('DOMContentLoaded', () => {
+// Function to fetch real data from GitHub
+async function loadDailyBriefing() {
     const briefingContainer = document.getElementById('briefing-content');
     
-    briefingContainer.innerHTML = `
-        <p class="briefing-text"><strong>Date:</strong> ${mockBriefing.date}</p>
-        <p class="briefing-text"><strong>Current Price:</strong> <span style="color: #FFD700;">$${mockBriefing.price} (${mockBriefing.change})</span></p>
-        <br>
-        <p class="briefing-text"><strong>Market Analysis:</strong><br>${mockBriefing.analysis}</p>
-        <br>
-        <p class="briefing-text"><strong>Action Plan:</strong><br><span style="color: #00BFFF;">${mockBriefing.action}</span></p>
-    `;
-});
+    try {
+        // We use raw.githubusercontent.com to fetch the JSON file publicly
+        // REPLACE 'Jeromany' WITH YOUR ACTUAL GITHUB USERNAME BELOW
+        const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/briefing.json');
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+                }
+                
+        const data = await response.json();
+        
+        // Render the REAL data to the screen
+        briefingContainer.innerHTML = `
+            <p class="briefing-text"><strong>Date:</strong> ${data.date}</p>
+            <p class="briefing-text"><strong>Current Price:</strong> <span style="color: #FFD700;">$${data.price} (${data.change})</span></p>
+            <br>
+            <p class="briefing-text"><strong>Market Analysis:</strong><br>${data.analysis}</p>
+            <br>
+            <p class="briefing-text"><strong>Action Plan:</strong><br><span style="color: #00BFFF;">${data.action}</span></p>
+            <br>
+            <img src="${data.chartUrl}" alt="Daily Gold Chart" style="width: 100%; border-radius: 8px; border: 1px solid #333; margin-top: 10px;" onerror="this.style.display='none'">
+        `;
+        
+    } catch (error) {
+        console.error("Failed to load briefing:", error);
+        // Fallback to mock data if fetch fails (e.g., file not found yet)
+        briefingContainer.innerHTML = `
+            <p class="briefing-text" style="color: #FF3D00;">⚠️ Live data is being generated. Check back after the 8:00 AM EST automation runs!</p>
+        `;
+    }
+}
+
+// Load the data when the page opens
+document.addEventListener('DOMContentLoaded', loadDailyBriefing);
+
+// Placeholder functions for the tools (We will build these in Phase 3!)
+function openJournal() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.showAlert("🚧 Trading Journal is coming in the next update!");
+    } else {
+        alert("🚧 Trading Journal is coming in the next update!");
+    }
+}
+
+function openFib() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.showAlert("🚧 Fib Calculator is coming in the next update!");
+    } else {
+        alert("🚧 Fib Calculator is coming in the next update!");
+    }
+}
+
+function openAsian() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.showAlert("🚧 Asian Session Tracker is coming in the next update!");
+    } else {
+        alert("🚧 Asian Session Tracker is coming in the next update!");
+    }
+}
