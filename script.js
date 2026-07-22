@@ -64,9 +64,9 @@ function calculateFib() {
 }
 
 // ==================== ASIAN SESSION TRACKER ====================
-// Asian Session: 8:00 PM EST to 3:00 AM EST = 01:00 UTC to 08:00 UTC
-const ASIAN_OPEN_UTC = 1;  // 1:00 AM UTC (8 PM EST)
-const ASIAN_CLOSE_UTC = 8; // 8:00 AM UTC (3 AM EST)
+   // Asian Session: 7:00 PM to 4:00 AM EST (EDT in summer = UTC-4)
+   const ASIAN_OPEN_UTC = 23;  // 11:00 PM UTC (7:00 PM EDT)
+   const ASIAN_CLOSE_UTC = 8;  // 8:00 AM UTC (4:00 AM EDT)
 
 function startCountdown() {
     updateCountdown();
