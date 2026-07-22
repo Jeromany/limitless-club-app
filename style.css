@@ -1,102 +1,46 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+body { background-color: #000000; color: #FFFFFF; line-height: 1.6; }
 
-body {
-    background-color: #000000;
-    color: #FFFFFF;
-    line-height: 1.6;
-    padding-bottom: 40px;
-}
+.app-header { background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%); padding: 30px 20px; text-align: center; border-bottom: 2px solid #FFD700; }
+.app-header h1 { color: #FFD700; font-size: 1.8rem; letter-spacing: 2px; font-weight: 800; }
+.tagline { color: #CCCCCC; font-size: 0.9rem; font-style: italic; }
 
-/* Header */
-.app-header {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-    padding: 30px 20px;
-    text-align: center;
-    border-bottom: 2px solid #FFD700;
-}
+.app-content { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 40px; }
+.card { background-color: #111111; border: 1px solid #333333; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(255, 215, 0, 0.05); }
+.card h2, .card h3 { color: #FFD700; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 1px solid #333333; padding-bottom: 10px; }
 
-.app-header h1 {
-    color: #FFD700;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    font-weight: 800;
-}
+.briefing-text { font-size: 0.95rem; color: #E0E0E0; }
+.loading { color: #888888; font-style: italic; }
 
-.tagline {
-    color: #CCCCCC;
-    font-size: 0.9rem;
-    font-style: italic;
-    margin-top: 5px;
-}
+.menu-btn { display: block; width: 100%; background-color: #1a1a1a; color: #FFD700; border: 1px solid #FFD700; padding: 15px; margin-bottom: 10px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-align: left; }
+.menu-btn:active { background-color: #FFD700; color: #000000; transform: scale(0.98); }
 
-/* Main Content */
-.app-content {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-}
+/* TOOL SCREENS */
+.tool-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000000; z-index: 100; overflow-y: auto; animation: slideUp 0.3s ease-out; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-.card {
-    background-color: #111111;
-    border: 1px solid #333333;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(255, 215, 0, 0.05);
-}
+.tool-header { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #333333; background-color: #111111; }
+.back-btn { background: none; border: none; color: #FFD700; font-size: 1rem; cursor: pointer; padding: 0 15px 0 0; }
+.tool-header h2 { margin: 0; font-size: 1.2rem; color: #FFFFFF; }
 
-.card h2 {
-    color: #FFD700;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #333333;
-    padding-bottom: 10px;
-}
+/* FIB CALCULATOR STYLES */
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; color: #CCCCCC; margin-bottom: 8px; font-size: 0.9rem; }
+.fib-input { width: 100%; background-color: #1a1a1a; border: 1px solid #333333; color: #FFD700; padding: 15px; border-radius: 8px; font-size: 1.1rem; outline: none; }
+.fib-input:focus { border-color: #FFD700; }
 
-/* Daily Briefing Specifics */
-.briefing-text {
-    font-size: 0.95rem;
-    color: #E0E0E0;
-}
+.toggle-group { display: flex; gap: 10px; }
+.toggle-btn { flex: 1; background-color: #1a1a1a; border: 1px solid #333333; color: #888888; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.toggle-btn.active { background-color: #00C853; color: #000000; border-color: #00C853; }
+.toggle-btn.active.short-active { background-color: #FF3D00; border-color: #FF3D00; }
 
-.loading {
-    color: #888888;
-    font-style: italic;
-}
+.calculate-btn { width: 100%; background-color: #FFD700; color: #000000; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
+.calculate-btn:active { transform: scale(0.98); }
 
-/* Menu Buttons */
-.menu-btn {
-    display: block;
-    width: 100%;
-    background-color: #1a1a1a;
-    color: #FFD700;
-    border: 1px solid #FFD700;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-}
+.fib-level { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222222; font-size: 1rem; }
+.fib-level:last-child { border-bottom: none; }
+.fib-level .price { color: #FFD700; font-weight: 700; font-family: monospace; font-size: 1.1rem; }
+.fib-level.golden-zone { background-color: rgba(255, 215, 0, 0.1); padding: 12px 10px; border-radius: 6px; margin: 5px 0; border: 1px solid #FFD700; }
+.fib-level.golden-zone .price { color: #FFD700; }
 
-.menu-btn:active {
-    background-color: #FFD700;
-    color: #000000;
-    transform: scale(0.98);
-}
-
-/* Footer */
-.app-footer {
-    text-align: center;
-    padding: 20px;
-    color: #666666;
-    font-size: 0.8rem;
-}
+.app-footer { text-align: center; padding: 20px; color: #666666; font-size: 0.8rem; }
