@@ -6,21 +6,86 @@ if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.setBackgroundColor('#000000');
 }
 
-// Function to fetch real data from GitHub
+let tradeDirection = 'long';
+
+// Navigation Functions
+function showFibCalculator() {
+    document.getElementById('main-app').style.display = 'none';
+    document.getElementById('fib-screen').style.display = 'block';
+}
+
+function showJournal() {
+    document.getElementById('main-app').style.display = 'none';
+    document.getElementById('journal-screen').style.display = 'block';
+}
+
+function showAsianTracker() {
+    document.getElementById('main-app').style.display = 'none';
+    document.getElementById('asian-screen').style.display = 'block';
+}
+
+function goBack() {
+    document.querySelectorAll('.tool-screen').forEach(screen => screen.style.display = 'none');
+    document.getElementById('main-app').style.display = 'block';
+}
+
+function setDirection(dir) {
+    tradeDirection = dir;
+    document.getElementById('btn-long').className = dir === 'long' ? 'toggle-btn active' : 'toggle-btn';
+    document.getElementById('btn-short').className = dir === 'short' ? 'toggle-btn active short-active' : 'toggle-btn';
+}
+
+// Fibonacci Calculation Logic
+function calculateFib() {
+    const high = parseFloat(document.getElementById('fib-high').value);
+    const low = parseFloat(document.getElementById('fib-low').value);
+    
+    if (isNaN(high) || isNaN(low) || high <= low) {
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.showAlert("⚠️ Please enter valid High and Low prices. High must be greater than Low.");
+        } else {
+            alert("⚠️ Please enter valid High and Low prices. High must be greater than Low.");
+        }
+        return;
+    }
+
+    const range = high - low;
+    let lvl0, lvl50, lvl618, lvl718, lvl100;
+
+    if (tradeDirection === 'long') {
+        // Retracement from High to Low
+        lvl0 = high;
+        lvl50 = high - (range * 0.5);
+        lvl618 = high - (range * 0.618);
+        lvl718 = high - (range * 0.718);
+        lvl100 = low;
+    } else {
+        // Retracement from Low to High
+        lvl0 = low;
+        lvl50 = low + (range * 0.5);
+        lvl618 = low + (range * 0.618);
+        lvl718 = low + (range * 0.718);
+        lvl100 = high;
+    }
+
+    // Display results
+    document.getElementById('lvl-0').textContent = `$${lvl0.toFixed(2)}`;
+    document.getElementById('lvl-50').textContent = `$${lvl50.toFixed(2)}`;
+    document.getElementById('lvl-618').textContent = `$${lvl618.toFixed(2)}`;
+    document.getElementById('lvl-718').textContent = `$${lvl718.toFixed(2)}`;
+    document.getElementById('lvl-100').textContent = `$${lvl100.toFixed(2)}`;
+
+    document.getElementById('fib-results').style.display = 'block';
+}
+
+// Fetch Daily Briefing Data
 async function loadDailyBriefing() {
     const briefingContainer = document.getElementById('briefing-content');
-    
     try {
-        // FETCHING FROM YOUR EXACT GITHUB USERNAME: Jeromany
         const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/briefing.json');
-        
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-                
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         
-        // Render the REAL data to the screen
         briefingContainer.innerHTML = `
             <p class="briefing-text"><strong>Date:</strong> ${data.date}</p>
             <p class="briefing-text"><strong>Current Price:</strong> <span style="color: #FFD700;">$${data.price} (${data.change})</span></p>
@@ -31,40 +96,10 @@ async function loadDailyBriefing() {
             <br>
             <img src="${data.chartUrl}" alt="Daily Gold Chart" style="width: 100%; border-radius: 8px; border: 1px solid #333; margin-top: 10px;" onerror="this.style.display='none'">
         `;
-        
     } catch (error) {
-        console.error("Failed to load briefing:", error);
-        // Fallback message if fetch fails
-        briefingContainer.innerHTML = `
-            <p class="briefing-text" style="color: #FF3D00;">⚠️ Live data is being generated. Check back after the 8:00 AM EST automation runs!</p>
-        `;
+        briefingContainer.innerHTML = `<p class="briefing-text" style="color: #FF3D00;">⚠️ Live data is being generated. Check back after the 8:00 AM EST automation runs!</p>`;
     }
 }
 
-// Load the data when the page opens
+// Load data on startup
 document.addEventListener('DOMContentLoaded', loadDailyBriefing);
-
-// Placeholder functions for the tools (We will build these in Phase 3!)
-function openJournal() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert("🚧 Trading Journal is coming in the next update!");
-    } else {
-        alert("🚧 Trading Journal is coming in the next update!");
-    }
-}
-
-function openFib() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert("🚧 Fib Calculator is coming in the next update!");
-    } else {
-        alert("🚧 Fib Calculator is coming in the next update!");
-    }
-}
-
-function openAsian() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.showAlert("🚧 Asian Session Tracker is coming in the next update!");
-    } else {
-        alert("🚧 Asian Session Tracker is coming in the next update!");
-    }
-}
