@@ -38,7 +38,7 @@
         </footer>
     </div>
 
-    <!-- FIBONACCI CALCULATOR SCREEN (Hidden by default) -->
+    <!-- FIBONACCI CALCULATOR SCREEN -->
     <div id="fib-screen" class="tool-screen" style="display: none;">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
@@ -63,7 +63,6 @@
                 </div>
                 <button class="calculate-btn" onclick="calculateFib()">Calculate Levels</button>
             </div>
-
             <div id="fib-results" class="card" style="display: none;">
                 <h3>🎯 Your Levels</h3>
                 <div class="fib-level"><span>0.0% (Start)</span> <span id="lvl-0" class="price">-</span></div>
@@ -75,15 +74,64 @@
         </main>
     </div>
 
-    <!-- PLACEHOLDER SCREENS FOR OTHER TOOLS -->
-    <div id="journal-screen" class="tool-screen" style="display: none;">
-        <header class="tool-header"><button class="back-btn" onclick="goBack()">← Back</button><h2>📓 Trading Journal</h2></header>
-        <main class="app-content"><div class="card"><p>Coming in the next update! We will build this next.</p></div></main>
+    <!-- ASIAN SESSION TRACKER SCREEN -->
+    <div id="asian-screen" class="tool-screen" style="display: none;">
+        <header class="tool-header">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>🌏 Asian Session Tracker</h2>
+        </header>
+        <main class="app-content">
+            <!-- Countdown Timer -->
+            <div class="card countdown-card">
+                <h3>⏰ Next Asian Session</h3>
+                <p id="session-status" class="session-status">Calculating...</p>
+                <div id="countdown-timer" class="countdown-timer">--:--:--</div>
+                <p class="session-note">Asian Session: 8:00 PM – 3:00 AM EST</p>
+            </div>
+
+            <!-- Log Today's Range -->
+            <div class="card">
+                <h3>📝 Log Today's Asian Range</h3>
+                <div class="input-group">
+                    <label>Asian Session High ($)</label>
+                    <input type="number" id="asian-high" class="fib-input" placeholder="e.g., 4155.30" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Asian Session Low ($)</label>
+                    <input type="number" id="asian-low" class="fib-input" placeholder="e.g., 4120.10" step="0.01">
+                </div>
+                <button class="calculate-btn" onclick="saveAsianRange()">Save Range</button>
+            </div>
+
+            <!-- Saved Range Display -->
+            <div id="asian-saved" class="card" style="display: none;">
+                <h3>✅ Today's Saved Range</h3>
+                <div class="fib-level"><span>📈 Asian High</span> <span id="saved-high" class="price">-</span></div>
+                <div class="fib-level"><span>📉 Asian Low</span> <span id="saved-low" class="price">-</span></div>
+                <div class="fib-level golden-zone"><span>📏 Range Size</span> <span id="saved-range" class="price">-</span></div>
+                <button class="clear-btn" onclick="clearAsianRange()">Clear & Reset</button>
+            </div>
+
+            <!-- Core Rule Reminder -->
+            <div class="card rule-card">
+                <h3>🛡️ Limitless Rule</h3>
+                <p class="rule-text">Wait for a <strong>liquidity sweep</strong> of the Asian Session High or Low before seeking entries at key supply or demand zones.</p>
+                <p class="rule-subtext">Do NOT chase. Let the market come to your levels.</p>
+            </div>
+        </main>
     </div>
 
-    <div id="asian-screen" class="tool-screen" style="display: none;">
-        <header class="tool-header"><button class="back-btn" onclick="goBack()">← Back</button><h2>🌏 Asian Session</h2></header>
-        <main class="app-content"><div class="card"><p>Coming in the next update! We will build this after the Journal.</p></div></main>
+    <!-- TRADING JOURNAL PLACEHOLDER -->
+    <div id="journal-screen" class="tool-screen" style="display: none;">
+        <header class="tool-header">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>📓 Trading Journal</h2>
+        </header>
+        <main class="app-content">
+            <div class="card">
+                <p style="color: #888;">Coming in the next update!</p>
+            </div>
+        </main>
     </div>
 
     <script src="script.js"></script>
