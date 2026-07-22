@@ -6,34 +6,85 @@
     <meta name="theme-color" content="#000000">
     <title>Limitless Journeys Club</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Telegram Mini App Script (We will activate this later) -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <header class="app-header">
-        <h1>LIMITLESS JOURNEYS</h1>
-        <p class="tagline">"Trade Without Limits"</p>
-    </header>
 
-    <main class="app-content">
-        <section class="card daily-briefing">
-            <h2>📊 Daily Gold Briefing</h2>
-            <div id="briefing-content">
-                <p class="loading">Loading today's analysis...</p>
+    <!-- MAIN APP CONTENT -->
+    <div id="main-app" class="main-app">
+        <header class="app-header">
+            <h1>LIMITLESS JOURNEYS</h1>
+            <p class="tagline">"Trade Without Limits"</p>
+        </header>
+
+        <main class="app-content">
+            <section class="card daily-briefing">
+                <h2>📊 Daily Gold Briefing</h2>
+                <div id="briefing-content">
+                    <p class="loading">Loading today's analysis...</p>
+                </div>
+            </section>
+
+            <section class="card menu">
+                <h2>🛠️ Tools</h2>
+                <button class="menu-btn" onclick="showJournal()">📓 Trading Journal</button>
+                <button class="menu-btn" onclick="showFibCalculator()">📐 Fib Calculator</button>
+                <button class="menu-btn" onclick="showAsianTracker()">🌏 Asian Session</button>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2026 Limitless Journeys Club</p>
+        </footer>
+    </div>
+
+    <!-- FIBONACCI CALCULATOR SCREEN (Hidden by default) -->
+    <div id="fib-screen" class="tool-screen" style="display: none;">
+        <header class="tool-header">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>📐 Fib Calculator</h2>
+        </header>
+        <main class="app-content">
+            <div class="card">
+                <div class="input-group">
+                    <label>Swing High ($)</label>
+                    <input type="number" id="fib-high" class="fib-input" placeholder="e.g., 4216.40" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Swing Low ($)</label>
+                    <input type="number" id="fib-low" class="fib-input" placeholder="e.g., 3962.50" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Trade Direction</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" id="btn-long" onclick="setDirection('long')">LONG</button>
+                        <button class="toggle-btn" id="btn-short" onclick="setDirection('short')">SHORT</button>
+                    </div>
+                </div>
+                <button class="calculate-btn" onclick="calculateFib()">Calculate Levels</button>
             </div>
-        </section>
 
-        <section class="card menu">
-            <h2>🛠️ Tools</h2>
-            <button class="menu-btn" onclick="alert('Trading Journal coming soon!')">📓 Trading Journal</button>
-            <button class="menu-btn" onclick="alert('Fibonacci Calculator coming soon!')">📐 Fib Calculator</button>
-            <button class="menu-btn" onclick="alert('Asian Session Tracker coming soon!')">🌏 Asian Session</button>
-        </section>
-    </main>
+            <div id="fib-results" class="card" style="display: none;">
+                <h3>🎯 Your Levels</h3>
+                <div class="fib-level"><span>0.0% (Start)</span> <span id="lvl-0" class="price">-</span></div>
+                <div class="fib-level"><span>50.0%</span> <span id="lvl-50" class="price">-</span></div>
+                <div class="fib-level golden-zone"><span>61.8% (Golden Zone)</span> <span id="lvl-618" class="price">-</span></div>
+                <div class="fib-level"><span>71.8% (Institutional)</span> <span id="lvl-718" class="price">-</span></div>
+                <div class="fib-level"><span>100.0% (Target)</span> <span id="lvl-100" class="price">-</span></div>
+            </div>
+        </main>
+    </div>
 
-    <footer class="app-footer">
-        <p>© 2026 Limitless Journeys Club</p>
-    </footer>
+    <!-- PLACEHOLDER SCREENS FOR OTHER TOOLS -->
+    <div id="journal-screen" class="tool-screen" style="display: none;">
+        <header class="tool-header"><button class="back-btn" onclick="goBack()">← Back</button><h2>📓 Trading Journal</h2></header>
+        <main class="app-content"><div class="card"><p>Coming in the next update! We will build this next.</p></div></main>
+    </div>
+
+    <div id="asian-screen" class="tool-screen" style="display: none;">
+        <header class="tool-header"><button class="back-btn" onclick="goBack()">← Back</button><h2>🌏 Asian Session</h2></header>
+        <main class="app-content"><div class="card"><p>Coming in the next update! We will build this after the Journal.</p></div></main>
+    </div>
 
     <script src="script.js"></script>
 </body>
