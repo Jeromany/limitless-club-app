@@ -83,27 +83,36 @@ function updateCountdown() {
     const statusEl = document.getElementById('session-status');
     const timerEl = document.getElementById('countdown-timer');
 
-    if (currentUTC >= ASIAN_OPEN_UTC && currentUTC < ASIAN_CLOSE_UTC) {
-        // Asian Session is ACTIVE
+    // Asian Session: 7:00 PM - 4:00 AM AST (Trinidad) = 23:00 - 08:00 UTC
+    // This session crosses midnight, so we need special logic
+    const isSessionActive = (currentUTC >= ASIAN_OPEN_UTC) || (currentUTC < ASIAN_CLOSE_UTC);
+
+    if (isSessionActive) {
+        // Session is LIVE
         statusEl.textContent = "🟢 ASIAN SESSION IS LIVE";
         statusEl.className = "session-status active";
 
-        // Countdown to close
+        // Countdown to close (08:00 UTC)
         const closeTime = new Date(now);
         closeTime.setUTCHours(ASIAN_CLOSE_UTC, 0, 0, 0);
+        // If we're past midnight UTC, closeTime is today at 8am. Otherwise it's tomorrow.
+        if (currentUTC >= ASIAN_OPEN_UTC) {
+            closeTime.setUTCDate(closeTime.getUTCDate() + 1);
+        }
         const diff = closeTime - now;
         timerEl.textContent = formatTime(diff);
     } else {
-        // Asian Session is CLOSED
+        // Session is CLOSED
         statusEl.textContent = "🔴 ASIAN SESSION IS CLOSED";
         statusEl.className = "session-status";
 
-        // Countdown to next open
+        // Countdown to next open (23:00 UTC)
         const openTime = new Date(now);
-        if (currentUTC >= ASIAN_CLOSE_UTC) {
+        openTime.setUTCHours(ASIAN_OPEN_UTC, 0, 0, 0);
+        // If current time is past 23:00 UTC, next open is tomorrow
+        if (currentUTC >= ASIAN_OPEN_UTC) {
             openTime.setUTCDate(openTime.getUTCDate() + 1);
         }
-        openTime.setUTCHours(ASIAN_OPEN_UTC, 0, 0, 0);
         const diff = openTime - now;
         timerEl.textContent = formatTime(diff);
     }
