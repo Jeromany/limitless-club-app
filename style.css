@@ -19,9 +19,9 @@ body { background-color: #000000; color: #FFFFFF; line-height: 1.6; }
 .tool-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000000; z-index: 100; overflow-y: auto; animation: slideUp 0.3s ease-out; }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-.tool-header { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #333333; background-color: #111111; }
+.tool-header { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #333333; background-color: #111111; position: sticky; top: 0; z-index: 101; }
 .back-btn { background: none; border: none; color: #FFD700; font-size: 1rem; cursor: pointer; padding: 0 15px 0 0; }
-.tool-header h2 { margin: 0; font-size: 1.2rem; color: #FFFFFF; }
+.tool-header h2 { margin: 0; font-size: 1.2rem; color: #FFFFFF; border: none; padding: 0; }
 
 /* FIB CALCULATOR STYLES */
 .input-group { margin-bottom: 20px; }
@@ -41,6 +41,20 @@ body { background-color: #000000; color: #FFFFFF; line-height: 1.6; }
 .fib-level:last-child { border-bottom: none; }
 .fib-level .price { color: #FFD700; font-weight: 700; font-family: monospace; font-size: 1.1rem; }
 .fib-level.golden-zone { background-color: rgba(255, 215, 0, 0.1); padding: 12px 10px; border-radius: 6px; margin: 5px 0; border: 1px solid #FFD700; }
-.fib-level.golden-zone .price { color: #FFD700; }
+
+/* ASIAN SESSION STYLES */
+.countdown-card { text-align: center; border-color: #FFD700; }
+.session-status { color: #00BFFF; font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+.session-status.active { color: #00C853; }
+.countdown-timer { font-size: 3rem; font-weight: 800; color: #FFD700; font-family: monospace; letter-spacing: 4px; margin: 15px 0; }
+.session-note { color: #666666; font-size: 0.8rem; }
+
+.clear-btn { width: 100%; background-color: #333333; color: #FF3D00; border: 1px solid #FF3D00; padding: 12px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 15px; }
+.clear-btn:active { background-color: #FF3D00; color: #000000; }
+
+.rule-card { border-color: #FFD700; background: linear-gradient(135deg, #1a1a00 0%, #111111 100%); }
+.rule-text { color: #FFD700; font-size: 1rem; line-height: 1.8; }
+.rule-text strong { color: #FFFFFF; text-decoration: underline; }
+.rule-subtext { color: #888888; font-size: 0.85rem; margin-top: 10px; font-style: italic; }
 
 .app-footer { text-align: center; padding: 20px; color: #666666; font-size: 0.8rem; }
