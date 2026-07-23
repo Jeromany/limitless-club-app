@@ -7,6 +7,8 @@ if (window.Telegram && window.Telegram.WebApp) {
 }
 
 let tradeDirection = 'long';
+let tradeDir = 'long';
+let tradeSweep = false;
 
 // ==================== NAVIGATION ====================
 function showFibCalculator() {
@@ -24,6 +26,8 @@ function showAsianTracker() {
 function showJournal() {
     document.getElementById('main-app').style.display = 'none';
     document.getElementById('journal-screen').style.display = 'block';
+    displayTrades();
+    document.getElementById('trade-date').valueAsDate = new Date();
 }
 
 function goBack() {
@@ -64,9 +68,8 @@ function calculateFib() {
 }
 
 // ==================== ASIAN SESSION TRACKER ====================
-   // Asian Session: 7:00 PM to 4:00 AM EST (EDT in summer = UTC-4)
-   const ASIAN_OPEN_UTC = 23;  // 11:00 PM UTC (7:00 PM EDT)
-   const ASIAN_CLOSE_UTC = 8;  // 8:00 AM UTC (4:00 AM EDT)
+const ASIAN_OPEN_UTC = 23;
+const ASIAN_CLOSE_UTC = 8;
 
 function startCountdown() {
     updateCountdown();
@@ -83,33 +86,25 @@ function updateCountdown() {
     const statusEl = document.getElementById('session-status');
     const timerEl = document.getElementById('countdown-timer');
 
-    // Asian Session: 7:00 PM - 4:00 AM AST (Trinidad) = 23:00 - 08:00 UTC
-    // This session crosses midnight, so we need special logic
     const isSessionActive = (currentUTC >= ASIAN_OPEN_UTC) || (currentUTC < ASIAN_CLOSE_UTC);
 
     if (isSessionActive) {
-        // Session is LIVE
         statusEl.textContent = "🟢 ASIAN SESSION IS LIVE";
         statusEl.className = "session-status active";
 
-        // Countdown to close (08:00 UTC)
         const closeTime = new Date(now);
         closeTime.setUTCHours(ASIAN_CLOSE_UTC, 0, 0, 0);
-        // If we're past midnight UTC, closeTime is today at 8am. Otherwise it's tomorrow.
         if (currentUTC >= ASIAN_OPEN_UTC) {
             closeTime.setUTCDate(closeTime.getUTCDate() + 1);
         }
         const diff = closeTime - now;
         timerEl.textContent = formatTime(diff);
     } else {
-        // Session is CLOSED
         statusEl.textContent = "🔴 ASIAN SESSION IS CLOSED";
         statusEl.className = "session-status";
 
-        // Countdown to next open (23:00 UTC)
         const openTime = new Date(now);
         openTime.setUTCHours(ASIAN_OPEN_UTC, 0, 0, 0);
-        // If current time is past 23:00 UTC, next open is tomorrow
         if (currentUTC >= ASIAN_OPEN_UTC) {
             openTime.setUTCDate(openTime.getUTCDate() + 1);
         }
@@ -168,6 +163,124 @@ function clearAsianRange() {
     document.getElementById('asian-saved').style.display = 'none';
     document.getElementById('asian-high').value = '';
     document.getElementById('asian-low').value = '';
+}
+
+// ==================== TRADING JOURNAL ====================
+function setTradeDirection(dir) {
+    tradeDir = dir;
+    document.getElementById('dir-long').className = dir === 'long' ? 'toggle-btn active' : 'toggle-btn';
+    document.getElementById('dir-short').className = dir === 'short' ? 'toggle-btn active short-active' : 'toggle-btn';
+}
+
+function setSweep(val) {
+    tradeSweep = val;
+    document.getElementById('sweep-yes').className = val ? 'toggle-btn active' : 'toggle-btn';
+    document.getElementById('sweep-no').className = val ? 'toggle-btn' : 'toggle-btn active';
+}
+
+function saveTrade() {
+    const date = document.getElementById('trade-date').value;
+    const pair = document.getElementById('trade-pair').value;
+    const entry = parseFloat(document.getElementById('trade-entry').value);
+    const sl = parseFloat(document.getElementById('trade-sl').value);
+    const tp = parseFloat(document.getElementById('trade-tp').value);
+    const fib = document.getElementById('trade-fib').value;
+    const outcome = document.getElementById('trade-outcome').value;
+    const notes = document.getElementById('trade-notes').value;
+
+    if (!date || !pair || isNaN(entry) || isNaN(sl) || isNaN(tp)) {
+        const msg = "⚠️ Please fill in all required fields.";
+        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+        return;
+    }
+
+    const trade = {
+        id: Date.now(),
+        date,
+        pair,
+        direction: tradeDir,
+        entry,
+        sl,
+        tp,
+        fib,
+        sweep: tradeSweep,
+        outcome,
+        notes
+    };
+
+    let trades = JSON.parse(localStorage.getItem('trades') || '[]');
+    trades.unshift(trade);
+    localStorage.setItem('trades', JSON.stringify(trades));
+
+    document.getElementById('trade-entry').value = '';
+    document.getElementById('trade-sl').value = '';
+    document.getElementById('trade-tp').value = '';
+    document.getElementById('trade-notes').value = '';
+
+    displayTrades();
+    const msg = "✅ Trade saved successfully!";
+    window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+}
+
+function displayTrades() {
+    const trades = JSON.parse(localStorage.getItem('trades') || '[]');
+    const container = document.getElementById('trades-list');
+
+    if (trades.length === 0) {
+        container.innerHTML = '<p style="color: #888; text-align: center;">No trades logged yet. Start building your edge!</p>';
+        return;
+    }
+
+    container.innerHTML = trades.map(trade => `
+        <div class="trade-item">
+            <div class="trade-header">
+                <span class="trade-pair">${trade.pair} ${trade.direction === 'long' ? '📈' : '📉'}</span>
+                <span class="trade-date">${trade.date}</span>
+            </div>
+            <div class="trade-details">
+                <div class="trade-detail">
+                    <span class="trade-detail-label">Entry:</span>
+                    <span class="trade-detail-value">$${trade.entry.toFixed(2)}</span>
+                </div>
+                <div class="trade-detail">
+                    <span class="trade-detail-label">SL:</span>
+                    <span class="trade-detail-value">$${trade.sl.toFixed(2)}</span>
+                </div>
+                <div class="trade-detail">
+                    <span class="trade-detail-label">TP:</span>
+                    <span class="trade-detail-value">$${trade.tp.toFixed(2)}</span>
+                </div>
+                <div class="trade-detail">
+                    <span class="trade-detail-label">Fib:</span>
+                    <span class="trade-detail-value">${trade.fib}</span>
+                </div>
+                <div class="trade-detail">
+                    <span class="trade-detail-label">Sweep:</span>
+                    <span class="trade-detail-value">${trade.sweep ? '✅ Yes' : '❌ No'}</span>
+                </div>
+                <div class="trade-detail">
+                    <span class="trade-detail-label">Outcome:</span>
+                    <span class="outcome-${trade.outcome}">${trade.outcome.toUpperCase()}</span>
+                </div>
+            </div>
+            ${trade.notes ? `<div class="trade-notes">"${trade.notes}"</div>` : ''}
+            <button class="delete-trade-btn" onclick="deleteTrade(${trade.id})">Delete</button>
+        </div>
+    `).join('');
+}
+
+function deleteTrade(id) {
+    if (!confirm('Delete this trade?')) return;
+    let trades = JSON.parse(localStorage.getItem('trades') || '[]');
+    trades = trades.filter(t => t.id !== id);
+    localStorage.setItem('trades', JSON.stringify(trades));
+    displayTrades();
+}
+
+function clearAllTrades() {
+    if (!confirm('Delete ALL trades? This cannot be undone.')) return;
+    localStorage.removeItem('trades');
+    displayTrades();
 }
 
 // ==================== DAILY BRIEFING ====================
