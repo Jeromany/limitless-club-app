@@ -10,17 +10,56 @@ let tradeDirection = 'long';
 let tradeDir = 'long';
 let tradeSweep = false;
 
+// ==================== PREMIUM GATE LOGIC ====================
+const CLUB_PASSCODE = "LIMITLESS2026"; 
+let isPremium = localStorage.getItem('isPremium') === 'true';
+
+function checkPremiumAccess(toolName) {
+    if (isPremium) {
+        if (toolName === 'fib') showFibCalculator();
+        else if (toolName === 'asian') showAsianTracker();
+        else if (toolName === 'journal') showJournal();
+    } else {
+        showPremiumModal();
+    }
+}
+
+function showPremiumModal() {
+    document.getElementById('premium-modal').style.display = 'flex';
+    document.getElementById('passcode-error').style.display = 'none';
+    document.getElementById('passcode-input').value = '';
+}
+
+function closePremiumModal() {
+    document.getElementById('premium-modal').style.display = 'none';
+}
+
+function verifyPasscode() {
+    const input = document.getElementById('passcode-input').value.trim();
+    if (input === CLUB_PASSCODE) {
+        isPremium = true;
+        localStorage.setItem('isPremium', 'true');
+        closePremiumModal();
+        const msg = "✅ Welcome to the Limitless Journeys Club!";
+        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+    } else {
+        document.getElementById('passcode-error').style.display = 'block';
+    }
+}
+
 // ==================== NAVIGATION ====================
 function showFibCalculator() {
     document.getElementById('main-app').style.display = 'none';
     document.getElementById('fib-screen').style.display = 'block';
 }
+
 function showAsianTracker() {
     document.getElementById('main-app').style.display = 'none';
     document.getElementById('asian-screen').style.display = 'block';
     startCountdown();
     loadSavedAsianRange();
 }
+
 function showJournal() {
     document.getElementById('main-app').style.display = 'none';
     document.getElementById('journal-screen').style.display = 'block';
@@ -187,7 +226,7 @@ function saveTrade() {
     const notes = document.getElementById('trade-notes').value;
 
     if (!date || !pair || isNaN(entry) || isNaN(sl) || isNaN(tp)) {
-        const msg = "⚠️ Please fill in all required fields.";
+        const msg = "️ Please fill in all required fields.";
         window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
         return;
     }
@@ -304,39 +343,3 @@ async function loadDailyBriefing() {
 }
 
 document.addEventListener('DOMContentLoaded', loadDailyBriefing);
-// ==================== PREMIUM GATE LOGIC ====================
-const CLUB_PASSCODE = "LIMITLESS2026"; // Change this to your preferred passcode
-let isPremium = localStorage.getItem('isPremium') === 'true';
-
-function checkPremiumAccess(toolName) {
-    if (isPremium) {
-        if (toolName === 'fib') showFibCalculator();
-        else if (toolName === 'asian') showAsianTracker();
-        else if (toolName === 'journal') showJournal();
-    } else {
-        showPremiumModal();
-    }
-}
-
-function showPremiumModal() {
-    document.getElementById('premium-modal').style.display = 'flex';
-    document.getElementById('passcode-error').style.display = 'none';
-    document.getElementById('passcode-input').value = '';
-}
-
-function closePremiumModal() {
-    document.getElementById('premium-modal').style.display = 'none';
-}
-
-function verifyPasscode() {
-    const input = document.getElementById('passcode-input').value.trim();
-    if (input === CLUB_PASSCODE) {
-        isPremium = true;
-        localStorage.setItem('isPremium', 'true');
-        closePremiumModal();
-        const msg = "✅ Welcome to the Limitless Journeys Club!";
-        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
-    } else {
-        document.getElementById('passcode-error').style.display = 'block';
-    }
-}
