@@ -121,18 +121,85 @@
         </main>
     </div>
 
-    <!-- TRADING JOURNAL PLACEHOLDER -->
-    <div id="journal-screen" class="tool-screen" style="display: none;">
-        <header class="tool-header">
-            <button class="back-btn" onclick="goBack()">← Back</button>
-            <h2>📓 Trading Journal</h2>
-        </header>
-        <main class="app-content">
-            <div class="card">
-                <p style="color: #888;">Coming in the next update!</p>
+    <!-- TRADING JOURNAL -->
+<div id="journal-screen" class="tool-screen" style="display: none;">
+    <header class="tool-header">
+        <button class="back-btn" onclick="goBack()">← Back</button>
+        <h2>📓 Trading Journal</h2>
+    </header>
+    <main class="app-content">
+        <!-- New Trade Form -->
+        <div class="card">
+            <h3>📝 Log New Trade</h3>
+            <div class="input-group">
+                <label>Date</label>
+                <input type="date" id="trade-date" class="fib-input">
             </div>
-        </main>
-    </div>
+            <div class="input-group">
+                <label>Pair</label>
+                <input type="text" id="trade-pair" class="fib-input" value="XAUUSD" placeholder="e.g., XAUUSD">
+            </div>
+            <div class="input-group">
+                <label>Direction</label>
+                <div class="toggle-group">
+                    <button class="toggle-btn active" id="dir-long" onclick="setTradeDirection('long')">LONG</button>
+                    <button class="toggle-btn" id="dir-short" onclick="setTradeDirection('short')">SHORT</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Entry Price ($)</label>
+                <input type="number" id="trade-entry" class="fib-input" placeholder="e.g., 4120.50" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Stop Loss ($)</label>
+                <input type="number" id="trade-sl" class="fib-input" placeholder="e.g., 4100.00" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Take Profit ($)</label>
+                <input type="number" id="trade-tp" class="fib-input" placeholder="e.g., 4160.00" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Fibonacci Level Used</label>
+                <select id="trade-fib" class="fib-input">
+                    <option value="0.5">0.5 (50%)</option>
+                    <option value="0.618" selected>0.618 (Golden Zone)</option>
+                    <option value="0.718">0.718 (Institutional)</option>
+                    <option value="0.786">0.786 (Deep Retracement)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Asian Liquidity Sweep?</label>
+                <div class="toggle-group">
+                    <button class="toggle-btn" id="sweep-yes" onclick="setSweep(true)">YES</button>
+                    <button class="toggle-btn active" id="sweep-no" onclick="setSweep(false)">NO</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Outcome</label>
+                <select id="trade-outcome" class="fib-input">
+                    <option value="pending">Pending</option>
+                    <option value="win">Win ✅</option>
+                    <option value="loss">Loss ❌</option>
+                    <option value="be">Break Even ⚖️</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Notes</label>
+                <textarea id="trade-notes" class="fib-input" rows="3" placeholder="What did you learn? What went well?"></textarea>
+            </div>
+            <button class="calculate-btn" onclick="saveTrade()">Save Trade</button>
+        </div>
+
+        <!-- Trade History -->
+        <div id="trade-history" class="card">
+            <h3>📊 Trade History</h3>
+            <div id="trades-list">
+                <p style="color: #888; text-align: center;">No trades logged yet. Start building your edge!</p>
+            </div>
+            <button class="clear-btn" onclick="clearAllTrades()" style="margin-top: 20px;">Clear All Trades</button>
+        </div>
+    </main>
+</div>
 
     <script src="script.js"></script>
 </body>
