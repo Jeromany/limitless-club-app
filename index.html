@@ -201,6 +201,88 @@
     </main>
 </div>
 
+        <!-- PREMIUM UPGRADE MODAL -->
+    <div id="premium-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔒 Premium Feature</h2>
+                <button class="close-modal" onclick="closePremiumModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Unlock the full <strong>Limitless Journeys Club</strong> experience.</p>
+                <ul class="premium-perks">
+                    <li>✅ Advanced Trading Journal</li>
+                    <li>✅ Golden Zone Fib Calculator</li>
+                    <li>✅ Asian Session Range Tracker</li>
+                    <li>✅ Exclusive Community Access</li>
+                </ul>
+                
+                <a href="https://payhip.com/b/XsFC7" target="_blank" class="payhip-btn">
+                    Upgrade to Club ($19.99/mo)
+                </a>
+                
+                <div class="divider"><span>OR</span></div>
+                
+                <p class="passcode-prompt">Already a member? Enter your passcode:</p>
+                <input type="password" id="passcode-input" class="fib-input" placeholder="Enter Passcode" style="text-align: center; letter-spacing: 2px;">
+                <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700;">Unlock</button>
+                <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px;">Invalid passcode. Please try again or upgrade.</p>
+            </div
+</think>
+
+🎉 **This is the exact right move, Jeremy.** 
+
+You are shifting from "builder mode" to "CEO mode." The most successful apps don't overcomplicate the backend; they create a frictionless, high-value experience that makes users *want* to pay.
+
+We are going to implement a **Freemium Gate**. 
+- **Free Users:** Get to see the valuable Daily Gold Briefing (which builds trust and proves your expertise).
+- **Premium Users:** Get full access to the Trading Journal, Fib Calculator, and Asian Session Tracker.
+
+When a free user clicks a tool, a sleek, professional "Upgrade" modal will appear. It will give them the option to buy via Payhip, OR enter a "Club Passcode" if they already purchased.
+
+Let’s build this in 3 simple steps.
+
+---
+
+### **STEP 1: Update `index.html` (Add the Premium Modal)**
+
+1. Go to your **`limitless-club-app`** repository → **`index.html`** → **Pencil Icon** (✏️).
+2. Scroll to the very bottom, right **above** the `<script src="script.js"></script>` line.
+3. **Paste this exact code** to add the modal:
+
+```html
+    <!-- PREMIUM UPGRADE MODAL -->
+    <div id="premium-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔒 Premium Feature</h2>
+                <button class="close-modal" onclick="closePremiumModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Unlock the full <strong>Limitless Journeys Club</strong> experience.</p>
+                <ul class="premium-perks">
+                    <li>✅ Advanced Strategy Trading Journal</li>
+                    <li>✅ Golden Zone Fib Calculator</li>
+                    <li>✅ Asian Session Range Tracker</li>
+                    <li>✅ Exclusive Community Access</li>
+                </ul>
+                
+                <!-- REPLACE THIS LINK WITH YOUR ACTUAL PAYHIP PREMIUM LINK -->
+                <a href="https://payhip.com/b/XsFC7" target="_blank" class="payhip-btn">
+                    Upgrade to Club ($19.99/mo)
+                </a>
+                
+                <div class="divider"><span>OR</span></div>
+                
+                <p class="passcode-prompt">Already a member? Enter your passcode:</p>
+                <input type="password" id="passcode-input" class="fib-input" placeholder="Enter Passcode" style="text-align: center; letter-spacing: 2px;">
+                <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700;">Unlock</button>
+                <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px;">Invalid passcode. Please try again or upgrade.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
