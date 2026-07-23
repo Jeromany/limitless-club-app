@@ -57,4 +57,110 @@ body { background-color: #000000; color: #FFFFFF; line-height: 1.6; }
 .rule-text strong { color: #FFFFFF; text-decoration: underline; }
 .rule-subtext { color: #888888; font-size: 0.85rem; margin-top: 10px; font-style: italic; }
 
+/* TRADING JOURNAL STYLES */
+select.fib-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FFD700' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+textarea.fib-input {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.trade-item {
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.trade-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333333;
+}
+
+.trade-pair {
+    color: #FFD700;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.trade-date {
+    color: #888888;
+    font-size: 0.85rem;
+}
+
+.trade-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.trade-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+.trade-detail-label {
+    color: #888888;
+}
+
+.trade-detail-value {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.trade-notes {
+    color: #CCCCCC;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #222222;
+}
+
+.outcome-win {
+    color: #00C853;
+    font-weight: 700;
+}
+
+.outcome-loss {
+    color: #FF3D00;
+    font-weight: 700;
+}
+
+.outcome-be {
+    color: #FFD700;
+    font-weight: 700;
+}
+
+.outcome-pending {
+    color: #00BFFF;
+    font-weight: 700;
+}
+
+.delete-trade-btn {
+    background: none;
+    border: none;
+    color: #FF3D00;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+}
+
+.delete-trade-btn:hover {
+    text-decoration: underline;
+}
 .app-footer { text-align: center; padding: 20px; color: #666666; font-size: 0.8rem; }
