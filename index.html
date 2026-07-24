@@ -195,8 +195,14 @@
         </main>
     </div>
 
-    <!-- PREMIUM UPGRADE MODAL -->
-                <div class="modal-body">
+        <!-- PREMIUM UPGRADE MODAL -->
+    <div id="premium-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2> Premium Feature</h2>
+                <button class="close-modal" onclick="closePremiumModal()">×</button>
+            </div>
+            <div class="modal-body">
                 <p>Unlock the full <strong>Limitless Journeys Club</strong> experience.</p>
                 <ul class="premium-perks">
                     <li>✅ Advanced Trading Journal</li>
@@ -220,6 +226,8 @@
                 <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700;">Unlock</button>
                 <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px;">Invalid passcode. Please try again or upgrade.</p>
             </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
