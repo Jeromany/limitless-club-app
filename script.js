@@ -134,13 +134,18 @@ function updateCountdown() {
         statusEl.textContent = "🟢 ASIAN SESSION IS LIVE";
         statusEl.className = "session-status active";
 
-        const closeTime = new Date(now);
-        closeTime.setUTCHours(ASIAN_CLOSE_UTC, 0, 0, 0);
-        if (currentUTC >= ASIAN_OPEN_UTC) {
-            closeTime.setUTCDate(closeTime.getUTCDate() + 1);
+        // Calculate time elapsed since session started
+        const sessionStart = new Date(now);
+        if (currentUTC < ASIAN_OPEN_UTC) {
+            sessionStart.setUTCDate(sessionStart.getUTCDate() - 1);
         }
-        const diff = closeTime - now;
-        timerEl.textContent = formatTime(diff);
+        sessionStart.setUTCHours(ASIAN_OPEN_UTC, 0, 0, 0);
+        
+        const elapsed = now - sessionStart;
+        const hours = Math.floor(elapsed / (1000 * 60 * 60));
+        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+        
+        timerEl.textContent = `${hours}h ${minutes}m`;
     } else {
         statusEl.textContent = "🔴 ASIAN SESSION IS CLOSED";
         statusEl.className = "session-status";
