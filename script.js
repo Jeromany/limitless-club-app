@@ -40,13 +40,18 @@ function verifyPasscode() {
         isPremium = true;
         localStorage.setItem('isPremium', 'true');
         closePremiumModal();
+        // Show success message
         const msg = "✅ Welcome to the Limitless Journeys Club!";
         window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+        // Auto-close after 2 seconds
+        setTimeout(() => {
+            // Refresh the page to show premium features
+            location.reload();
+        }, 2000);
     } else {
         document.getElementById('passcode-error').style.display = 'block';
     }
 }
-
 // ==================== NAVIGATION ====================
 function showFibCalculator() {
     document.getElementById('main-app').style.display = 'none';
