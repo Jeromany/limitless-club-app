@@ -188,3 +188,11 @@ textarea.fib-input {
 .pin-error { color: #FF3D00; font-size: 0.85rem; text-align: center; }
 
 .app-footer { text-align: center; padding: 20px; color: #666666; font-size: 0.8rem; }
+
+   .disclaimer-text {
+       font-size: 0.65rem;
+       color: #555555;
+       line-height: 1.4;
+       margin-top: 10px;
+       padding: 0 10px;
+   }
