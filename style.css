@@ -196,3 +196,20 @@ textarea.fib-input {
        margin-top: 10px;
        padding: 0 10px;
    }
+/* ECONOMIC CALENDAR STYLES */
+.calendar-card {
+    padding: 15px;
+}
+.calendar-note {
+    font-size: 0.8rem;
+    color: #888888;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+.tradingview-widget-container {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #333333;
+    background-color: #111111;
+}
