@@ -19,6 +19,7 @@ function checkPremiumAccess(toolName) {
         if (toolName === 'fib') showFibCalculator();
         else if (toolName === 'asian') showAsianTracker();
         else if (toolName === 'journal') showJournal();
+        else if (toolName === 'roadmap') showRoadmap(); // Added Roadmap to premium access
     } else {
         showPremiumModal();
     }
@@ -52,6 +53,7 @@ function verifyPasscode() {
         document.getElementById('passcode-error').style.display = 'block';
     }
 }
+
 // ==================== NAVIGATION ====================
 function showFibCalculator() {
     document.getElementById('main-app').style.display = 'none';
@@ -70,6 +72,13 @@ function showJournal() {
     document.getElementById('journal-screen').style.display = 'block';
     displayTrades();
     document.getElementById('trade-date').valueAsDate = new Date();
+}
+
+// NEW: Weekly Roadmap Navigation
+function showRoadmap() {
+    document.getElementById('main-app').style.display = 'none';
+    document.getElementById('roadmap-screen').style.display = 'block';
+    window.scrollTo(0, 0);
 }
 
 function goBack() {
@@ -237,7 +246,7 @@ function saveTrade() {
     const notes = document.getElementById('trade-notes').value;
 
     if (!date || !pair || isNaN(entry) || isNaN(sl) || isNaN(tp)) {
-        const msg = "️ Please fill in all required fields.";
+        const msg = "⚠️ Please fill in all required fields.";
         window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
         return;
     }
