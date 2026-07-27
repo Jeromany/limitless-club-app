@@ -110,8 +110,9 @@ function calculateFib() {
 }
 
 // ==================== ASIAN SESSION TRACKER ====================
+// AST is UTC-4. So 7 PM AST = 23 UTC, and 12 AM (Midnight) AST = 04 UTC.
 const ASIAN_OPEN_UTC = 23;
-const ASIAN_CLOSE_UTC = 8;
+const ASIAN_CLOSE_UTC = 4; // CHANGED FROM 8 TO 4 FOR 12 AM AST CLOSE
 
 function startCountdown() {
     updateCountdown();
