@@ -83,71 +83,48 @@ function calculateFib() {
 // --- ASIAN SESSION TRACKER (FIXED FOR 7 PM - 12 AM AST) ---
 function updateAsianSessionCountdown() {
     const now = new Date();
-    
-    // AST is UTC-4.
-    // 7 PM AST = 23:00 UTC.
-    // 12 AM (Midnight) AST = 04:00 UTC.
-    
-    // Calculate current time in AST
     const astOffset = -4;
     const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
     const astTime = new Date(utcTime + (3600000 * astOffset));
     
-    const astHours = astTime.getUTCHours(); // This gives us the hour in AST (0-23)
+    const astHours = astTime.getUTCHours();
     const astMinutes = astTime.getUTCMinutes();
     const astSeconds = astTime.getUTCSeconds();
 
     const statusEl = document.getElementById('session-status');
     const timerEl = document.getElementById('countdown-timer');
-
-    // Session is OPEN if AST time is 19 (7 PM) or later (up to 23:59)
     const isSessionOpen = astHours >= 19;
 
     if (isSessionOpen) {
         statusEl.innerText = "🟢 ASIAN SESSION IS OPEN";
-        statusEl.style.color = "#00FF00"; // Green
-
-        // Count down to Midnight AST (24:00 or 00:00 next day)
+        statusEl.style.color = "#00FF00";
         let targetHours = 24; 
         let diffHours = targetHours - astHours - 1;
         let diffMinutes = 59 - astMinutes;
         let diffSeconds = 59 - astSeconds;
-
         timerEl.innerText = `${String(diffHours).padStart(2, '0')}:${String(diffMinutes).padStart(2, '0')}:${String(diffSeconds).padStart(2, '0')}`;
     } else {
         statusEl.innerText = "🔴 ASIAN SESSION IS CLOSED";
-        statusEl.style.color = "#FF3D00"; // Red
-
-        // Count down to 7 PM AST (19:00)
+        statusEl.style.color = "#FF3D00";
         let targetHours = 19;
         let diffHours = targetHours - astHours - 1;
         let diffMinutes = 59 - astMinutes;
         let diffSeconds = 59 - astSeconds;
-
-        if (diffHours < 0) diffHours = 0; // Prevent negative numbers just in case
-
+        if (diffHours < 0) diffHours = 0;
         timerEl.innerText = `${String(diffHours).padStart(2, '0')}:${String(diffMinutes).padStart(2, '0')}:${String(diffSeconds).padStart(2, '0')}`;
     }
 }
 
-// Update timer every second
 setInterval(updateAsianSessionCountdown, 1000);
 
 function saveAsianRange() {
     const high = document.getElementById('asian-high').value;
     const low = document.getElementById('asian-low').value;
-
-    if (!high || !low) {
-        alert('Please enter both High and Low prices.');
-        return;
-    }
-
+    if (!high || !low) { alert('Please enter both High and Low prices.'); return; }
     const range = (parseFloat(high) - parseFloat(low)).toFixed(2);
-    
     localStorage.setItem('asian_high', high);
     localStorage.setItem('asian_low', low);
     localStorage.setItem('asian_range', range);
-
     loadSavedAsianRange();
 }
 
@@ -155,7 +132,6 @@ function loadSavedAsianRange() {
     const high = localStorage.getItem('asian_high');
     const low = localStorage.getItem('asian_low');
     const range = localStorage.getItem('asian_range');
-
     if (high && low) {
         document.getElementById('saved-high').innerText = high;
         document.getElementById('saved-low').innerText = low;
@@ -177,18 +153,11 @@ function clearAsianRange() {
 
 // --- TRADING JOURNAL ---
 let currentTradeDir = 'long';
-let currentSweep = false;
 
 function setTradeDirection(dir) {
     currentTradeDir = dir;
     document.getElementById('dir-long').classList.toggle('active', dir === 'long');
     document.getElementById('dir-short').classList.toggle('active', dir === 'short');
-}
-
-function setSweep(val) {
-    currentSweep = val;
-    document.getElementById('sweep-yes').classList.toggle('active', val === true);
-    document.getElementById('sweep-no').classList.toggle('active', val === false);
 }
 
 function saveTrade() {
@@ -197,29 +166,18 @@ function saveTrade() {
     const entry = document.getElementById('trade-entry').value;
     const sl = document.getElementById('trade-sl').value;
     const tp = document.getElementById('trade-tp').value;
-    const fib = document.getElementById('trade-fib').value;
     const outcome = document.getElementById('trade-outcome').value;
     const notes = document.getElementById('trade-notes').value;
 
-    if (!date || !entry) {
-        alert('Please enter at least a Date and Entry Price.');
-        return;
-    }
+    if (!date || !entry) { alert('Please enter at least a Date and Entry Price.'); return; }
 
-    const trade = {
-        id: Date.now(),
-        date, pair, direction: currentTradeDir, entry, sl, tp, fib, 
-        sweep: currentSweep, outcome, notes
-    };
-
+    const trade = { id: Date.now(), date, pair, direction: currentTradeDir, entry, sl, tp, outcome, notes };
     let trades = JSON.parse(localStorage.getItem('limitless_trades') || '[]');
     trades.unshift(trade);
     localStorage.setItem('limitless_trades', JSON.stringify(trades));
 
     alert('Trade saved successfully!');
     loadTrades();
-    
-    // Clear inputs
     document.getElementById('trade-entry').value = '';
     document.getElementById('trade-sl').value = '';
     document.getElementById('trade-tp').value = '';
@@ -229,12 +187,10 @@ function saveTrade() {
 function loadTrades() {
     const trades = JSON.parse(localStorage.getItem('limitless_trades') || '[]');
     const list = document.getElementById('trades-list');
-    
     if (trades.length === 0) {
-        list.innerHTML = '<p style="color: #888; text-align: center;">No trades logged yet. Start building your edge!</p>';
+        list.innerHTML = '<p style="color: #888; text-align: center;">No trades logged yet.</p>';
         return;
     }
-
     list.innerHTML = trades.map(t => `
         <div style="border-bottom: 1px solid #333; padding: 10px 0;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
@@ -256,9 +212,8 @@ function clearAllTrades() {
     }
 }
 
-// --- DAILY BRIEFING (Placeholder) ---
+// --- DAILY BRIEFING ---
 function loadDailyBriefing() {
-    // In Phase 2, this will fetch from a JSON file or API
     document.getElementById('briefing-content').innerHTML = `
         <p style="color: #FFD700; font-weight: bold;">Gold is consolidating near key resistance.</p>
         <p>Watch for the Asian Session sweep before looking for entries at the 61.8% Golden Zone.</p>
@@ -268,8 +223,11 @@ function loadDailyBriefing() {
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Hide all tool screens and modal on load
+    document.querySelectorAll('.tool-screen').forEach(screen => screen.style.display = 'none');
+    document.getElementById('premium-modal').style.display = 'none';
+    
     loadDailyBriefing();
-    // Set today's date in journal
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('trade-date').value = today;
 });
