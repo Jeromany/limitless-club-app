@@ -29,8 +29,6 @@
             <section class="card calendar-card">
                 <h2>📅 High-Impact Economic Calendar</h2>
                 <p class="calendar-note">Filtered for USD events that move Gold (XAU)</p>
-                
-                <!-- TradingView Widget BEGIN -->
                 <div class="tradingview-widget-container">
                   <div class="tradingview-widget-container__widget"></div>
                   <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
@@ -45,26 +43,25 @@
                 }
                   </script>
                 </div>
-                <!-- TradingView Widget END -->
             </section>
 
             <section class="card menu">
                 <h2>🛠️ Tools</h2>
                 <button class="menu-btn" onclick="checkPremiumAccess('journal')">📓 Trading Journal</button>
-                <button class="menu-btn" onclick="checkPremiumAccess('fib')"> Fib Calculator</button>
-                <button class="menu-btn" onclick="checkPremiumAccess('asian')"> Asian Session</button>
+                <button class="menu-btn" onclick="checkPremiumAccess('fib')">📐 Fib Calculator</button>
+                <button class="menu-btn" onclick="checkPremiumAccess('asian')">🌏 Asian Session</button>
                 <button class="menu-btn" onclick="showScreen('roadmap-screen')">📺 Weekly Roadmap</button>
             </section>
         </main>
 
         <footer class="app-footer">
             <p>© 2026 Limitless Journeys Club</p>
-            <p class="disclaimer-text">Limitless Journeys Club provides educational tools and market analysis. This is not financial advice. Trading forex and commodities carries a high level of risk and may not be suitable for all investors. Past performance is not indicative of future results.</p>
+            <p class="disclaimer-text">Limitless Journeys Club provides educational tools and market analysis. This is not financial advice. Trading forex and commodities carries a high level of risk.</p>
         </footer>
     </div>
 
     <!-- FIBONACCI CALCULATOR SCREEN -->
-    <div id="fib-screen" class="tool-screen" style="display: none;">
+    <div id="fib-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
             <h2>📐 Fib Calculator</h2>
@@ -88,7 +85,7 @@
                 </div>
                 <button class="calculate-btn" onclick="calculateFib()">Calculate Levels</button>
             </div>
-            <div id="fib-results" class="card" style="display: none;">
+            <div id="fib-results" class="card">
                 <h3>🎯 Your Levels</h3>
                 <div class="fib-level"><span>0.0% (Start)</span> <span id="lvl-0" class="price">-</span></div>
                 <div class="fib-level"><span>50.0%</span> <span id="lvl-50" class="price">-</span></div>
@@ -100,7 +97,7 @@
     </div>
 
     <!-- ASIAN SESSION TRACKER SCREEN -->
-    <div id="asian-screen" class="tool-screen" style="display: none;">
+    <div id="asian-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
             <h2>🌏 Asian Session Tracker</h2>
@@ -112,7 +109,6 @@
                 <div id="countdown-timer" class="countdown-timer">--:--:--</div>
                 <p class="session-note">Asian Session: 7:00 PM – 12:00 AM AST</p>
             </div>
-
             <div class="card">
                 <h3>📝 Log Today's Asian Range</h3>
                 <div class="input-group">
@@ -125,25 +121,22 @@
                 </div>
                 <button class="calculate-btn" onclick="saveAsianRange()">Save Range</button>
             </div>
-
-            <div id="asian-saved" class="card" style="display: none;">
+            <div id="asian-saved" class="card">
                 <h3>✅ Today's Saved Range</h3>
                 <div class="fib-level"><span>📈 Asian High</span> <span id="saved-high" class="price">-</span></div>
                 <div class="fib-level"><span>📉 Asian Low</span> <span id="saved-low" class="price">-</span></div>
                 <div class="fib-level golden-zone"><span>📏 Range Size</span> <span id="saved-range" class="price">-</span></div>
                 <button class="clear-btn" onclick="clearAsianRange()">Clear & Reset</button>
             </div>
-
             <div class="card rule-card">
-                <h3>️ Limitless Rule</h3>
+                <h3>⚠️ Limitless Rule</h3>
                 <p class="rule-text">Wait for a <strong>liquidity sweep</strong> of the Asian Session High or Low before seeking entries at key supply or demand zones.</p>
-                <p class="rule-subtext">Do NOT chase. Let the market come to your levels.</p>
             </div>
         </main>
     </div>
 
     <!-- WEEKLY ROADMAP SCREEN -->
-    <div id="roadmap-screen" class="tool-screen" style="display: none;">
+    <div id="roadmap-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
             <h2>📺 Weekly Roadmap</h2>
@@ -155,25 +148,18 @@
                 <a href="https://youtube.com/shorts/clcX147n8Ng" target="_blank" class="payhip-btn" style="background-color: #FF0000; color: white; border: none; text-align: center; display: block; text-decoration: none; padding: 15px;">
                     ▶️ Watch on YouTube
                 </a>
-                <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px;">(Opens directly in your YouTube app for the best experience)</p>
             </div>
-
             <div class="card">
                 <h3>📌 Key Levels This Week</h3>
                 <div class="fib-level"><span>Resistance</span> <span class="price">4,096 – 4,112</span></div>
                 <div class="fib-level"><span>Support</span> <span class="price">[Add your levels]</span></div>
                 <div class="fib-level golden-zone"><span>Bias</span> <span class="price">[Your bias]</span></div>
             </div>
-
-            <div class="card rule-card">
-                <h3>💡 Pro Tip</h3>
-                <p class="rule-text">Watch for the Asian Session liquidity sweep before entering at these key levels. Patience pays.</p>
-            </div>
         </main>
     </div>
 
-    <!-- TRADING JOURNAL -->
-    <div id="journal-screen" class="tool-screen" style="display: none;">
+    <!-- TRADING JOURNAL SCREEN -->
+    <div id="journal-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
             <h2>📓 Trading Journal</h2>
@@ -187,7 +173,7 @@
                 </div>
                 <div class="input-group">
                     <label>Pair</label>
-                    <input type="text" id="trade-pair" class="fib-input" value="XAUUSD" placeholder="e.g., XAUUSD">
+                    <input type="text" id="trade-pair" class="fib-input" value="XAUUSD">
                 </div>
                 <div class="input-group">
                     <label>Direction</label>
@@ -198,31 +184,15 @@
                 </div>
                 <div class="input-group">
                     <label>Entry Price ($)</label>
-                    <input type="number" id="trade-entry" class="fib-input" placeholder="e.g., 4120.50" step="0.01">
+                    <input type="number" id="trade-entry" class="fib-input" step="0.01">
                 </div>
                 <div class="input-group">
                     <label>Stop Loss ($)</label>
-                    <input type="number" id="trade-sl" class="fib-input" placeholder="e.g., 4100.00" step="0.01">
+                    <input type="number" id="trade-sl" class="fib-input" step="0.01">
                 </div>
                 <div class="input-group">
                     <label>Take Profit ($)</label>
-                    <input type="number" id="trade-tp" class="fib-input" placeholder="e.g., 4160.00" step="0.01">
-                </div>
-                <div class="input-group">
-                    <label>Fibonacci Level Used</label>
-                    <select id="trade-fib" class="fib-input">
-                        <option value="0.5">0.5 (50%)</option>
-                        <option value="0.618" selected>0.618 (Golden Zone)</option>
-                        <option value="0.718">0.718 (Institutional)</option>
-                        <option value="0.786">0.786 (Deep Retracement)</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Asian Liquidity Sweep?</label>
-                    <div class="toggle-group">
-                        <button class="toggle-btn" id="sweep-yes" onclick="setSweep(true)">YES</button>
-                        <button class="toggle-btn active" id="sweep-no" onclick="setSweep(false)">NO</button>
-                    </div>
+                    <input type="number" id="trade-tp" class="fib-input" step="0.01">
                 </div>
                 <div class="input-group">
                     <label>Outcome</label>
@@ -230,28 +200,25 @@
                         <option value="pending">Pending</option>
                         <option value="win">Win ✅</option>
                         <option value="loss">Loss ❌</option>
-                        <option value="be">Break Even ️</option>
+                        <option value="be">Break Even ⚖️</option>
                     </select>
                 </div>
                 <div class="input-group">
                     <label>Notes</label>
-                    <textarea id="trade-notes" class="fib-input" rows="3" placeholder="What did you learn? What went well?"></textarea>
+                    <textarea id="trade-notes" class="fib-input" rows="3" placeholder="What did you learn?"></textarea>
                 </div>
                 <button class="calculate-btn" onclick="saveTrade()">Save Trade</button>
             </div>
-
             <div id="trade-history" class="card">
                 <h3>📊 Trade History</h3>
-                <div id="trades-list">
-                    <p style="color: #888; text-align: center;">No trades logged yet. Start building your edge!</p>
-                </div>
+                <div id="trades-list"></div>
                 <button class="clear-btn" onclick="clearAllTrades()" style="margin-top: 20px;">Clear All Trades</button>
             </div>
         </main>
     </div>
 
     <!-- PREMIUM UPGRADE MODAL -->
-    <div id="premium-modal" class="modal-overlay" style="display: none;">
+    <div id="premium-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>🔒 Premium Feature</h2>
@@ -263,24 +230,15 @@
                     <li>✅ Advanced Trading Journal</li>
                     <li>✅ Golden Zone Fib Calculator</li>
                     <li>✅ Asian Session Range Tracker</li>
-                    <li>✅ Exclusive Community Access</li>
                     <li>✅ Weekly Gold Roadmap Access</li>
                 </ul>
-                
-                <a href="https://payhip.com/b/2IJq7" target="_blank" class="payhip-btn">
-                    Upgrade Monthly - $19.99/mo
-                </a>
-                
-                <a href="https://payhip.com/b/puVSQ" target="_blank" class="payhip-btn" style="background-color: #1a1a1a; color: #FFD700; border: 1px solid #FFD700; margin-bottom: 20px;">
-                    Get Lifetime Access - $97
-                </a>
-                
+                <a href="https://payhip.com/b/2IJq7" target="_blank" class="payhip-btn">Upgrade Monthly - $19.99/mo</a>
+                <a href="https://payhip.com/b/puVSQ" target="_blank" class="payhip-btn" style="background-color: #1a1a1a; color: #FFD700; border: 1px solid #FFD700; margin-top: 10px;">Get Lifetime Access - $97</a>
                 <div class="divider"><span>OR</span></div>
-                
                 <p class="passcode-prompt">Already a member? Enter your passcode:</p>
                 <input type="password" id="passcode-input" class="fib-input" placeholder="Enter Passcode" style="text-align: center; letter-spacing: 2px;">
                 <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700;">Unlock</button>
-                <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px;">Invalid passcode. Please try again or upgrade.</p>
+                <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px; color: #FF3D00;">Invalid passcode.</p>
             </div>
         </div>
     </div>
