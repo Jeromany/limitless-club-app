@@ -1,365 +1,275 @@
-// Initialize Telegram Mini App
-if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
-    window.Telegram.WebApp.setHeaderColor('#000000');
-    window.Telegram.WebApp.setBackgroundColor('#000000');
-}
-
-let tradeDirection = 'long';
-let tradeDir = 'long';
-let tradeSweep = false;
-
-// ==================== PREMIUM GATE LOGIC ====================
-const CLUB_PASSCODE = "LIMITLESS2026"; 
-let isPremium = localStorage.getItem('isPremium') === 'true';
-
-function checkPremiumAccess(toolName) {
-    if (isPremium) {
-        if (toolName === 'fib') showFibCalculator();
-        else if (toolName === 'asian') showAsianTracker();
-        else if (toolName === 'journal') showJournal();
-        else if (toolName === 'roadmap') showRoadmap(); // Added Roadmap to premium access
-    } else {
-        showPremiumModal();
+// --- NAVIGATION & SCREENS ---
+function showScreen(screenId) {
+    document.getElementById('main-app').style.display = 'none';
+    document.querySelectorAll('.tool-screen').forEach(screen => {
+        screen.style.display = 'none';
+    });
+    document.getElementById(screenId).style.display = 'block';
+    
+    if (screenId === 'asian-screen') {
+        updateAsianSessionCountdown();
+        loadSavedAsianRange();
+    }
+    if (screenId === 'journal-screen') {
+        loadTrades();
     }
 }
 
-function showPremiumModal() {
-    document.getElementById('premium-modal').style.display = 'flex';
-    document.getElementById('passcode-error').style.display = 'none';
-    document.getElementById('passcode-input').value = '';
+function goBack() {
+    document.querySelectorAll('.tool-screen').forEach(screen => {
+        screen.style.display = 'none';
+    });
+    document.getElementById('main-app').style.display = 'block';
+}
+
+// --- PREMIUM ACCESS ---
+function checkPremiumAccess(tool) {
+    const isPremium = localStorage.getItem('limitless_premium') === 'true';
+    if (isPremium) {
+        showScreen(tool + '-screen');
+    } else {
+        document.getElementById('premium-modal').style.display = 'flex';
+    }
 }
 
 function closePremiumModal() {
     document.getElementById('premium-modal').style.display = 'none';
+    document.getElementById('passcode-input').value = '';
+    document.getElementById('passcode-error').style.display = 'none';
 }
 
 function verifyPasscode() {
-    const input = document.getElementById('passcode-input').value.trim();
-    if (input === CLUB_PASSCODE) {
-        isPremium = true;
-        localStorage.setItem('isPremium', 'true');
+    const input = document.getElementById('passcode-input').value;
+    if (input === 'LIMITLESS2026') {
+        localStorage.setItem('limitless_premium', 'true');
         closePremiumModal();
-        // Show success message
-        const msg = "✅ Welcome to the Limitless Journeys Club!";
-        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
-        // Auto-close after 2 seconds
-        setTimeout(() => {
-            // Refresh the page to show premium features
-            location.reload();
-        }, 2000);
+        alert('Welcome to the Limitless Journeys Club!');
     } else {
         document.getElementById('passcode-error').style.display = 'block';
     }
 }
 
-// ==================== NAVIGATION ====================
-function showFibCalculator() {
-    document.getElementById('main-app').style.display = 'none';
-    document.getElementById('fib-screen').style.display = 'block';
-}
+// --- FIBONACCI CALCULATOR ---
+let currentDirection = 'long';
 
-function showAsianTracker() {
-    document.getElementById('main-app').style.display = 'none';
-    document.getElementById('asian-screen').style.display = 'block';
-    startCountdown();
-    loadSavedAsianRange();
-}
-
-function showJournal() {
-    document.getElementById('main-app').style.display = 'none';
-    document.getElementById('journal-screen').style.display = 'block';
-    displayTrades();
-    document.getElementById('trade-date').valueAsDate = new Date();
-}
-
-// NEW: Weekly Roadmap Navigation
-function showRoadmap() {
-    document.getElementById('main-app').style.display = 'none';
-    document.getElementById('roadmap-screen').style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function goBack() {
-    document.querySelectorAll('.tool-screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main-app').style.display = 'block';
-}
-
-// ==================== FIB CALCULATOR ====================
 function setDirection(dir) {
-    tradeDirection = dir;
-    document.getElementById('btn-long').className = dir === 'long' ? 'toggle-btn active' : 'toggle-btn';
-    document.getElementById('btn-short').className = dir === 'short' ? 'toggle-btn active short-active' : 'toggle-btn';
+    currentDirection = dir;
+    document.getElementById('btn-long').classList.toggle('active', dir === 'long');
+    document.getElementById('btn-short').classList.toggle('active', dir === 'short');
 }
 
 function calculateFib() {
     const high = parseFloat(document.getElementById('fib-high').value);
     const low = parseFloat(document.getElementById('fib-low').value);
-    if (isNaN(high) || isNaN(low) || high <= low) {
-        const msg = "⚠️ High must be greater than Low.";
-        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+
+    if (isNaN(high) || isNaN(low)) {
+        alert('Please enter valid Swing High and Swing Low prices.');
         return;
     }
-    const range = high - low;
-    let lvl0, lvl50, lvl618, lvl718, lvl100;
-    if (tradeDirection === 'long') {
-        lvl0 = high; lvl50 = high - (range * 0.5); lvl618 = high - (range * 0.618);
-        lvl718 = high - (range * 0.718); lvl100 = low;
-    } else {
-        lvl0 = low; lvl50 = low + (range * 0.5); lvl618 = low + (range * 0.618);
-        lvl718 = low + (range * 0.718); lvl100 = high;
-    }
-    document.getElementById('lvl-0').textContent = `$${lvl0.toFixed(2)}`;
-    document.getElementById('lvl-50').textContent = `$${lvl50.toFixed(2)}`;
-    document.getElementById('lvl-618').textContent = `$${lvl618.toFixed(2)}`;
-    document.getElementById('lvl-718').textContent = `$${lvl718.toFixed(2)}`;
-    document.getElementById('lvl-100').textContent = `$${lvl100.toFixed(2)}`;
+
+    const diff = high - low;
+    const lvl0 = currentDirection === 'long' ? low : high;
+    const lvl100 = currentDirection === 'long' ? high : low;
+
+    document.getElementById('lvl-0').innerText = lvl0.toFixed(2);
+    document.getElementById('lvl-50').innerText = (lvl0 + diff * 0.5).toFixed(2);
+    document.getElementById('lvl-618').innerText = (lvl0 + diff * 0.618).toFixed(2);
+    document.getElementById('lvl-718').innerText = (lvl0 + diff * 0.718).toFixed(2);
+    document.getElementById('lvl-100').innerText = lvl100.toFixed(2);
+
     document.getElementById('fib-results').style.display = 'block';
 }
 
-// ==================== ASIAN SESSION TRACKER ====================
-// AST is UTC-4. So 7 PM AST = 23 UTC, and 12 AM (Midnight) AST = 04 UTC.
-const ASIAN_OPEN_UTC = 23;
-const ASIAN_CLOSE_UTC = 4; // CHANGED FROM 8 TO 4 FOR 12 AM AST CLOSE
-
-function startCountdown() {
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-}
-
-function updateCountdown() {
+// --- ASIAN SESSION TRACKER (FIXED FOR 7 PM - 12 AM AST) ---
+function updateAsianSessionCountdown() {
     const now = new Date();
-    const utcHour = now.getUTCHours();
-    const utcMin = now.getUTCMinutes();
-    const utcSec = now.getUTCSeconds();
-    const currentUTC = utcHour + utcMin / 60 + utcSec / 3600;
+    
+    // AST is UTC-4.
+    // 7 PM AST = 23:00 UTC.
+    // 12 AM (Midnight) AST = 04:00 UTC.
+    
+    // Calculate current time in AST
+    const astOffset = -4;
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const astTime = new Date(utcTime + (3600000 * astOffset));
+    
+    const astHours = astTime.getUTCHours(); // This gives us the hour in AST (0-23)
+    const astMinutes = astTime.getUTCMinutes();
+    const astSeconds = astTime.getUTCSeconds();
 
     const statusEl = document.getElementById('session-status');
     const timerEl = document.getElementById('countdown-timer');
 
-    const isSessionActive = (currentUTC >= ASIAN_OPEN_UTC) || (currentUTC < ASIAN_CLOSE_UTC);
+    // Session is OPEN if AST time is 19 (7 PM) or later (up to 23:59)
+    const isSessionOpen = astHours >= 19;
 
-    if (isSessionActive) {
-        statusEl.textContent = "🟢 ASIAN SESSION IS LIVE";
-        statusEl.className = "session-status active";
+    if (isSessionOpen) {
+        statusEl.innerText = "🟢 ASIAN SESSION IS OPEN";
+        statusEl.style.color = "#00FF00"; // Green
 
-        // Calculate time elapsed since session started
-        const sessionStart = new Date(now);
-        if (currentUTC < ASIAN_OPEN_UTC) {
-            sessionStart.setUTCDate(sessionStart.getUTCDate() - 1);
-        }
-        sessionStart.setUTCHours(ASIAN_OPEN_UTC, 0, 0, 0);
-        
-        const elapsed = now - sessionStart;
-        const hours = Math.floor(elapsed / (1000 * 60 * 60));
-        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-        
-        timerEl.textContent = `${hours}h ${minutes}m`;
+        // Count down to Midnight AST (24:00 or 00:00 next day)
+        let targetHours = 24; 
+        let diffHours = targetHours - astHours - 1;
+        let diffMinutes = 59 - astMinutes;
+        let diffSeconds = 59 - astSeconds;
+
+        timerEl.innerText = `${String(diffHours).padStart(2, '0')}:${String(diffMinutes).padStart(2, '0')}:${String(diffSeconds).padStart(2, '0')}`;
     } else {
-        statusEl.textContent = "🔴 ASIAN SESSION IS CLOSED";
-        statusEl.className = "session-status";
+        statusEl.innerText = "🔴 ASIAN SESSION IS CLOSED";
+        statusEl.style.color = "#FF3D00"; // Red
 
-        const openTime = new Date(now);
-        openTime.setUTCHours(ASIAN_OPEN_UTC, 0, 0, 0);
-        if (currentUTC >= ASIAN_OPEN_UTC) {
-            openTime.setUTCDate(openTime.getUTCDate() + 1);
-        }
-        const diff = openTime - now;
-        timerEl.textContent = formatTime(diff);
+        // Count down to 7 PM AST (19:00)
+        let targetHours = 19;
+        let diffHours = targetHours - astHours - 1;
+        let diffMinutes = 59 - astMinutes;
+        let diffSeconds = 59 - astSeconds;
+
+        if (diffHours < 0) diffHours = 0; // Prevent negative numbers just in case
+
+        timerEl.innerText = `${String(diffHours).padStart(2, '0')}:${String(diffMinutes).padStart(2, '0')}:${String(diffSeconds).padStart(2, '0')}`;
     }
 }
 
-function formatTime(ms) {
-    const totalSec = Math.floor(ms / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-}
+// Update timer every second
+setInterval(updateAsianSessionCountdown, 1000);
 
 function saveAsianRange() {
     const high = document.getElementById('asian-high').value;
     const low = document.getElementById('asian-low').value;
-    if (!high || !low || parseFloat(high) <= parseFloat(low)) {
-        const msg = "⚠️ Please enter valid High and Low prices.";
-        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+
+    if (!high || !low) {
+        alert('Please enter both High and Low prices.');
         return;
     }
-    const rangeData = { high, low, date: new Date().toLocaleDateString() };
-    localStorage.setItem('asianRange', JSON.stringify(rangeData));
-    displaySavedRange(rangeData);
-    const msg = "✅ Asian Range saved!";
-    window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+
+    const range = (parseFloat(high) - parseFloat(low)).toFixed(2);
+    
+    localStorage.setItem('asian_high', high);
+    localStorage.setItem('asian_low', low);
+    localStorage.setItem('asian_range', range);
+
+    loadSavedAsianRange();
 }
 
 function loadSavedAsianRange() {
-    const saved = localStorage.getItem('asianRange');
-    if (saved) {
-        const data = JSON.parse(saved);
-        const today = new Date().toLocaleDateString();
-        if (data.date === today) {
-            displaySavedRange(data);
-        } else {
-            localStorage.removeItem('asianRange');
-            document.getElementById('asian-saved').style.display = 'none';
-        }
+    const high = localStorage.getItem('asian_high');
+    const low = localStorage.getItem('asian_low');
+    const range = localStorage.getItem('asian_range');
+
+    if (high && low) {
+        document.getElementById('saved-high').innerText = high;
+        document.getElementById('saved-low').innerText = low;
+        document.getElementById('saved-range').innerText = range;
+        document.getElementById('asian-saved').style.display = 'block';
+    } else {
+        document.getElementById('asian-saved').style.display = 'none';
     }
 }
 
-function displaySavedRange(data) {
-    const rangeSize = (parseFloat(data.high) - parseFloat(data.low)).toFixed(2);
-    document.getElementById('saved-high').textContent = `$${parseFloat(data.high).toFixed(2)}`;
-    document.getElementById('saved-low').textContent = `$${parseFloat(data.low).toFixed(2)}`;
-    document.getElementById('saved-range').textContent = `$${rangeSize}`;
-    document.getElementById('asian-saved').style.display = 'block';
-}
-
 function clearAsianRange() {
-    localStorage.removeItem('asianRange');
-    document.getElementById('asian-saved').style.display = 'none';
+    localStorage.removeItem('asian_high');
+    localStorage.removeItem('asian_low');
+    localStorage.removeItem('asian_range');
     document.getElementById('asian-high').value = '';
     document.getElementById('asian-low').value = '';
+    loadSavedAsianRange();
 }
 
-// ==================== TRADING JOURNAL ====================
+// --- TRADING JOURNAL ---
+let currentTradeDir = 'long';
+let currentSweep = false;
+
 function setTradeDirection(dir) {
-    tradeDir = dir;
-    document.getElementById('dir-long').className = dir === 'long' ? 'toggle-btn active' : 'toggle-btn';
-    document.getElementById('dir-short').className = dir === 'short' ? 'toggle-btn active short-active' : 'toggle-btn';
+    currentTradeDir = dir;
+    document.getElementById('dir-long').classList.toggle('active', dir === 'long');
+    document.getElementById('dir-short').classList.toggle('active', dir === 'short');
 }
 
 function setSweep(val) {
-    tradeSweep = val;
-    document.getElementById('sweep-yes').className = val ? 'toggle-btn active' : 'toggle-btn';
-    document.getElementById('sweep-no').className = val ? 'toggle-btn' : 'toggle-btn active';
+    currentSweep = val;
+    document.getElementById('sweep-yes').classList.toggle('active', val === true);
+    document.getElementById('sweep-no').classList.toggle('active', val === false);
 }
 
 function saveTrade() {
     const date = document.getElementById('trade-date').value;
     const pair = document.getElementById('trade-pair').value;
-    const entry = parseFloat(document.getElementById('trade-entry').value);
-    const sl = parseFloat(document.getElementById('trade-sl').value);
-    const tp = parseFloat(document.getElementById('trade-tp').value);
+    const entry = document.getElementById('trade-entry').value;
+    const sl = document.getElementById('trade-sl').value;
+    const tp = document.getElementById('trade-tp').value;
     const fib = document.getElementById('trade-fib').value;
     const outcome = document.getElementById('trade-outcome').value;
     const notes = document.getElementById('trade-notes').value;
 
-    if (!date || !pair || isNaN(entry) || isNaN(sl) || isNaN(tp)) {
-        const msg = "⚠️ Please fill in all required fields.";
-        window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
+    if (!date || !entry) {
+        alert('Please enter at least a Date and Entry Price.');
         return;
     }
 
     const trade = {
         id: Date.now(),
-        date,
-        pair,
-        direction: tradeDir,
-        entry,
-        sl,
-        tp,
-        fib,
-        sweep: tradeSweep,
-        outcome,
-        notes
+        date, pair, direction: currentTradeDir, entry, sl, tp, fib, 
+        sweep: currentSweep, outcome, notes
     };
 
-    let trades = JSON.parse(localStorage.getItem('trades') || '[]');
+    let trades = JSON.parse(localStorage.getItem('limitless_trades') || '[]');
     trades.unshift(trade);
-    localStorage.setItem('trades', JSON.stringify(trades));
+    localStorage.setItem('limitless_trades', JSON.stringify(trades));
 
+    alert('Trade saved successfully!');
+    loadTrades();
+    
+    // Clear inputs
     document.getElementById('trade-entry').value = '';
     document.getElementById('trade-sl').value = '';
     document.getElementById('trade-tp').value = '';
     document.getElementById('trade-notes').value = '';
-
-    displayTrades();
-    const msg = "✅ Trade saved successfully!";
-    window.Telegram?.WebApp?.showAlert(msg) || alert(msg);
 }
 
-function displayTrades() {
-    const trades = JSON.parse(localStorage.getItem('trades') || '[]');
-    const container = document.getElementById('trades-list');
-
+function loadTrades() {
+    const trades = JSON.parse(localStorage.getItem('limitless_trades') || '[]');
+    const list = document.getElementById('trades-list');
+    
     if (trades.length === 0) {
-        container.innerHTML = '<p style="color: #888; text-align: center;">No trades logged yet. Start building your edge!</p>';
+        list.innerHTML = '<p style="color: #888; text-align: center;">No trades logged yet. Start building your edge!</p>';
         return;
     }
 
-    container.innerHTML = trades.map(trade => `
-        <div class="trade-item">
-            <div class="trade-header">
-                <span class="trade-pair">${trade.pair} ${trade.direction === 'long' ? '📈' : '📉'}</span>
-                <span class="trade-date">${trade.date}</span>
+    list.innerHTML = trades.map(t => `
+        <div style="border-bottom: 1px solid #333; padding: 10px 0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <strong>${t.date} - ${t.pair}</strong>
+                <span style="color: ${t.outcome === 'win' ? '#00FF00' : t.outcome === 'loss' ? '#FF3D00' : '#FFD700'}">${t.outcome.toUpperCase()}</span>
             </div>
-            <div class="trade-details">
-                <div class="trade-detail">
-                    <span class="trade-detail-label">Entry:</span>
-                    <span class="trade-detail-value">$${trade.entry.toFixed(2)}</span>
-                </div>
-                <div class="trade-detail">
-                    <span class="trade-detail-label">SL:</span>
-                    <span class="trade-detail-value">$${trade.sl.toFixed(2)}</span>
-                </div>
-                <div class="trade-detail">
-                    <span class="trade-detail-label">TP:</span>
-                    <span class="trade-detail-value">$${trade.tp.toFixed(2)}</span>
-                </div>
-                <div class="trade-detail">
-                    <span class="trade-detail-label">Fib:</span>
-                    <span class="trade-detail-value">${trade.fib}</span>
-                </div>
-                <div class="trade-detail">
-                    <span class="trade-detail-label">Sweep:</span>
-                    <span class="trade-detail-value">${trade.sweep ? '✅ Yes' : '❌ No'}</span>
-                </div>
-                <div class="trade-detail">
-                    <span class="trade-detail-label">Outcome:</span>
-                    <span class="outcome-${trade.outcome}">${trade.outcome.toUpperCase()}</span>
-                </div>
+            <div style="font-size: 0.8rem; color: #aaa;">
+                ${t.direction.toUpperCase()} @ ${t.entry} | SL: ${t.sl} | TP: ${t.tp}
             </div>
-            ${trade.notes ? `<div class="trade-notes">"${trade.notes}"</div>` : ''}
-            <button class="delete-trade-btn" onclick="deleteTrade(${trade.id})">Delete</button>
+            ${t.notes ? `<div style="font-size: 0.8rem; color: #888; margin-top: 5px;">${t.notes}</div>` : ''}
         </div>
     `).join('');
 }
 
-function deleteTrade(id) {
-    if (!confirm('Delete this trade?')) return;
-    let trades = JSON.parse(localStorage.getItem('trades') || '[]');
-    trades = trades.filter(t => t.id !== id);
-    localStorage.setItem('trades', JSON.stringify(trades));
-    displayTrades();
-}
-
 function clearAllTrades() {
-    if (!confirm('Delete ALL trades? This cannot be undone.')) return;
-    localStorage.removeItem('trades');
-    displayTrades();
-}
-
-// ==================== DAILY BRIEFING ====================
-async function loadDailyBriefing() {
-    const container = document.getElementById('briefing-content');
-    try {
-        const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/briefing.json');
-        if (!response.ok) throw new Error('Network error');
-        const data = await response.json();
-        container.innerHTML = `
-            <p class="briefing-text"><strong>Date:</strong> ${data.date}</p>
-            <p class="briefing-text"><strong>Current Price:</strong> <span style="color: #FFD700;">$${data.price} (${data.change})</span></p>
-            <br>
-            <p class="briefing-text"><strong>Market Analysis:</strong><br>${data.analysis}</p>
-            <br>
-            <p class="briefing-text"><strong>Action Plan:</strong><br><span style="color: #00BFFF;">${data.action}</span></p>
-            <br>
-            <img src="${data.chartUrl}" alt="Daily Gold Chart" style="width: 100%; border-radius: 8px; border: 1px solid #333; margin-top: 10px;" onerror="this.style.display='none'">
-        `;
-    } catch (error) {
-        container.innerHTML = `<p class="briefing-text" style="color: #FF3D00;">⚠️ Live data is being generated. Check back after 8:00 AM EST!</p>`;
+    if (confirm('Are you sure you want to delete all trade history?')) {
+        localStorage.removeItem('limitless_trades');
+        loadTrades();
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadDailyBriefing);
+// --- DAILY BRIEFING (Placeholder) ---
+function loadDailyBriefing() {
+    // In Phase 2, this will fetch from a JSON file or API
+    document.getElementById('briefing-content').innerHTML = `
+        <p style="color: #FFD700; font-weight: bold;">Gold is consolidating near key resistance.</p>
+        <p>Watch for the Asian Session sweep before looking for entries at the 61.8% Golden Zone.</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: #888;">Next update: 8:00 AM EST</p>
+    `;
+}
+
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    loadDailyBriefing();
+    // Set today's date in journal
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('trade-date').value = today;
+});
