@@ -1,215 +1,25 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-body { background-color: #000000; color: #FFFFFF; line-height: 1.6; }
-
-.app-header { background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%); padding: 30px 20px; text-align: center; border-bottom: 2px solid #FFD700; }
-.app-header h1 { color: #FFD700; font-size: 1.8rem; letter-spacing: 2px; font-weight: 800; }
-.tagline { color: #CCCCCC; font-size: 0.9rem; font-style: italic; }
-
-.app-content { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 40px; }
-.card { background-color: #111111; border: 1px solid #333333; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(255, 215, 0, 0.05); }
-.card h2, .card h3 { color: #FFD700; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 1px solid #333333; padding-bottom: 10px; }
-
-.briefing-text { font-size: 0.95rem; color: #E0E0E0; }
-.loading { color: #888888; font-style: italic; }
-
-.menu-btn { display: block; width: 100%; background-color: #1a1a1a; color: #FFD700; border: 1px solid #FFD700; padding: 15px; margin-bottom: 10px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-align: left; }
-.menu-btn:active { background-color: #FFD700; color: #000000; transform: scale(0.98); }
-
-/* TOOL SCREENS */
-.tool-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000000; z-index: 100; overflow-y: auto; animation: slideUp 0.3s ease-out; }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-.tool-header { display: flex; align-items: center; padding: 20px; border-bottom: 1px solid #333333; background-color: #111111; position: sticky; top: 0; z-index: 101; }
-.back-btn { background: none; border: none; color: #FFD700; font-size: 1rem; cursor: pointer; padding: 0 15px 0 0; }
-.tool-header h2 { margin: 0; font-size: 1.2rem; color: #FFFFFF; border: none; padding: 0; }
-
-/* FIB CALCULATOR STYLES */
-.input-group { margin-bottom: 20px; }
-.input-group label { display: block; color: #CCCCCC; margin-bottom: 8px; font-size: 0.9rem; }
-.fib-input { width: 100%; background-color: #1a1a1a; border: 1px solid #333333; color: #FFD700; padding: 15px; border-radius: 8px; font-size: 1.1rem; outline: none; }
-.fib-input:focus { border-color: #FFD700; }
-
-.toggle-group { display: flex; gap: 10px; }
-.toggle-btn { flex: 1; background-color: #1a1a1a; border: 1px solid #333333; color: #888888; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-.toggle-btn.active { background-color: #00C853; color: #000000; border-color: #00C853; }
-.toggle-btn.active.short-active { background-color: #FF3D00; border-color: #FF3D00; }
-
-.calculate-btn { width: 100%; background-color: #FFD700; color: #000000; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
-.calculate-btn:active { transform: scale(0.98); }
-
-.fib-level { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222222; font-size: 1rem; }
-.fib-level:last-child { border-bottom: none; }
-.fib-level .price { color: #FFD700; font-weight: 700; font-family: monospace; font-size: 1.1rem; }
-.fib-level.golden-zone { background-color: rgba(255, 215, 0, 0.1); padding: 12px 10px; border-radius: 6px; margin: 5px 0; border: 1px solid #FFD700; }
-
-/* ASIAN SESSION STYLES */
-.countdown-card { text-align: center; border-color: #FFD700; }
-.session-status { color: #00BFFF; font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
-.session-status.active { color: #00C853; }
-.countdown-timer { font-size: 3rem; font-weight: 800; color: #FFD700; font-family: monospace; letter-spacing: 4px; margin: 15px 0; }
-.session-note { color: #666666; font-size: 0.8rem; }
-
-.clear-btn { width: 100%; background-color: #333333; color: #FF3D00; border: 1px solid #FF3D00; padding: 12px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 15px; }
-.clear-btn:active { background-color: #FF3D00; color: #000000; }
-
-.rule-card { border-color: #FFD700; background: linear-gradient(135deg, #1a1a00 0%, #111111 100%); }
-.rule-text { color: #FFD700; font-size: 1rem; line-height: 1.8; }
-.rule-text strong { color: #FFFFFF; text-decoration: underline; }
-.rule-subtext { color: #888888; font-size: 0.85rem; margin-top: 10px; font-style: italic; }
-
-/* TRADING JOURNAL STYLES */
-select.fib-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FFD700' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    padding-right: 40px;
+/* CRUCIAL: Prevents screens from stacking or looking duplicated */
+.tool-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none; /* Hidden by default, controlled by JS */
 }
 
-textarea.fib-input {
-    resize: vertical;
-    min-height: 80px;
-    font-family: inherit;
-}
-
-.trade-item {
-    background-color: #1a1a1a;
-    border: 1px solid #333333;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
-.trade-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #333333;
-}
-
-.trade-pair {
-    color: #FFD700;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.trade-date {
-    color: #888888;
-    font-size: 0.85rem;
-}
-
-.trade-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-}
-
-.trade-detail {
-    display: flex;
-    justify-content: space-between;
-}
-
-.trade-detail-label {
-    color: #888888;
-}
-
-.trade-detail-value {
-    color: #FFFFFF;
-    font-weight: 600;
-}
-
-.trade-notes {
-    color: #CCCCCC;
-    font-size: 0.85rem;
-    font-style: italic;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #222222;
-}
-
-.outcome-win { color: #00C853; font-weight: 700; }
-.outcome-loss { color: #FF3D00; font-weight: 700; }
-.outcome-be { color: #FFD700; font-weight: 700; }
-.outcome-pending { color: #00BFFF; font-weight: 700; }
-
-.delete-trade-btn {
-    background: none;
-    border: none;
-    color: #FF3D00;
-    cursor: pointer;
-    font-size: 0.85rem;
-    padding: 5px 10px;
-}
-
-.delete-trade-btn:hover {
-    text-decoration: underline;
-}
-
-/* PREMIUM MODAL STYLES */
 .modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
-    z-index: 9999; display: flex; align-items: center; justify-content: center;
-    padding: 20px; animation: fadeIn 0.3s ease;
-}
-.modal-content {
-    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-    border: 1px solid #FFD700; border-radius: 16px;
-    width: 100%; max-width: 400px; padding: 25px;
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
-}
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-header h2 { color: #FFD700; font-size: 1.3rem; margin: 0; border: none; padding: 0; }
-.close-modal { background: none; border: none; color: #888; font-size: 1.8rem; cursor: pointer; line-height: 1; }
-.close-modal:hover { color: #FFD700; }
-
-.modal-body p { color: #CCCCCC; text-align: center; margin-bottom: 20px; font-size: 0.95rem; }
-.premium-perks { list-style: none; padding: 0; margin: 0 0 25px 0; }
-.premium-perks li { color: #E0E0E0; padding: 8px 0; border-bottom: 1px solid #222; font-size: 0.95rem; }
-.premium-perks li:last-child { border-bottom: none; }
-
-.payhip-btn {
-    display: block; width: 100%; background: #FFD700; color: #000;
-    text-align: center; padding: 16px; border-radius: 8px;
-    font-weight: 800; font-size: 1.1rem; text-decoration: none;
-    transition: transform 0.2s; margin-bottom: 20px;
-}
-.payhip-btn:active { transform: scale(0.97); }
-
-.divider { display: flex; align-items: center; text-align: center; color: #555; margin: 20px 0; }
-.divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #333; }
-.divider span { padding: 0 15px; font-size: 0.85rem; font-weight: 600; }
-
-.passcode-prompt { font-size: 0.85rem !important; margin-bottom: 10px !important; }
-.pin-error { color: #FF3D00; font-size: 0.85rem; text-align: center; }
-
-.app-footer { text-align: center; padding: 20px; color: #666666; font-size: 0.8rem; }
-
-   .disclaimer-text {
-       font-size: 0.65rem;
-       color: #555555;
-       line-height: 1.4;
-       margin-top: 10px;
-       padding: 0 10px;
-   }
-/* ECONOMIC CALENDAR STYLES */
-.calendar-card {
-    padding: 15px;
-}
-.calendar-note {
-    font-size: 0.8rem;
-    color: #888888;
-    margin-top: -10px;
-    margin-bottom: 15px;
-    font-style: italic;
-}
-.tradingview-widget-container {
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #333333;
-    background-color: #111111;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
