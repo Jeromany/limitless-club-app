@@ -51,6 +51,7 @@
                 <button class="menu-btn" onclick="checkPremiumAccess('fib')">📐 Fib Calculator</button>
                 <button class="menu-btn" onclick="checkPremiumAccess('asian')">🌏 Asian Session</button>
                 <button class="menu-btn" onclick="showScreen('roadmap-screen')">📺 Weekly Roadmap</button>
+                <button class="menu-btn" onclick="showScreen('warroom-screen')">🐻 Gold War Room</button>
             </section>
         </main>
 
@@ -64,7 +65,7 @@
     <div id="fib-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
-            <h2>📐 Fib Calculator</h2>
+            <h2> Fib Calculator</h2>
         </header>
         <main class="app-content">
             <div class="card">
@@ -100,7 +101,7 @@
     <div id="asian-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
-            <h2>🌏 Asian Session Tracker</h2>
+            <h2> Asian Session Tracker</h2>
         </header>
         <main class="app-content">
             <div class="card countdown-card">
@@ -110,7 +111,7 @@
                 <p class="session-note">Asian Session: 7:00 PM – 12:00 AM AST</p>
             </div>
             <div class="card">
-                <h3>📝 Log Today's Asian Range</h3>
+                <h3> Log Today's Asian Range</h3>
                 <div class="input-group">
                     <label>Asian Session High ($)</label>
                     <input type="number" id="asian-high" class="fib-input" placeholder="e.g., 4155.30" step="0.01">
@@ -139,7 +140,7 @@
     <div id="roadmap-screen" class="tool-screen">
         <header class="tool-header">
             <button class="back-btn" onclick="goBack()">← Back</button>
-            <h2>📺 Weekly Roadmap</h2>
+            <h2> Weekly Roadmap</h2>
         </header>
         <main class="app-content">
             <div class="card">
@@ -159,44 +160,34 @@
     </div>
 
     <!-- GOLD WAR ROOM SCREEN -->
-<div id="warroom-screen" class="tool-screen">
-    <header class="tool-header">
-        <button class="back-btn" onclick="goBack()">← Back</button>
-        <h2>🐻 Gold War Room</h2>
-    </header>
-    <main class="app-content">
-        <div class="card">
-            <h3>🎥 Latest Episode</h3>
-            <p style="text-align: center; margin-bottom: 20px;">Weekly Gold market breakdown with institutional analysis</p>
-            <a href="https://youtube.com/shorts/clcX147n8Ng" target="_blank" class="payhip-btn" style="background-color: #FF0000; color: white; border: none; text-align: center; display: block; text-decoration: none; padding: 15px;">
-                ▶️ Watch Gold War Room EP. 24
-            </a>
-            <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px;">(Opens in YouTube app)</p>
-        </div>
+    <div id="warroom-screen" class="tool-screen">
+        <header class="tool-header">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>🐻 Gold War Room</h2>
+        </header>
+        <main class="app-content">
+            <div class="card">
+                <h3> Latest Episode</h3>
+                <p style="text-align: center; margin-bottom: 20px;">Weekly Gold market breakdown with institutional analysis</p>
+                <a href="https://youtube.com/shorts/clcX147n8Ng" target="_blank" class="payhip-btn" style="background-color: #FF0000; color: white; border: none; text-align: center; display: block; text-decoration: none; padding: 15px;">
+                    ▶️ Watch Gold War Room EP. 24
+                </a>
+                <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px;">(Opens in YouTube app)</p>
+            </div>
+            <div class="card">
+                <h3>📊 This Week's Battle</h3>
+                <div class="fib-level"><span>Theme</span> <span class="price">Consolidation in the Trench</span></div>
+                <div class="fib-level"><span>Bias</span> <span class="price">Bears Remain Active</span></div>
+                <div class="fib-level golden-zone"><span>Key Resistance</span> <span class="price">4,096 - 4,112</span></div>
+                <div class="fib-level"><span>Target</span> <span class="price">3,819 (20-Day EMA)</span></div>
+            </div>
+            <div class="card rule-card">
+                <h3>⚠️ War Room Rule</h3>
+                <p class="rule-text">We do not chase the noise. We wait for the market to reveal its intent. Execute with detachment.</p>
+            </div>
+        </main>
+    </div>
 
-        <div class="card">
-            <h3>📊 This Week's Battle</h3>
-            <div class="fib-level"><span>Theme</span> <span class="price">Consolidation in the Trench</span></div>
-            <div class="fib-level"><span>Bias</span> <span class="price">Bears Remain Active</span></div>
-            <div class="fib-level golden-zone"><span>Key Resistance</span> <span class="price">4,096 - 4,112</span></div>
-            <div class="fib-level"><span>Target</span> <span class="price">3,819 (20-Day EMA)</span></div>
-        </div>
-
-        <div class="card rule-card">
-            <h3>️ War Room Rule</h3>
-            <p class="rule-text">We do not chase the noise. We wait for the market to reveal its intent. Execute with detachment.</p>
-        </div>
-
-        <div class="card">
-            <h3>📚 Previous Episodes</h3>
-            <p style="color: #888; text-align: center; padding: 20px;">Subscribe on YouTube to get notified of new episodes</p>
-            <a href="https://youtube.com/@LimitlessJourneysClub" target="_blank" class="payhip-btn" style="background-color: #FF0000; color: white; text-align: center; display: block; text-decoration: none; padding: 12px; font-size: 0.9rem;">
-                Subscribe on YouTube
-            </a>
-        </div>
-    </main>
-</div>
-    
     <!-- TRADING JOURNAL SCREEN -->
     <div id="journal-screen" class="tool-screen">
         <header class="tool-header">
@@ -270,6 +261,7 @@
                     <li>✅ Golden Zone Fib Calculator</li>
                     <li>✅ Asian Session Range Tracker</li>
                     <li>✅ Weekly Gold Roadmap Access</li>
+                    <li>✅ Gold War Room Access</li>
                 </ul>
                 <a href="https://payhip.com/b/2IJq7" target="_blank" class="payhip-btn">Upgrade Monthly - $19.99/mo</a>
                 <a href="https://payhip.com/b/puVSQ" target="_blank" class="payhip-btn" style="background-color: #1a1a1a; color: #FFD700; border: 1px solid #FFD700; margin-top: 10px;">Get Lifetime Access - $97</a>
