@@ -212,13 +212,30 @@ function clearAllTrades() {
     }
 }
 
-// --- DAILY BRIEFING ---
-function loadDailyBriefing() {
-    document.getElementById('briefing-content').innerHTML = `
-        <p style="color: #FFD700; font-weight: bold;">Gold is consolidating near key resistance.</p>
-        <p>Watch for the Asian Session sweep before looking for entries at the 61.8% Golden Zone.</p>
-        <p style="margin-top: 10px; font-size: 0.8rem; color: #888;">Next update: 8:00 AM EST</p>
-    `;
+// --- DAILY BRIEFING (Automated from GitHub JSON) ---
+async function loadDailyBriefing() {
+    try {
+        const response = await fetch('briefing.json');
+        const data = await response.json();
+
+        document.getElementById('briefing-content').innerHTML = `
+            <p style="color: #FFD700; font-weight: bold; font-size: 1.1rem;">
+                Gold Update: $${data.price} (${data.change})
+            </p>
+            <p style="margin: 10px 0;">${data.analysis}</p>
+            <p style="margin: 10px 0; font-style: italic; color: #fff;">
+                <strong>Action:</strong> ${data.action}
+            </p>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+                Last updated: ${data.date}
+            </p>
+        `;
+    } catch (error) {
+        console.error('Error loading briefing:', error);
+        document.getElementById('briefing-content').innerHTML = `
+            <p class="loading">Loading today's analysis...</p>
+        `;
+    }
 }
 
 // --- INITIALIZATION ---
