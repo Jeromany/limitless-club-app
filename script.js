@@ -80,37 +80,53 @@ function calculateFib() {
     document.getElementById('fib-results').style.display = 'block';
 }
 
-// --- ASIAN SESSION TRACKER (FIXED FOR 7 PM - 12 AM AST) ---
+// --- ASIAN SESSION TRACKER (FIXED TIMEZONE LOGIC) ---
 function updateAsianSessionCountdown() {
     const now = new Date();
-    const astOffset = -4;
-    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const astTime = new Date(utcTime + (3600000 * astOffset));
     
-    const astHours = astTime.getUTCHours();
-    const astMinutes = astTime.getUTCMinutes();
-    const astSeconds = astTime.getUTCSeconds();
+    // Force the app to look at the actual AST timezone (Atlantic Standard Time)
+    // regardless of the user's device settings.
+    const astFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Port_of_Spain', // AST Timezone
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false
+    });
+    
+    const astTimeParts = astFormatter.formatToParts(now);
+    const astHours = parseInt(astTimeParts.find(p => p.type === 'hour').value, 10);
+    const astMinutes = parseInt(astTimeParts.find(p => p.type === 'minute').value, 10);
+    const astSeconds = parseInt(astTimeParts.find(p => p.type === 'second').value, 10);
 
     const statusEl = document.getElementById('session-status');
     const timerEl = document.getElementById('countdown-timer');
-    const isSessionOpen = astHours >= 19;
+    
+    // Session is OPEN if AST time is 19 (7 PM) up to 23 (11:59 PM)
+    const isSessionOpen = astHours >= 19 && astHours < 24;
 
     if (isSessionOpen) {
-        statusEl.innerText = "🟢 ASIAN SESSION IS OPEN";
+        statusEl.innerText = " ASIAN SESSION IS OPEN";
         statusEl.style.color = "#00FF00";
-        let targetHours = 24; 
-        let diffHours = targetHours - astHours - 1;
+        
+        // Count down to Midnight (24:00)
+        let diffHours = 23 - astHours;
         let diffMinutes = 59 - astMinutes;
         let diffSeconds = 59 - astSeconds;
+        
         timerEl.innerText = `${String(diffHours).padStart(2, '0')}:${String(diffMinutes).padStart(2, '0')}:${String(diffSeconds).padStart(2, '0')}`;
     } else {
         statusEl.innerText = "🔴 ASIAN SESSION IS CLOSED";
         statusEl.style.color = "#FF3D00";
-        let targetHours = 19;
-        let diffHours = targetHours - astHours - 1;
+        
+        // Count down to 7 PM (19:00)
+        let diffHours = 18 - astHours;
         let diffMinutes = 59 - astMinutes;
         let diffSeconds = 59 - astSeconds;
-        if (diffHours < 0) diffHours = 0;
+        
+        // Handle day rollover if it's currently morning/afternoon
+        if (diffHours < 0) diffHours += 24; 
+        
         timerEl.innerText = `${String(diffHours).padStart(2, '0')}:${String(diffMinutes).padStart(2, '0')}:${String(diffSeconds).padStart(2, '0')}`;
     }
 }
@@ -240,7 +256,6 @@ async function loadDailyBriefing() {
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Hide all tool screens and modal on load
     document.querySelectorAll('.tool-screen').forEach(screen => screen.style.display = 'none');
     document.getElementById('premium-modal').style.display = 'none';
     
