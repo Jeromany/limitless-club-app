@@ -254,12 +254,88 @@ async function loadDailyBriefing() {
     }
 }
 
+// --- WEEKLY ROADMAP (Fetches from JSON) ---
+async function loadWeeklyRoadmap() {
+    try {
+        const response = await fetch('weekly-content.json');
+        const data = await response.json();
+        const r = data.roadmap;
+        
+        const roadmapScreen = document.getElementById('roadmap-screen');
+        if (roadmapScreen) {
+            const cards = roadmapScreen.querySelectorAll('.card');
+            if (cards[0]) {
+                cards[0].innerHTML = `
+                    <h3>🎥 This Week's Analysis</h3>
+                    <p style="text-align: center; margin-bottom: 20px;">Watch this week's Gold Roadmap breakdown on YouTube</p>
+                    <a href="${r.videoUrl}" target="_blank" class="payhip-btn" style="background-color: #FF0000; color: white; border: none; text-align: center; display: block; text-decoration: none; padding: 15px;">
+                        ▶️ Watch ${r.title}
+                    </a>
+                    <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px;">(Opens in YouTube app)</p>
+                `;
+            }
+            if (cards[1]) {
+                cards[1].innerHTML = `
+                    <h3>📌 Key Levels This Week</h3>
+                    <div class="fib-level"><span>Resistance</span> <span class="price">${r.resistance}</span></div>
+                    <div class="fib-level"><span>Support</span> <span class="price">${r.support}</span></div>
+                    <div class="fib-level golden-zone"><span>Bias</span> <span class="price">${r.bias}</span></div>
+                `;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading roadmap:', error);
+    }
+}
+
+// --- GOLD WAR ROOM (Fetches from JSON) ---
+async function loadWarRoom() {
+    try {
+        const response = await fetch('weekly-content.json');
+        const data = await response.json();
+        const w = data.warRoom;
+        
+        const warRoomScreen = document.getElementById('warroom-screen');
+        if (warRoomScreen) {
+            const mainContent = warRoomScreen.querySelector('main');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div class="card">
+                        <h3> Latest Episode</h3>
+                        <p style="text-align: center; margin-bottom: 20px;">Weekly Gold market breakdown with institutional analysis</p>
+                        <a href="${w.videoUrl}" target="_blank" class="payhip-btn" style="background-color: #FF0000; color: white; border: none; text-align: center; display: block; text-decoration: none; padding: 15px;">
+                            ▶️ Watch Gold War Room ${w.episode}
+                        </a>
+                        <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px;">(Opens in YouTube app)</p>
+                    </div>
+                    <div class="card">
+                        <h3> This Week's Battle</h3>
+                        <div class="fib-level"><span>Theme</span> <span class="price">${w.theme}</span></div>
+                        <div class="fib-level"><span>Bias</span> <span class="price">${w.bias}</span></div>
+                        <div class="fib-level golden-zone"><span>Liquidity Zone</span> <span class="price">${w.liquidityZone}</span></div>
+                        <div class="fib-level"><span>Macro Target</span> <span class="price">${w.macroTarget}</span></div>
+                    </div>
+                    <div class="card rule-card">
+                        <h3>⚠️ War Room Rule</h3>
+                        <p class="rule-text">${w.rule}</p>
+                    </div>
+                `;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading War Room:', error);
+    }
+}
+
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.tool-screen').forEach(screen => screen.style.display = 'none');
     document.getElementById('premium-modal').style.display = 'none';
     
     loadDailyBriefing();
+    loadWeeklyRoadmap(); 
+    loadWarRoom();       
+    
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('trade-date').value = today;
 });
