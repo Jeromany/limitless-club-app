@@ -68,14 +68,25 @@ function calculateFib() {
     }
 
     const diff = high - low;
-    const lvl0 = currentDirection === 'long' ? low : high;
-    const lvl100 = currentDirection === 'long' ? high : low;
-
-    document.getElementById('lvl-0').innerText = lvl0.toFixed(2);
-    document.getElementById('lvl-50').innerText = (lvl0 + diff * 0.5).toFixed(2);
-    document.getElementById('lvl-618').innerText = (lvl0 + diff * 0.618).toFixed(2);
-    document.getElementById('lvl-718').innerText = (lvl0 + diff * 0.718).toFixed(2);
-    document.getElementById('lvl-100').innerText = lvl100.toFixed(2);
+    
+    // Standard TradingView Logic
+    if (currentDirection === 'long') {
+        // Long setup: Draw from High down to Low. 
+        // 0% is the High, 100% is the Low.
+        document.getElementById('lvl-0').innerText = high.toFixed(2);
+        document.getElementById('lvl-50').innerText = (high - diff * 0.5).toFixed(2);
+        document.getElementById('lvl-618').innerText = (high - diff * 0.618).toFixed(2);
+        document.getElementById('lvl-718').innerText = (high - diff * 0.718).toFixed(2);
+        document.getElementById('lvl-100').innerText = low.toFixed(2);
+    } else {
+        // Short setup: Draw from Low up to High.
+        // 0% is the Low, 100% is the High.
+        document.getElementById('lvl-0').innerText = low.toFixed(2);
+        document.getElementById('lvl-50').innerText = (low + diff * 0.5).toFixed(2);
+        document.getElementById('lvl-618').innerText = (low + diff * 0.618).toFixed(2);
+        document.getElementById('lvl-718').innerText = (low + diff * 0.718).toFixed(2);
+        document.getElementById('lvl-100').innerText = high.toFixed(2);
+    }
 
     document.getElementById('fib-results').style.display = 'block';
 }
