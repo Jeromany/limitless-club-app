@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-08-04T12:00:00Z",
+  "gold": {
+    "currentPrice": 4032.48,
+    "priceChangePercent": 0.05,
+    "support": 3964.20,
+    "resistance": 4199.70,
+    "fib618": 4109.74,
+    "bias": "bearish",
+    "analysis": "Awaiting first automated run from GitHub Actions."
+  }
+}
