@@ -53,18 +53,19 @@ def get_ai_analysis(price, change):
 price, change = get_gold_data()
 analysis = get_ai_analysis(price, change)
 
-briefing = {
-    "timestamp": datetime.utcnow().isoformat(),
-    "gold": {
-        "currentPrice": price,
-        "priceChangePercent": change,
-        "support": 3964.20,
-        "resistance": 4199.70,
-        "fib618": 4109.74,
-        "bias": "bearish",
-        "analysis": analysis
+    briefing = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "gold": {
+            "currentPrice": price,
+            "priceChangePercent": change,
+            "support": 3964.20,
+            "resistance": 4199.70,
+            "fib618": 4109.74,
+            "bias": "bearish",
+            "macroTarget": 3200.00,  # <--- ADD THIS LINE
+            "analysis": analysis
+        }
     }
-}
 
 with open('daily-briefing.json', 'w') as f:
     json.dump(briefing, f, indent=2)
