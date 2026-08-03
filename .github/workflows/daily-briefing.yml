@@ -2,8 +2,11 @@ name: Daily Gold Briefing
 
 on:
   schedule:
-    - cron: '0 12 * * *' # Runs at 12:00 UTC (8:00 AM EST) every day
-  workflow_dispatch: # Allows you to run it manually for testing
+    - cron: '0 12 * * *' # Runs at 12:00 UTC (8:00 AM EST)
+  workflow_dispatch: # Allows manual runs
+
+permissions:
+  contents: write # <--- THIS FIXES THE 403 PERMISSION ERROR
 
 jobs:
   update-briefing:
