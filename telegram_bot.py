@@ -7,7 +7,7 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 GITHUB_JSON_URL = "https://raw.githubusercontent.com/jeromany/limitless-club-app/main/daily-briefing.json"
 
 # --- PAYMENT GATEWAY ---
-NOWPAYMENTS_API_KEY = "P3N58GH-RD448ET-PVEVA05-3TGZF8Q" # PASTE YOUR KEY HERE
+NOWPAYMENTS_API_KEY = os.environ.get("NOWPAYMENTS_API_KEY")
 
 def create_crypto_invoice():
     """Creates a $97 invoice on NOWPayments and returns the payment link"""
@@ -39,7 +39,7 @@ def create_crypto_invoice():
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Welcome to Limitless Journeys! 🌍\n\n"
+        "Welcome to Limitless Journeys! \n\n"
         "I am Jasai, your AI trading assistant.\n\n"
         "Use these commands:\n"
         "/briefing - Get the daily Gold market briefing\n"
@@ -78,10 +78,10 @@ async def get_price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data and 'gold' in data:
         await update.message.reply_text(f"💰 Current Gold Price: ${data['gold']['currentPrice']}")
     else:
-        await update.message.reply_text("⚠️ Price data unavailable right now.")
+        await update.message.reply_text("️ Price data unavailable right now.")
 
 async def buy_access(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🔐 Processing your request for Lifetime Access...")
+    await update.message.reply_text(" Processing your request for Lifetime Access...")
     link = create_crypto_invoice()
     
     if link:
@@ -101,8 +101,8 @@ async def buy_access(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def run_telegram_bot():
     TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
     if not TOKEN:
-        # Fallback for local testing if env var isn't set
-        TOKEN = "YOUR_TELEGRAM_BOT_TOKEN_HERE" 
+        print("❌ ERROR: TELEGRAM_BOT_TOKEN not found!")
+        return
         
     application = ApplicationBuilder().token(TOKEN).build()
     application.add_handler(CommandHandler("start", start))
@@ -111,7 +111,7 @@ def run_telegram_bot():
     application.add_handler(CommandHandler("price", get_price))
     application.add_handler(CommandHandler("buy", buy_access))
     
-    print("🤖 Jasai Telegram Bot is listening...")
+    print(" Jasai Telegram Bot is listening...")
     application.run_polling()
 
 if __name__ == '__main__':
