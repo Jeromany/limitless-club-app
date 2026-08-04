@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-08-04T16:39:52.976875",
+  "timestamp": "2026-08-04T17:06:50.556861",
   "gold": {
-    "currentPrice": 4086.1,
+    "currentPrice": 4106.1,
     "priceChangePercent": 0.05,
     "support": 3964.2,
     "resistance": 4199.7,
     "fib618": 4109.74,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a continued consolidation phase, with the EMA stack indicating a potential bearish divergence. The Asian session range has been relatively narrow, but we expect increased volatility as the day progresses. A liquidity sweep is necessary to gauge market sentiment before entering any positions. Our macro bearish bias remains intact, targeting a potential retest of the 3200 line."
+    "analysis": "The current market dynamics suggest a cautious approach as the 50-day EMA and 200-day EMA stack remains in a bearish alignment. The Asian session range has been relatively narrow, indicating a lack of conviction among market participants. A liquidity sweep is necessary to gauge the true market sentiment before considering any entry points. Our macro bearish bias remains intact, targeting a potential retest of the 3200 line."
   }
 }
