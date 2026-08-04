@@ -296,7 +296,7 @@
     async function loadBriefing() {
         try {
             // Fetches the file we just generated via GitHub Actions
-            const response = await fetch('https://raw.githubusercontent.com/jeromany/limitless-club-app/main/daily-briefing.json');
+            const response = await fetch('https://raw.githubusercontent.com/jeromany/limitless-club-app/main/daily-briefing.json?t=' + new Date().getTime());
             const data = await response.json();
             
             const gold = data.gold;
