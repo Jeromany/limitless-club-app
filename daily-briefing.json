@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-03T19:07:50.829275",
+  "timestamp": "2026-08-04T14:22:52.968635",
   "gold": {
     "currentPrice": 4032.48,
     "priceChangePercent": 0.05,
@@ -7,6 +7,7 @@
     "resistance": 4199.7,
     "fib618": 4109.74,
     "bias": "bearish",
-    "analysis": "Gold is currently trading at $4032.48, maintaining a macro bearish bias. The 20-period EMA ($4054.12) and 50-period EMA ($4035.65) are in a bearish crossover, reinforcing the downtrend. A liquidity sweep below the 61.8% Golden Zone ($4109.74) would be required before considering a short entry targeting the key support at $3964.20."
+    "macroTarget": 3200.0,
+    "analysis": "The current price action is being influenced by the 50-day EMA, which is currently at $4039.23, and the 200-day EMA at $4043.15, both of which are providing resistance to further upside momentum. The Asian session range has been relatively narrow, but we expect a liquidity sweep to be necessary before any meaningful buying interest can be established. Our macro bearish bias remains intact, with a target of $4000 in sight."
   }
 }
