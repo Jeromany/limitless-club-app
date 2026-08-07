@@ -20,13 +20,13 @@ COL_BEAR = "#CD7F32"
 COL_EMA20 = "#FFD700"
 COL_EMA50 = "#E8C547"
 
-# ---------------- DATA (multi-source) ----------------
+# ---------------- DATA (futures-first, multi-source) ----------------
 def fetch_chart_payload():
     urls = [
-        "https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo",
-        "https://query2.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo",
         "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo",
-        "https://query2.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo"
+        "https://query2.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo",
+        "https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo",
+        "https://query2.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo"
     ]
     last_err = None
     for u in urls:
@@ -52,8 +52,11 @@ def get_gold_series():
             continue
         candles.append({"date": datetime.fromtimestamp(t, tz=timezone.utc).strftime("%m-%d"),
                         "o": o, "h": h, "l": l, "c": c})
-    price = round(meta["regularMarketPrice"], 2)
-    prev = meta["previousClose"]
+    if not candles:
+        raise Exception("Empty candle series")
+    price = round(meta.get("regularMarketPrice") or candles[-1]["c"], 2)
+    prev = (meta.get("previousClose") or meta.get("chartPreviousClose")
+            or (candles[-2]["c"] if len(candles) >= 2 else price))
     change = round(((price - prev) / prev) * 100, 2)
     return candles, price, change
 
