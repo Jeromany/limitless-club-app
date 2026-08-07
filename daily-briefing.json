@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-08-07T05:18:38.084958+00:00",
+  "timestamp": "2026-08-07T05:48:41.224158+00:00",
   "gold": {
-    "currentPrice": 4324.0,
-    "priceChangePercent": -8.0,
+    "currentPrice": 4332.9,
+    "priceChangePercent": 2.14,
     "support": 3962.5,
-    "resistance": 4328.4,
-    "fib618": 4188.63,
+    "resistance": 4336.6,
+    "fib618": 4193.69,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a bearish momentum, as the EMA stack continues to slope downward, reinforcing the overall downtrend. We anticipate a potential range contraction during the Asian session, which may provide a liquidity sweep opportunity for strategic entry points. A successful entry will require a clear understanding of the market's liquidity profile and a well-executed trade plan. Our macro bearish bias remains intact, targeting a key support level in the vicinity of 3200."
+    "analysis": "The current market dynamics suggest a need for caution as the price action is being influenced by the short-term EMA stack, which is currently in a state of flux. In the Asian session, we observed a narrow trading range, indicating a lack of conviction among market participants. Before entering any positions, it is essential to conduct a thorough liquidity sweep to gauge the depth of the market. This will provide a more accurate assessment of the market's underlying strength."
   }
 }
