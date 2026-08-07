@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-08-07T04:10:58.460946+00:00",
+  "timestamp": "2026-08-07T04:28:27.738785+00:00",
   "gold": {
-    "currentPrice": 4266.0,
-    "priceChangePercent": 0.05,
+    "currentPrice": 4322.4,
+    "priceChangePercent": -8.03,
     "support": 3964.2,
     "resistance": 4199.7,
     "fib618": 4109.74,
