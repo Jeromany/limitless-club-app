@@ -20,12 +20,29 @@ COL_BEAR = "#CD7F32"
 COL_EMA20 = "#FFD700"
 COL_EMA50 = "#E8C547"
 
-# ---------------- DATA ----------------
+# ---------------- DATA (multi-source) ----------------
+def fetch_chart_payload():
+    urls = [
+        "https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo",
+        "https://query2.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo",
+        "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo",
+        "https://query2.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo"
+    ]
+    last_err = None
+    for u in urls:
+        try:
+            r = requests.get(u, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+            r.raise_for_status()
+            print("✅ Data source:", u)
+            return r.json()["chart"]["result"][0]
+        except Exception as e:
+            last_err = e
+            print("⚠️ Source failed:", u, "-", e)
+    raise last_err
+
+
 def get_gold_series():
-    url = "https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo"
-    r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
-    r.raise_for_status()
-    res = r.json()["chart"]["result"][0]
+    res = fetch_chart_payload()
     meta = res["meta"]
     ts = res["timestamp"]
     q = res["indicators"]["quote"][0]
@@ -182,7 +199,7 @@ if __name__ == "__main__":
     try:
         candles, price, change = get_gold_series()
     except Exception as e:
-        print("Yahoo failed:", e)
+        print("❌ All data sources failed:", e)
         candles, price, change = [], 4266.0, 0.05
 
     analysis = get_ai_analysis(price, change)
