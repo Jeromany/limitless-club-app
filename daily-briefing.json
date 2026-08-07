@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-06T14:19:30.629109",
+  "timestamp": "2026-08-07T04:10:58.460946+00:00",
   "gold": {
     "currentPrice": 4266.0,
     "priceChangePercent": 0.05,
@@ -8,6 +8,6 @@
     "fib618": 4109.74,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a cautious approach as the Asian session range has been relatively narrow, indicating a lack of conviction among market participants. A liquidity sweep may be necessary to gauge the true sentiment before considering any entry points. Our EMA stack remains bearish, reinforcing the notion that a downward correction is imminent. A failure to break above the 61.8% Golden Zone could accelerate the decline towards our target."
+    "analysis": "AI analysis unavailable: 'GROQ_API_KEY'"
   }
 }
