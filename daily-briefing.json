@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-08-07T04:28:27.738785+00:00",
+  "timestamp": "2026-08-07T05:01:26.539075+00:00",
   "gold": {
-    "currentPrice": 4322.4,
-    "priceChangePercent": -8.03,
-    "support": 3964.2,
-    "resistance": 4199.7,
-    "fib618": 4109.74,
+    "currentPrice": 4324.8,
+    "priceChangePercent": -7.98,
+    "support": 3962.5,
+    "resistance": 4328.4,
+    "fib618": 4188.63,
     "bias": "bearish",
     "macroTarget": 3200.0,
     "analysis": "AI analysis unavailable: 'GROQ_API_KEY'"
