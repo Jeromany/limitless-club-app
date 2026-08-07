@@ -51,9 +51,8 @@ def get_gold_series():
     if not candles:
         raise Exception("Empty candle series")
     price = round(meta.get("regularMarketPrice") or candles[-1]["c"], 2)
-    prev = (meta.get("previousClose") or meta.get("chartPreviousClose")
-            or (candles[-2]["c"] if len(candles) >= 2 else price))
-    change = round(((price - prev) / prev) * 100, 2)
+    prev_close = candles[-2]["c"] if len(candles) >= 2 else (meta.get("previousClose") or price)
+    change = round(((price - prev_close) / prev_close) * 100, 2)
     return candles, price, change
 
 
