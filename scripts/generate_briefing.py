@@ -9,11 +9,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # ---------------- BRAND CONSTANTS ----------------
-SUPPORT = 3964.20
-RESISTANCE = 4199.70
-FIB618 = 4109.74
 MACRO_TARGET = 3200.00
-
 COL_BG = "#000000"
 COL_BULL = "#FFFFFF"
 COL_BEAR = "#CD7F32"
@@ -61,11 +57,19 @@ def get_gold_series():
     return candles, price, change
 
 
-def get_ai_analysis(price, change):
+def compute_levels(candles, window=30):
+    w = candles[-window:]
+    support = round(min(c["l"] for c in w), 2)
+    resistance = round(max(c["h"] for c in w), 2)
+    fib618 = round(support + 0.618 * (resistance - support), 2)
+    return support, resistance, fib618
+
+
+def get_ai_analysis(price, change, support, resistance, fib618):
     try:
         sign = "+" if change > 0 else ""
         prompt = f"""You are Jeremy Romany, a professional institutional gold trader and founder of Limitless Journeys Club.
-        Current Data: Gold is at ${price} ({sign}{change}%). Key Support: ${SUPPORT}. Key Resistance: ${RESISTANCE}. 61.8% Golden Zone: ${FIB618}.
+        Current Data: Gold is at ${price} ({sign}{change}%). Key Support: ${support}. Key Resistance: ${resistance}. 61.8% Golden Zone: ${fib618}.
 
         Task: Write exactly 3 to 4 sentences of market analysis.
 
@@ -87,7 +91,7 @@ def get_ai_analysis(price, change):
         return f"AI analysis unavailable: {e}"
 
 
-# ---------------- CHART ENGINE v2 ----------------
+# ---------------- CHART ENGINE v3 ----------------
 def ema(vals, n):
     out = []
     k = 2 / (n + 1)
@@ -98,7 +102,7 @@ def ema(vals, n):
     return out
 
 
-def render_chart(candles, path="chart.png"):
+def render_chart(candles, support, resistance, fib618, path="chart.png"):
     closes = [c["c"] for c in candles]
     e20 = ema(closes, 20)
     e50 = ema(closes, 50)
@@ -108,23 +112,38 @@ def render_chart(candles, path="chart.png"):
     fig.patch.set_facecolor(COL_BG)
     ax.set_facecolor(COL_BG)
 
+    lo = min(min(c["l"] for c in candles), support, fib618)
+    hi = max(max(c["h"] for c in candles), resistance)
+    pad = (hi - lo) * 0.05
+    lo_p, hi_p = lo - pad, hi + pad
+
+    # Brand watermark BEHIND everything - never blocks a candle
+    for name in ("logo.png", "logo.jpg", "assets/logo.png", "assets/logo.jpg"):
+        if os.path.exists(name):
+            try:
+                logo = Image.open(name).convert("RGBA")
+                mid = (lo_p + hi_p) / 2
+                span = hi_p - lo_p
+                ax.imshow(logo, extent=(n * 0.28, n * 0.72, mid - span * 0.22, mid + span * 0.22),
+                          alpha=0.20, zorder=0, aspect="auto")
+            except Exception as e:
+                print("Logo skipped:", e)
+            break
+
     for i, c in enumerate(candles):
         bull = c["c"] >= c["o"]
         col = COL_BULL if bull else COL_BEAR
         ax.vlines(i, c["l"], c["h"], color=col, linewidth=0.9)
-        lo, hi = min(c["o"], c["c"]), max(c["o"], c["c"])
-        ax.bar(i, max(hi - lo, 0.01), bottom=lo, width=0.6, color=col, edgecolor=col, linewidth=0.9)
+        blo, bhi = min(c["o"], c["c"]), max(c["o"], c["c"])
+        ax.bar(i, max(bhi - blo, 0.01), bottom=blo, width=0.6, color=col, edgecolor=col, linewidth=0.9)
 
     ax.plot(range(n), e20, color=COL_EMA20, linewidth=1.2, label="20 EMA")
     ax.plot(range(n), e50, color=COL_EMA50, linewidth=1.2, linestyle="--", label="50 EMA")
-    ax.hlines(SUPPORT, -1, n, colors=COL_EMA20, linestyles="--", linewidth=1.0, label=f"Support ${SUPPORT}")
-    ax.hlines(RESISTANCE, -1, n, colors=COL_BEAR, linestyles="--", linewidth=1.0, label=f"Resistance ${RESISTANCE}")
-    ax.hlines(FIB618, -1, n, colors=COL_BULL, linestyles=":", linewidth=1.0, label=f"Fib 61.8% ${FIB618}")
+    ax.hlines(support, -1, n, colors=COL_EMA20, linestyles="--", linewidth=1.0, label=f"Support ${support}")
+    ax.hlines(resistance, -1, n, colors=COL_BEAR, linestyles="--", linewidth=1.0, label=f"Resistance ${resistance}")
+    ax.hlines(fib618, -1, n, colors=COL_BULL, linestyles=":", linewidth=1.0, label=f"Fib 61.8% ${fib618}")
 
-    lo = min(min(c["l"] for c in candles), SUPPORT, FIB618)
-    hi = max(max(c["h"] for c in candles), RESISTANCE)
-    pad = (hi - lo) * 0.05
-    ax.set_ylim(lo - pad, hi + pad)
+    ax.set_ylim(lo_p, hi_p)
     ax.set_xlim(-1, n)
 
     ax.yaxis.set_label_position("right")
@@ -138,20 +157,9 @@ def render_chart(candles, path="chart.png"):
     ax.grid(alpha=0.15, color="#888888")
 
     ax.set_title("XAU/USD - Daily | Limitless Journeys", color=COL_EMA20, fontsize=12, pad=10)
-    leg = ax.legend(loc="upper left", fontsize=7.5, frameon=False)
+    leg = ax.legend(loc="upper right", fontsize=7.5, frameon=False)
     for t in leg.get_texts():
         t.set_color(COL_BULL)
-
-    for name in ("logo.png", "logo.jpg", "assets/logo.png", "assets/logo.jpg"):
-        if os.path.exists(name):
-            try:
-                logo = Image.open(name).convert("RGBA")
-                axl = fig.add_axes([0.70, 0.05, 0.26, 0.26], anchor="SE", zorder=5)
-                axl.axis("off")
-                axl.imshow(logo, alpha=0.95)
-            except Exception as e:
-                print("Logo skipped:", e)
-            break
 
     fig.savefig(path, facecolor=COL_BG)
     plt.close(fig)
@@ -205,16 +213,22 @@ if __name__ == "__main__":
         print("❌ All data sources failed:", e)
         candles, price, change = [], 4266.0, 0.05
 
-    analysis = get_ai_analysis(price, change)
+    if candles:
+        support, resistance, fib618 = compute_levels(candles)
+    else:
+        support, resistance, fib618 = 3964.20, 4199.70, 4109.74
+    print(f"✅ Dynamic levels - S:{support} R:{resistance} F:{fib618}")
+
+    analysis = get_ai_analysis(price, change, support, resistance, fib618)
 
     briefing = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "gold": {
             "currentPrice": price,
             "priceChangePercent": change,
-            "support": SUPPORT,
-            "resistance": RESISTANCE,
-            "fib618": FIB618,
+            "support": support,
+            "resistance": resistance,
+            "fib618": fib618,
             "bias": "bearish",
             "macroTarget": MACRO_TARGET,
             "analysis": analysis
@@ -232,13 +246,13 @@ if __name__ == "__main__":
         "🎯 Macro Target: $3,200 (Moody's Gap)\n\n"
         f"📝 Analysis:\n{analysis}\n\n"
         "🛡️ Key Levels:\n"
-        f"- Support: ${SUPPORT}\n"
-        f"- Resistance: ${RESISTANCE}\n"
-        f"- 61.8% Fib: ${FIB618}"
+        f"- Support: ${support}\n"
+        f"- Resistance: ${resistance}\n"
+        f"- 61.8% Fib: ${fib618}"
     )
 
     if len(candles) >= 2:
-        render_chart(candles)
+        render_chart(candles, support, resistance, fib618)
         post_telegram(caption, "chart.png")
         post_discord(caption + load_promo(), "chart.png")
     else:
