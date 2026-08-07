@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-08-07T06:01:56.639294+00:00",
+  "timestamp": "2026-08-07T12:01:34.722817+00:00",
   "gold": {
-    "currentPrice": 4338.2,
-    "priceChangePercent": 2.27,
+    "currentPrice": 4384.5,
+    "priceChangePercent": 3.36,
     "support": 3962.5,
-    "resistance": 4338.6,
-    "fib618": 4194.93,
+    "resistance": 4387.1,
+    "fib618": 4224.9,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current price action is being influenced by the 50-day EMA, which is maintaining a bearish slope. We are observing a narrow Asian session range, suggesting a lack of conviction among market participants. A liquidity sweep is necessary to gauge the true market sentiment before considering any entry. Our macro bearish bias remains intact, targeting the 3200 line as a potential support level."
+    "analysis": "The current price action is being influenced by the 20-period EMA, which is trending downwards, reinforcing our macro bearish bias. We are observing a relatively narrow Asian session range, indicating a lack of conviction among market participants. A liquidity sweep is necessary to gauge the true market sentiment before entering any positions. Our focus remains on the key levels, particularly the 61.8% retracement, as a potential pivot point for the next leg down."
   }
 }
