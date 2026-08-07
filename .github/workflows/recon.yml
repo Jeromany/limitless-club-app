@@ -9,4 +9,10 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install requests
-      - run: python scripts/recon.py
+      - name: Run recon with secrets
+        env:
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
+          METALPRICE_API_KEY: ${{ secrets.METALPRICE_API_KEY }}
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+        run: python scripts/recon.py
