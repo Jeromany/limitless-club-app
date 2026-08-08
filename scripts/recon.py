@@ -1,10 +1,22 @@
 import os
 import requests
 
-print("\n=== 🛰️ LIMITLESS JOURNEYS DATA RECON v2 ===")
+print("\n=== 🛰️ LIMITLESS JOURNEYS DATA RECON v4 ===")
 
 def show(name, ok, detail):
     print(f"{'✅' if ok else '❌'} {name}: {detail}")
+
+# 0 Binance PAXG (keyless) - spot proxy, 24/7, OHLC history
+try:
+    r = requests.get("https://api.binance.com/api/v3/klines",
+                     params={"symbol": "PAXGUSDT", "interval": "1d", "limit": 3}, timeout=10)
+    if r.status_code == 200:
+        k = r.json()
+        show("Binance PAXG Spot", True, f"latest close ${float(k[-1][4]):.2f}")
+    else:
+        show("Binance PAXG Spot", False, f"HTTP {r.status_code}")
+except Exception as e:
+    show("Binance PAXG Spot", False, str(e)[:80])
 
 # 1 Yahoo RAW spot (keyless)
 try:
@@ -17,8 +29,8 @@ try:
 except Exception as e:
     show("Yahoo RAW Spot", False, str(e)[:80])
 
-# 2 TwelveData (keyed) - spot OHLC + price
-key = os.environ.get("fe0e1b8963cb434497bc6fe92dc7e65a")
+# 2 TwelveData (keyed)
+key = os.environ.get("TWELVEDATA_API_KEY")
 if key:
     try:
         r = requests.get("https://api.twelvedata.com/time_series",
@@ -33,8 +45,8 @@ if key:
 else:
     show("TwelveData Spot", False, "no key in secrets")
 
-# 3 MetalpriceAPI (keyed) - spot now
-key = os.environ.get("f5914bcc214eab01d2928c669352e519")
+# 3 MetalpriceAPI (keyed)
+key = os.environ.get("METALPRICE_API_KEY")
 if key:
     try:
         r = requests.get("https://api.metalpriceapi.com/v1/latest",
@@ -49,8 +61,8 @@ if key:
 else:
     show("MetalpriceAPI Spot", False, "no key in secrets")
 
-# 4 Alpha Vantage (keyed) - spot now
-key = os.environ.get("VEWK52O07C1UW6FX")
+# 4 Alpha Vantage (keyed)
+key = os.environ.get("ALPHAVANTAGE_API_KEY")
 if key:
     try:
         r = requests.get("https://www.alphavantage.co/query",
@@ -63,8 +75,8 @@ if key:
 else:
     show("AlphaVantage Spot", False, "no key in secrets")
 
-# 5 Finnhub (keyed) - spot now
-key = os.environ.get("d8t18p9r01qh5rf0tkp0d8t18p9r01qh5rf0tkpg")
+# 5 Finnhub (keyed)
+key = os.environ.get("FINNHUB_API_KEY")
 if key:
     try:
         r = requests.get("https://finnhub.io/api/v1/quote",
@@ -76,7 +88,7 @@ if key:
 else:
     show("Finnhub Spot", False, "no key in secrets")
 
-# 6 Gold-API (keyless) - spot now
+# 6 Gold-API (keyless)
 try:
     r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
     if r.status_code == 200:
@@ -86,4 +98,4 @@ try:
 except Exception as e:
     show("Gold-API Spot", False, str(e)[:80])
 
-print("\n=== 🛰️ END RECON v2 ===\n")
+print("\n=== 🛰️ END RECON v4 ===\n")
