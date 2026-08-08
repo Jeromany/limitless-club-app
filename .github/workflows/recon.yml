@@ -9,6 +9,17 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install requests
+      - name: Env diagnostic
+        env:
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
+          METALPRICE_API_KEY: ${{ secrets.METALPRICE_API_KEY }}
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+        run: |
+          echo "TD length: ${#TWELVEDATA_API_KEY}"
+          echo "MP length: ${#METALPRICE_API_KEY}"
+          echo "AV length: ${#ALPHAVANTAGE_API_KEY}"
+          echo "FH length: ${#FINNHUB_API_KEY}"
       - name: Run recon with secrets
         env:
           TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
