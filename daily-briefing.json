@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-08-09T02:00:06.977645+00:00",
+  "timestamp": "2026-08-09T02:38:25.055959+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4342.26,
-    "priceChangePercent": 0.0,
+    "currentPrice": 4342.23,
+    "priceChangePercent": -0.0,
     "support": 3961.81,
     "resistance": 4371.01,
     "fib618": 4214.7,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a need for caution as the EMA stack remains in a neutral alignment. The Asian session range has been relatively tight, indicating a lack of directional momentum. A liquidity sweep is necessary before considering any entry, given the potential for a sudden shift in market sentiment. From a macro perspective, the bearish bias remains intact, with a focus on targeting the key support levels."
+    "analysis": "The current market dynamics suggest a potential short-term consolidation phase, with the EMA stack indicating a slight divergence in momentum. We will be monitoring the Asian session range for a clear indication of direction, with a focus on a liquidity sweep before entry to gauge market participation. A failure to break above the key resistance level could lead to a retest of the 61.8% Golden Zone, setting the stage for a more significant decline."
   }
 }
