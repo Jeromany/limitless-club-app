@@ -174,31 +174,46 @@ def render_chart(candles, support, resistance, fib618, path="chart.png"):
 
     fig.savefig(path, facecolor=COL_BG)
     plt.close(fig)
-    print("✅ Chart rendered:", path)
+    print("✅ Chart rendered:", chart_path) if False else print("✅ Chart rendered:", path)
 
-# ---------------- DELIVERY ----------------
+# ---------------- DELIVERY (dual broadcast) ----------------
 def post_telegram(text, img):
+    targets = []
     tok = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat = os.environ.get("TELEGRAM_CHAT_ID")
-    if not tok or not chat:
+    if tok and chat:
+        targets.append(("staging", tok, chat))
+    tokp = os.environ.get("TELEGRAM_BOT_TOKEN_PROD")
+    chatp = os.environ.get("TELEGRAM_CHAT_ID_PROD")
+    if tokp and chatp:
+        targets.append(("production", tokp, chatp))
+    if not targets:
         print("⚠️ Telegram secrets missing - skipping")
         return
-    with open(img, "rb") as f:
-        r = requests.post(f"https://api.telegram.org/bot{tok}/sendPhoto",
-                          data={"chat_id": chat, "caption": text[:1024]},
-                          files={"photo": f}, timeout=30)
-    print("Telegram post:", r.status_code)
+    for name, t, c in targets:
+        with open(img, "rb") as f:
+            r = requests.post(f"https://api.telegram.org/bot{t}/sendPhoto",
+                              data={"chat_id": c, "caption": text[:1024]},
+                              files={"photo": f}, timeout=30)
+        print(f"Telegram {name} post:", r.status_code)
 
 def post_discord(text, img):
-    url = os.environ.get("DISCORD_WEBHOOK_URL")
-    if not url:
-        print("⚠️ Discord webhook missing - skipping")
+    targets = []
+    lab = os.environ.get("DISCORD_WEBHOOK_URL")
+    if lab:
+        targets.append(("lab", lab))
+    prod = os.environ.get("DISCORD_WEBHOOK_PROD")
+    if prod:
+        targets.append(("production", prod))
+    if not targets:
+        print("⚠️ Discord webhooks missing - skipping")
         return
-    with open(img, "rb") as f:
-        r = requests.post(url,
-                          data={"content": text[:2000], "username": "Limitless Journeys Bot"},
-                          files={"file": (img, f, "image/png")}, timeout=30)
-    print("Discord post:", r.status_code)
+    for name, url in targets:
+        with open(img, "rb") as f:
+            r = requests.post(url,
+                              data={"content": text[:2000], "username": "Limitless Journeys Bot"},
+                              files={"file": (img, f, "image/png")}, timeout=30)
+        print(f"Discord {name} post:", r.status_code)
 
 def load_promo():
     try:
