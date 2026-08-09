@@ -26,6 +26,7 @@ jobs:
       - name: Generate briefing + chart + posts
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -35,7 +36,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add daily-briefing.json
+          git add daily-briefing.json briefing.json
           if [ -f chart.png ]; then git add chart.png; fi
           git commit -m "Auto-update daily briefing" || echo "Nothing to commit"
           git push || echo "Push skipped"
