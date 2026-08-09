@@ -1,13 +1,14 @@
 {
-  "timestamp": "2026-08-08T12:01:14.969684+00:00",
+  "timestamp": "2026-08-09T00:12:31.449945+00:00",
+  "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4399.7,
-    "priceChangePercent": 3.72,
-    "support": 3962.5,
-    "resistance": 4371.5,
-    "fib618": 4215.26,
+    "currentPrice": 4342.34,
+    "priceChangePercent": 0.0,
+    "support": 3961.81,
+    "resistance": 4371.01,
+    "fib618": 4214.7,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current price action suggests a brief reprieve from the downward trajectory, with the EMA stack maintaining a bearish bias. The Asian session range has been relatively narrow, indicating a lack of significant directional momentum. In anticipation of a potential liquidity sweep, I recommend caution before entering any positions, as this may provide a clearer indication of market sentiment. A sustained break above the 61.8% Golden Zone would be required to alter our macro bearish outlook."
+    "analysis": "The current market dynamics suggest a need for caution as the price oscillates within a narrow range. A liquidity sweep is essential to gauge market sentiment before entering any trades, particularly given the proximity to key resistance levels. The EMA stack remains bearish, reinforcing our macro bearish bias. A decisive break below the current range could trigger a more significant decline towards our target zone."
   }
 }
