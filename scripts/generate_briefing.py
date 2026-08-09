@@ -15,46 +15,63 @@ COL_BULL = "#FFFFFF"
 COL_BEAR = "#CD7F32"
 COL_EMA20 = "#FFD700"
 COL_EMA50 = "#E8C547"
+REPO = "jeromany/limitless-club-app"
 
-# ---------------- DATA (futures-first, multi-source) ----------------
-def fetch_chart_payload():
+# ---------------- DATA: PRIMARY (TwelveData spot) ----------------
+def fetch_twelvedata():
+    key = os.environ.get("TWELVEDATA_API_KEY")
+    if not key:
+        raise Exception("TWELVEDATA_API_KEY missing")
+    r = requests.get("https://api.twelvedata.com/time_series",
+                     params={"symbol": "XAU/USD", "interval": "1day", "outputsize": 90, "apikey": key},
+                     timeout=15)
+    r.raise_for_status()
+    d = r.json()
+    if "values" not in d:
+        raise Exception(str(d)[:120])
+    vals = list(reversed(d["values"]))
+    candles = [{"date": v["datetime"][5:],
+                "o": float(v["open"]), "h": float(v["high"]),
+                "l": float(v["low"]), "c": float(v["close"])} for v in vals]
+    if not candles:
+        raise Exception("Empty TwelveData series")
+    return candles
+
+# ---------------- DATA: FALLBACK (futures, flagged) ----------------
+def fetch_yahoo_futures():
     urls = [
         "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo",
-        "https://query2.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo",
-        "https://query1.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo",
-        "https://query2.finance.yahoo.com/v8/finance/chart/XAUUSD=X?interval=1d&range=3mo"
+        "https://query2.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=3mo"
     ]
-    last_err = None
+    last = None
     for u in urls:
         try:
             r = requests.get(u, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
             r.raise_for_status()
-            print("✅ Data source:", u)
-            return r.json()["chart"]["result"][0]
+            res = r.json()["chart"]["result"][0]
+            ts = res["timestamp"]
+            q = res["indicators"]["quote"][0]
+            candles = []
+            for t, o, h, l, c in zip(ts, q["open"], q["high"], q["low"], q["close"]):
+                if None in (o, h, l, c):
+                    continue
+                candles.append({"date": datetime.fromtimestamp(t, tz=timezone.utc).strftime("%m-%d"),
+                                "o": o, "h": h, "l": l, "c": c})
+            if candles:
+                return candles
         except Exception as e:
-            last_err = e
-            print("⚠️ Source failed:", u, "-", e)
-    raise last_err
+            last = e
+    raise last
 
-
-def get_gold_series():
-    res = fetch_chart_payload()
-    meta = res["meta"]
-    ts = res["timestamp"]
-    q = res["indicators"]["quote"][0]
-    candles = []
-    for t, o, h, l, c in zip(ts, q["open"], q["high"], q["low"], q["close"]):
-        if None in (o, h, l, c):
-            continue
-        candles.append({"date": datetime.fromtimestamp(t, tz=timezone.utc).strftime("%m-%d"),
-                        "o": o, "h": h, "l": l, "c": c})
-    if not candles:
-        raise Exception("Empty candle series")
-    price = round(meta.get("regularMarketPrice") or candles[-1]["c"], 2)
-    prev_close = candles[-2]["c"] if len(candles) >= 2 else (meta.get("previousClose") or price)
-    change = round(((price - prev_close) / prev_close) * 100, 2)
-    return candles, price, change
-
+# ---------------- DATA: CROSS-CHECK (Gold-API) ----------------
+def fetch_goldapi_price():
+    try:
+        r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
+        if r.status_code == 200:
+            return r.json().get("price")
+    except Exception:
+        pass
+    return None
 
 def compute_levels(candles, window=30):
     w = candles[-window:]
@@ -62,7 +79,6 @@ def compute_levels(candles, window=30):
     resistance = round(max(c["h"] for c in w), 2)
     fib618 = round(support + 0.618 * (resistance - support), 2)
     return support, resistance, fib618
-
 
 def get_ai_analysis(price, change, support, resistance, fib618):
     try:
@@ -89,8 +105,7 @@ def get_ai_analysis(price, change, support, resistance, fib618):
     except Exception as e:
         return f"AI analysis unavailable: {e}"
 
-
-# ---------------- CHART ENGINE v3 ----------------
+# ---------------- CHART ENGINE (approved spec) ----------------
 def ema(vals, n):
     out = []
     k = 2 / (n + 1)
@@ -99,7 +114,6 @@ def ema(vals, n):
         e = v * k + e * (1 - k)
         out.append(e)
     return out
-
 
 def render_chart(candles, support, resistance, fib618, path="chart.png"):
     closes = [c["c"] for c in candles]
@@ -116,7 +130,6 @@ def render_chart(candles, support, resistance, fib618, path="chart.png"):
     pad = (hi - lo) * 0.05
     lo_p, hi_p = lo - pad, hi + pad
 
-    # Brand watermark BEHIND everything - never blocks a candle
     for name in ("logo.png", "logo.jpg", "assets/logo.png", "assets/logo.jpg"):
         if os.path.exists(name):
             try:
@@ -144,7 +157,6 @@ def render_chart(candles, support, resistance, fib618, path="chart.png"):
 
     ax.set_ylim(lo_p, hi_p)
     ax.set_xlim(-1, n)
-
     ax.yaxis.set_label_position("right")
     ax.yaxis.tick_right()
     step = max(1, n // 8)
@@ -164,7 +176,6 @@ def render_chart(candles, support, resistance, fib618, path="chart.png"):
     plt.close(fig)
     print("✅ Chart rendered:", path)
 
-
 # ---------------- DELIVERY ----------------
 def post_telegram(text, img):
     tok = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -178,7 +189,6 @@ def post_telegram(text, img):
                           files={"photo": f}, timeout=30)
     print("Telegram post:", r.status_code)
 
-
 def post_discord(text, img):
     url = os.environ.get("DISCORD_WEBHOOK_URL")
     if not url:
@@ -189,7 +199,6 @@ def post_discord(text, img):
                           data={"content": text[:2000], "username": "Limitless Journeys Bot"},
                           files={"file": (img, f, "image/png")}, timeout=30)
     print("Discord post:", r.status_code)
-
 
 def load_promo():
     try:
@@ -203,25 +212,49 @@ def load_promo():
         pass
     return ""
 
-
 # ---------------- MAIN ----------------
 if __name__ == "__main__":
+    source = "TwelveData spot"
     try:
-        candles, price, change = get_gold_series()
+        candles = fetch_twelvedata()
+        print("✅ Data source: TwelveData XAU/USD spot")
     except Exception as e:
-        print("❌ All data sources failed:", e)
-        candles, price, change = [], 4266.0, 0.05
+        print("⚠️ TwelveData failed:", e)
+        try:
+            candles = fetch_yahoo_futures()
+            source = "GC=F futures proxy"
+            print("⚠️ Using futures proxy fallback")
+        except Exception as e2:
+            print("❌ All candle sources failed:", e2)
+            candles = []
+
+    spot_check = fetch_goldapi_price()
+
+    if candles:
+        price = round(candles[-1]["c"], 2)
+        prev = candles[-2]["c"] if len(candles) >= 2 else price
+        change = round(((price - prev) / prev) * 100, 2)
+    else:
+        price = round(spot_check or 4340.0, 2)
+        change = 0.0
+
+    if spot_check:
+        gap = abs(spot_check - price)
+        print(f"✅ Cross-check: Gold-API ${spot_check:.2f} vs published ${price} (gap ${gap:.2f})")
+        if gap > 8:
+            print("⚠️ Cross-check gap above $8 - review source")
 
     if candles:
         support, resistance, fib618 = compute_levels(candles)
     else:
         support, resistance, fib618 = 3964.20, 4199.70, 4109.74
-    print(f"✅ Dynamic levels - S:{support} R:{resistance} F:{fib618}")
+    print(f"✅ Dynamic levels - S:{support} R:{resistance} F:{fib618} | source: {source}")
 
     analysis = get_ai_analysis(price, change, support, resistance, fib618)
 
     briefing = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "source": source,
         "gold": {
             "currentPrice": price,
             "priceChangePercent": change,
@@ -235,9 +268,20 @@ if __name__ == "__main__":
     }
     with open("daily-briefing.json", "w") as f:
         json.dump(briefing, f, indent=2)
-    print("✅ daily-briefing.json written")
 
     sign = "+" if change > 0 else ""
+    legacy = {
+        "date": datetime.now(timezone.utc).strftime("%A, %B %d, %Y"),
+        "price": f"{price:.2f}",
+        "change": f"{sign}{change}%",
+        "analysis": analysis,
+        "action": f"Watch for a reaction at the 61.8% Fib level (${fib618}) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
+        "chartUrl": f"https://raw.githubusercontent.com/{REPO}/main/chart.png"
+    }
+    with open("briefing.json", "w") as f:
+        json.dump(legacy, f, indent=2)
+    print("✅ daily-briefing.json + briefing.json written (storefront unified)")
+
     caption = (
         "📊 DAILY GOLD BRIEFING\n\n"
         f"💰 Price: ${price} ({sign}{change}%)\n"
