@@ -274,7 +274,7 @@ if __name__ == "__main__":
         if gap > 8:
             print("⚠️ Cross-check gap above $8 - review source")
 
-        if candles:
+    if candles:
         support, resistance, fib618 = compute_levels(candles)
         closes_all = [c["c"] for c in candles]
         ema20 = round(ema(closes_all, 20)[-1], 2)
