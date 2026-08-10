@@ -80,6 +80,21 @@ def compute_levels(candles, window=30):
     fib618 = round(support + 0.618 * (resistance - support), 2)
     return support, resistance, fib618
 
+def rsi(closes, period=14):
+    if len(closes) < period + 2:
+        return 50.0
+    deltas = [closes[i+1] - closes[i] for i in range(len(closes)-1)]
+    gains = [d if d > 0 else 0 for d in deltas]
+    losses = [-d if d < 0 else 0 for d in deltas]
+    avg_g = sum(gains[:period]) / period
+    avg_l = sum(losses[:period]) / period
+    for i in range(period, len(gains)):
+        avg_g = (avg_g * (period - 1) + gains[i]) / period
+        avg_l = (avg_l * (period - 1) + losses[i]) / period
+    if avg_l == 0:
+        return 100.0
+    return round(100 - 100 / (1 + avg_g / avg_l), 2)
+
 def get_ai_analysis(price, change, support, resistance, fib618):
     try:
         sign = "+" if change > 0 else ""
@@ -106,21 +121,6 @@ def get_ai_analysis(price, change, support, resistance, fib618):
         return f"AI analysis unavailable: {e}"
 
 # ---------------- CHART ENGINE (approved spec) ----------------
-def rsi(closes, period=14):
-    if len(closes) < period + 2:
-        return 50.0
-    deltas = [closes[i+1] - closes[i] for i in range(len(closes)-1)]
-    gains = [d if d > 0 else 0 for d in deltas]
-    losses = [-d if d < 0 else 0 for d in deltas]
-    avg_g = sum(gains[:period]) / period
-    avg_l = sum(losses[:period]) / period
-    for i in range(period, len(gains)):
-        avg_g = (avg_g * (period - 1) + gains[i]) / period
-        avg_l = (avg_l * (period - 1) + losses[i]) / period
-    if avg_l == 0:
-        return 100.0
-    return round(100 - 100 / (1 + avg_g / avg_l), 2)
-
 def ema(vals, n):
     out = []
     k = 2 / (n + 1)
@@ -189,7 +189,7 @@ def render_chart(candles, support, resistance, fib618, path="chart.png"):
 
     fig.savefig(path, facecolor=COL_BG)
     plt.close(fig)
-    print("✅ Chart rendered:", chart_path) if False else print("✅ Chart rendered:", path)
+    print("✅ Chart rendered:", path)
 
 # ---------------- DELIVERY (dual broadcast) ----------------
 def post_telegram(text, img):
@@ -274,7 +274,7 @@ if __name__ == "__main__":
         if gap > 8:
             print("⚠️ Cross-check gap above $8 - review source")
 
-        if candles:
+    if candles:
         support, resistance, fib618 = compute_levels(candles)
         closes_all = [c["c"] for c in candles]
         ema20 = round(ema(closes_all, 20)[-1], 2)
