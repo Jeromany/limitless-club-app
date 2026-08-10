@@ -1,8 +1,8 @@
 {
   "date": "Monday, August 10, 2026",
-  "price": "4335.93",
-  "change": "-0.14%",
-  "analysis": "The current market dynamics suggest a cautious approach, as the 50-period EMA is lagging behind the 200-period EMA, indicating a bearish trend. Traders should focus on the Asian session range, where the price tends to consolidate before making a move. A liquidity sweep is necessary to gauge market sentiment before entering any positions. This will help traders navigate the complex market landscape and make informed decisions.",
-  "action": "Watch for a reaction at the 61.8% Fib level ($4214.7) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
+  "price": "4389.77",
+  "change": "+1.1%",
+  "analysis": "The current market dynamics suggest a cautious approach, as the 50-period EMA is trending above the 200-period EMA, indicating a short-term bullish bias. However, we must consider the Asian session range of $4320 to $4500 as a potential area of resistance, which may hinder further upside momentum. A liquidity sweep before entry is crucial to gauge market sentiment and potential trading opportunities. Our macro bearish bias remains intact, targeting key support levels in the coming sessions.",
+  "action": "Watch for a reaction at the 61.8% Fib level ($4229.89) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
   "chartUrl": "https://raw.githubusercontent.com/jeromany/limitless-club-app/main/chart.png"
 }

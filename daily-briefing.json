@@ -1,14 +1,17 @@
 {
-  "timestamp": "2026-08-10T12:01:24.525301+00:00",
+  "timestamp": "2026-08-10T20:59:39.389886+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4335.93,
-    "priceChangePercent": -0.14,
+    "currentPrice": 4389.77,
+    "priceChangePercent": 1.1,
     "support": 3961.81,
-    "resistance": 4371.01,
-    "fib618": 4214.7,
+    "resistance": 4395.6,
+    "fib618": 4229.89,
+    "ema20": 4181.57,
+    "ema50": 4167.09,
+    "rsi14": 74.21,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a cautious approach, as the 50-period EMA is lagging behind the 200-period EMA, indicating a bearish trend. Traders should focus on the Asian session range, where the price tends to consolidate before making a move. A liquidity sweep is necessary to gauge market sentiment before entering any positions. This will help traders navigate the complex market landscape and make informed decisions."
+    "analysis": "The current market dynamics suggest a cautious approach, as the 50-period EMA is trending above the 200-period EMA, indicating a short-term bullish bias. However, we must consider the Asian session range of $4320 to $4500 as a potential area of resistance, which may hinder further upside momentum. A liquidity sweep before entry is crucial to gauge market sentiment and potential trading opportunities. Our macro bearish bias remains intact, targeting key support levels in the coming sessions."
   }
 }
