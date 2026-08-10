@@ -274,16 +274,15 @@ if __name__ == "__main__":
         if gap > 8:
             print("⚠️ Cross-check gap above $8 - review source")
 
-    if candles:
+        if candles:
         support, resistance, fib618 = compute_levels(candles)
         closes_all = [c["c"] for c in candles]
         ema20 = round(ema(closes_all, 20)[-1], 2)
         ema50 = round(ema(closes_all, 50)[-1], 2)
         rsi14 = rsi(closes_all)
     else:
-        ema20, ema50, rsi14 = 0.0, 0.0, 50.0
-    else:
         support, resistance, fib618 = 3964.20, 4199.70, 4109.74
+        ema20, ema50, rsi14 = 0.0, 0.0, 50.0
     print(f"✅ Dynamic levels - S:{support} R:{resistance} F:{fib618} | source: {source}")
 
     analysis = get_ai_analysis(price, change, support, resistance, fib618)
