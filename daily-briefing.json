@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-08-12T12:01:22.964855+00:00",
+  "timestamp": "2026-08-13T12:01:22.993780+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4413.59,
-    "priceChangePercent": 1.05,
+    "currentPrice": 4386.96,
+    "priceChangePercent": -0.5,
     "support": 3961.81,
-    "resistance": 4434.79,
-    "fib618": 4254.11,
-    "ema20": 4219.71,
-    "ema50": 4180.31,
-    "rsi14": 73.58,
+    "resistance": 4449.78,
+    "fib618": 4263.38,
+    "ema20": 4235.25,
+    "ema50": 4188.18,
+    "rsi14": 69.99,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics are influenced by the 50-day and 200-day EMA stack, which remains in a bearish alignment. As we approach the Asian session, we can expect a range-bound environment with potential for a liquidity sweep, making it crucial to assess market conditions before entry. Given the prevailing macro sentiment, we continue to maintain a cautious approach, targeting a potential retest of the 3200 line in the near term."
+    "analysis": "The current market dynamics suggest a bearish bias, with the EMA stack indicating a potential sell signal. Given the Asian session range has been relatively flat, I anticipate a liquidity sweep before entry to gauge market sentiment. A failure to break above the 61.8% Golden Zone could exacerbate the downward momentum, setting the stage for a deeper correction."
   }
 }
