@@ -1,14 +1,47 @@
 import os
+import json
 import requests
+from datetime import datetime, timezone
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 
 # --- THE BRAIN (Single Source of Truth) ---
 GITHUB_JSON_URL = "https://raw.githubusercontent.com/jeromany/limitless-club-app/main/daily-briefing.json"
 
-# --- PAYMENT GATEWAY ---
-NOWPAYMENTS_API_KEY = os.environ.get("NOWPAYMENTS_API_KEY")
+# --- 🔑 KEYS LIVE IN local_secrets.json (NEVER in this file) ---
+def load_local_secrets():
+    try:
+        with open(os.path.join(os.path.dirname(__file__), "local_secrets.json")) as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
+SECRETS = load_local_secrets()
+NOWPAYMENTS_API_KEY = SECRETS.get("NOWPAYMENTS_API_KEY", "")
+TELEGRAM_BOT_TOKEN = SECRETS.get("TELEGRAM_BOT_TOKEN", "")
+
+# --- 💰 LIVE PRICE ENGINE (TwelveData -> Gold-API -> 8AM snapshot) ---
+def fetch_live_gold():
+    key = SECRETS.get("TWELVEDATA_API_KEY", "")
+    if key:
+        try:
+            r = requests.get("https://api.twelvedata.com/price",
+                             params={"symbol": "XAU/USD", "apikey": key}, timeout=8)
+            p = r.json().get("price")
+            if p:
+                return round(float(p), 2), "live spot"
+        except Exception:
+            pass
+    try:
+        r = requests.get("https://api.gold-api.com/price/XAU", timeout=8)
+        p = r.json().get("price")
+        if p:
+            return round(float(p), 2), "live spot"
+    except Exception:
+        pass
+    return None, None
+
+# --- PAYMENT GATEWAY ---
 def create_crypto_invoice():
     """Creates a $97 invoice on NOWPayments and returns the payment link"""
     url = "https://api.nowpayments.io/v1/invoice"
@@ -23,7 +56,7 @@ def create_crypto_invoice():
         "success_url": "https://jeromany.github.io/limitless-club-app/",
         "cancel_url": "https://jeromany.github.io/limitless-club-app/"
     }
-    
+
     try:
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
@@ -36,10 +69,9 @@ def create_crypto_invoice():
         return None
 
 # --- BOT COMMANDS ---
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Welcome to Limitless Journeys! \n\n"
+        "Welcome to Limitless Journeys! 🌍\n\n"
         "I am Jasai, your AI trading assistant.\n\n"
         "Use these commands:\n"
         "/briefing - Get the daily Gold market briefing\n"
@@ -53,8 +85,11 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_briefing(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📡 Fetching the latest intelligence from the Master Briefing...")
-    data = requests.get(GITHUB_JSON_URL, timeout=5).json()
-    
+    try:
+        data = requests.get(GITHUB_JSON_URL, timeout=5).json()
+    except Exception:
+        data = None
+
     if data and 'gold' in data:
         g = data['gold']
         sign = '+' if g['priceChangePercent'] > 0 else ''
@@ -67,23 +102,32 @@ async def get_briefing(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"🛡️ *Key Levels:*\n"
             f"- Support: ${g['support']}\n"
             f"- Resistance: ${g['resistance']}\n"
-            f"- 61.8% Fib: ${g['fib618']}"
+            f"- 61.8% Fib: ${g['fib618']}\n"
+            f"- EMA20: ${g.get('ema20')} | EMA50: ${g.get('ema50')} | RSI: {g.get('rsi14')}"
         )
         await update.message.reply_text(msg, parse_mode='Markdown')
     else:
         await update.message.reply_text("⚠️ Master Briefing is currently updating.")
 
 async def get_price(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    data = requests.get(GITHUB_JSON_URL, timeout=5).json()
-    if data and 'gold' in data:
-        await update.message.reply_text(f"💰 Current Gold Price: ${data['gold']['currentPrice']}")
-    else:
-        await update.message.reply_text("️ Price data unavailable right now.")
+    price, src = fetch_live_gold()
+    if price:
+        ts = datetime.now(timezone.utc).strftime("%H:%M UTC")
+        await update.message.reply_text(f"💰 Current Gold Price: ${price} ({src}, as of {ts})")
+        return
+    try:
+        data = requests.get(GITHUB_JSON_URL, timeout=5).json()
+        if data and 'gold' in data:
+            await update.message.reply_text(f"💰 Current Gold Price: ${data['gold']['currentPrice']} (8 AM briefing snapshot)")
+        else:
+            await update.message.reply_text("⚠️ Price data unavailable right now.")
+    except Exception:
+        await update.message.reply_text("⚠️ Price data unavailable right now.")
 
 async def buy_access(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(" Processing your request for Lifetime Access...")
+    await update.message.reply_text("⏳ Processing your request for Lifetime Access...")
     link = create_crypto_invoice()
-    
+
     if link:
         msg = (
             "🚀 *Limitless Journeys Inner Circle*\n\n"
@@ -99,19 +143,18 @@ async def buy_access(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # --- START THE ENGINE ---
 def run_telegram_bot():
-    TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-    if not TOKEN:
-        print("❌ ERROR: TELEGRAM_BOT_TOKEN not found!")
+    if not TELEGRAM_BOT_TOKEN:
+        print("❌ ERROR: TELEGRAM_BOT_TOKEN missing from local_secrets.json!")
         return
-        
-    application = ApplicationBuilder().token(TOKEN).build()
+
+    application = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("briefing", get_briefing))
     application.add_handler(CommandHandler("price", get_price))
     application.add_handler(CommandHandler("buy", buy_access))
-    
-    print(" Jasai Telegram Bot is listening...")
+
+    print("🤖 Jasai Telegram Bot is listening...")
     application.run_polling()
 
 if __name__ == '__main__':
