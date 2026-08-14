@@ -133,7 +133,7 @@ async def buy_access(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "🚀 *Limitless Journeys Inner Circle*\n\n"
             "You are about to secure 1 of 7 Lifetime Spots.\n"
             "Price: $97 (Crypto)\n\n"
-            "Click the secure link below to complete your payment via Bitcoin, USDT, or Ethereum:\n\n"
+            "Click the secure link below to complete your payment via Bitcoin or USDT (TRC-20):\n\n"
             f"👉 {link}\n\n"
             "Once paid, you will receive instant access to the private Telegram group!"
         )
