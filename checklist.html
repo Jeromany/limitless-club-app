@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <title>The Limitless Gold Checklist</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #FFD700;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        header p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .back-btn {
+            display: inline-block;
+            color: #FFD700;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .checklist-section {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: #FFD700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .check-item:hover { background: #222; }
+        .check-item input[type="checkbox"] {
+            transform: scale(1.4);
+            margin-right: 15px;
+            margin-top: 3px;
+            accent-color: #FFD700;
+            cursor: pointer;
+        }
+        .check-item label {
+            flex: 1;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+        .check-item input:checked + label {
+            text-decoration: line-through;
+            color: #666;
+        }
+        .rule-text {
+            font-size: 0.85rem;
+            color: #FFD700;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            padding-left: 35px;
+            font-weight: bold;
+        }
+        .cta-box {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.05));
+            border: 1px solid #FFD700;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .cta-box h2 {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        .cta-box p {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .cta-btn {
+            display: block;
+            background: #FFD700;
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: transform 0.1s;
+        }
+        .cta-btn:active { transform: scale(0.98); }
+        footer {
+            text-align: center;
+            color: #555;
+            font-size: 0.8rem;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">← Back to App</a>
+
+    <header>
+        <h1>THE LIMITLESS GOLD CHECKLIST</h1>
+        <p>Institutional rules before retail emotion.</p>
+    </header>
+
+    <!-- SECTION 1 -->
+    <div class="checklist-section">
+        <div class="section-title">🌏 1. Asian Session & Liquidity</div>
+        
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c1">
+            <label for="c1">Is the Asian Session (7 PM - 12 AM AST) fully closed?</label>
+        </div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c2">
+            <label for="c2">Has price swept the Asian High or Low to grab liquidity?</label>
+        </div>
+        <p class="rule-text">⚠️ Never enter before the liquidity sweep is complete.</p>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="checklist-section">
+        <div class="section-title">📉 2. Macro Bias (The EMA Stack)</div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c3">
+            <label for="c3">Are the 50 EMA and 200 EMA stacked and trending clearly?</label>
+        </div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c4">
+            <label for="c4">Am I trading in the direction of the daily EMA bias?</label>
+        </div>
+        <p class="rule-text">⚠️ If EMAs are flat or crossing constantly, sit on your hands.</p>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="checklist-section">
+        <div class="section-title">📐 3. The Golden Zone</div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c5">
+            <label for="c5">Is price currently reacting inside the 61.8% - 71.8% Fib zone?</label>
+        </div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c6">
+            <label for="c6">Is this zone aligned with a historical institutional supply/demand level?</label>
+        </div>
+        <p class="rule-text">⚠️ We do not chase price. We wait for price to come to the Golden Zone.</p>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="checklist-section">
+        <div class="section-title">🎯 4. Execution Triggers</div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c7">
+            <label for="c7">Is RSI showing divergence (overbought in an uptrend / oversold in a downtrend)?</label>
+        </div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c8">
+            <label for="c8">Are there any high-impact USD news events in the next 2 hours?</label>
+        </div>
+        <div class="check-item" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="c9">
+            <label for="c9">Is my Stop Loss set beyond the structural invalidation point?</label>
+        </div>
+        <p class="rule-text">⚠️ Patience over participation. We trade the structural reality.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+        <h2>Want the exact setups?</h2>
+        <p>The Limitless Inner Circle gets my daily gold bias, exact entry levels, and direct access to Jasai AI.</p>
+        <a href="https://payhip.com/b/puVSQ" target="_blank" class="cta-btn">Claim 1 of 7 Spots ($97)</a>
+    </div>
+
+    <footer>
+        © 2026 Limitless Journeys Club | Trade Without Limits
+    </footer>
+
+    <script>
+        // Auto-save checkbox states to the user's browser
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            const savedState = localStorage.getItem('limitless_check_' + cb.id);
+            if (savedState === 'true') cb.checked = true;
+            
+            cb.addEventListener('change', () => {
+                localStorage.setItem('limitless_check_' + cb.id, cb.checked);
+            });
+        });
+    </script>
+</body>
+</html>
