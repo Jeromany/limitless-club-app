@@ -23,6 +23,14 @@ function goBack() {
 }
 
 // --- PREMIUM ACCESS ---
+// Per-member passcodes. Add or revoke a member by editing ONE line here.
+// Members who already unlocked keep access (their device stores the premium flag).
+const MEMBER_CODES = {
+    'LIMITLESS2026': 'Master Code',
+    'ALVIN-01': 'Alvin (Lifetime)',
+    'TESTER-01': 'Beta Tester (Africa)'
+};
+
 function checkPremiumAccess(tool) {
     const isPremium = localStorage.getItem('limitless_premium') === 'true';
     if (isPremium) {
@@ -39,9 +47,10 @@ function closePremiumModal() {
 }
 
 function verifyPasscode() {
-    const input = document.getElementById('passcode-input').value;
-    if (input === 'LIMITLESS2026') {
+    const input = document.getElementById('passcode-input').value.trim();
+    if (MEMBER_CODES[input]) {
         localStorage.setItem('limitless_premium', 'true');
+        localStorage.setItem('limitless_member', MEMBER_CODES[input]);
         closePremiumModal();
         alert('Welcome to the Limitless Journeys Club!');
     } else {
