@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-08-14T12:01:14.174944+00:00",
+  "timestamp": "2026-08-15T12:01:32.601358+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4368.14,
-    "priceChangePercent": 0.39,
+    "currentPrice": 4375.57,
+    "priceChangePercent": -0.02,
     "support": 3961.81,
     "resistance": 4449.78,
     "fib618": 4263.38,
-    "ema20": 4244.82,
-    "ema50": 4193.89,
-    "rsi14": 66.35,
+    "ema20": 4258.0,
+    "ema50": 4202.11,
+    "rsi14": 66.76,
     "bias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a need for caution as the EMA stack continues to exhibit a bearish crossover pattern, indicating a potential shift in trend momentum. The Asian session range has been relatively narrow, but we are closely monitoring the liquidity levels ahead of the key US session. A liquidity sweep before entry is essential to gauge market sentiment accurately. The macro bearish bias remains intact, with a focus on identifying potential entry points for a short position targeting the 3200 line."
+    "analysis": "The current market dynamics suggest a need for caution, as the 50-period EMA is trending below the 200-period EMA, indicating a bearish momentum. The Asian session range has been relatively narrow, but we expect increased volatility as the day progresses. A liquidity sweep is necessary before entry to gauge market sentiment and potential price movements. Our macro bearish bias remains intact, with a focus on targeting key support levels."
   }
 }
