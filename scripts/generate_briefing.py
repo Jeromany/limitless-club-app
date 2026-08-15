@@ -95,30 +95,44 @@ def rsi(closes, period=14):
         return 100.0
     return round(100 - 100 / (1 + avg_g / avg_l), 2)
 
-def get_ai_analysis(price, change, support, resistance, fib618):
+def get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14):
+    prompt = f"""
+You are Jasai, an institutional gold analyst.
+MACRO THESIS: Bearish (Targeting $3,200 Moody's Gap). This is the long-term structural view.
+TACTICAL BIAS: Computed live from the data below. It is allowed to contradict the macro thesis short-term.
+
+DATA:
+- Price: ${price} ({change}%)
+- Support: ${support} | Resistance: ${resistance}
+- 61.8% Fib: ${fib618}
+- EMA 20: ${ema20} | EMA 50: ${ema50}
+- RSI (14): {rsi14}
+
+RULES FOR TACTICAL LAYER:
+1. If Price > EMA20 > EMA50 -> Tactical is BULLISH (Short-term momentum).
+2. If Price < EMA20 < EMA50 -> Tactical is BEARISH (Short-term momentum).
+3. RSI > 70 = Overbought (Risk of pullback).
+4. RSI < 30 = Oversold (Risk of bounce).
+
+YOUR OUTPUT:
+Write a 3-4 sentence analysis.
+- Sentence 1: State the MACRO bias clearly (Bearish).
+- Sentence 2: State the TACTICAL bias based on the EMAs and RSI. If it contradicts macro, say so explicitly (e.g., "While macro is bearish, tactical momentum is bullish as price holds above the 20 EMA...").
+- Sentence 3: Identify the key level to watch (Fib or S/R).
+- Tone: Professional, calm, institutional. No emojis. Plain text only.
+"""
     try:
-        sign = "+" if change > 0 else ""
-        prompt = f"""You are Jeremy Romany, a professional institutional gold trader and founder of Limitless Journeys Club.
-        Current Data: Gold is at ${price} ({sign}{change}%). Key Support: ${support}. Key Resistance: ${resistance}. 61.8% Golden Zone: ${fib618}.
-
-        Task: Write exactly 3 to 4 sentences of market analysis.
-
-        STRICT RULES:
-        1. Tone: Professional, institutional, concise. No retail fluff.
-        2. Focus: Mention the EMA stack, Asian session range, or the need for a liquidity sweep before entry.
-        3. Bias: Maintain a macro bearish bias targeting the 3200 line (Moody's Gap).
-        4. Formatting: PLAIN TEXT ONLY. No asterisks, markdown, or hashtags.
-        5. Do NOT repeat the exact price or signal from the context."""
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {os.environ['GROQ_API_KEY']}", "Content-Type": "application/json"},
-            json={"model": "llama-3.1-8b-instant",
-                  "messages": [{"role": "user", "content": prompt}],
-                  "temperature": 0.3},
-            timeout=20)
-        return r.json()["choices"][0]["message"]["content"].strip()
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=200
+        )
+        return completion.choices[0].message.content.strip()
     except Exception as e:
-        return f"AI analysis unavailable: {e}"
+        print(f"⚠️ Groq failed: {e}")
+        return "Analysis unavailable. Rely on structural levels."
 
 # ---------------- CHART ENGINE (approved spec) ----------------
 def ema(vals, n):
@@ -285,7 +299,16 @@ if __name__ == "__main__":
         ema20, ema50, rsi14 = 0.0, 0.0, 50.0
     print(f"✅ Dynamic levels - S:{support} R:{resistance} F:{fib618} | source: {source}")
 
-    analysis = get_ai_analysis(price, change, support, resistance, fib618)
+    # COMPUTE TACTICAL BIAS
+    if price > ema20 and ema20 > ema50:
+        tactical_bias = "bullish"
+    elif price < ema20 and ema20 < ema50:
+        tactical_bias = "bearish"
+    else:
+        tactical_bias = "neutral"
+
+    # CALL AI WITH NEW VARIABLES
+    analysis = get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14)
 
     briefing = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -300,6 +323,7 @@ if __name__ == "__main__":
             "ema50": ema50,
             "rsi14": rsi14,
             "bias": "bearish",
+            "tacticalBias": tactical_bias,
             "macroTarget": MACRO_TARGET,
             "analysis": analysis
         }
@@ -320,11 +344,12 @@ if __name__ == "__main__":
         json.dump(legacy, f, indent=2)
     print("✅ daily-briefing.json + briefing.json written (storefront unified)")
 
+    # UPDATED CAPTION TO SHOW TWO-LAYER BIAS
     caption = (
         "📊 DAILY GOLD BRIEFING\n\n"
         f"💰 Price: ${price} ({sign}{change}%)\n"
-        "📉 Bias: Bearish\n"
-        "🎯 Macro Target: $3,200 (Moody's Gap)\n\n"
+        f"📉 Macro: Bearish | Tactical: {tactical_bias.capitalize()}\n"
+        f"🎯 Macro Target: ${MACRO_TARGET} (Moody's Gap)\n\n"
         f"📝 Analysis:\n{analysis}\n\n"
         "🛡️ Key Levels:\n"
         f"- Support: ${support}\n"
