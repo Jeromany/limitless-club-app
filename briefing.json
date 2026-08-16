@@ -1,8 +1,8 @@
 {
   "date": "Sunday, August 16, 2026",
-  "price": "4375.69",
-  "change": "0.0%",
-  "analysis": "Our macro thesis remains bearish, targeting the $3,200 Moody's Gap. On a tactical basis, the current price action suggests a bullish short-term momentum, contradicting our macro view, as the price is above the EMA20, which is in turn above the EMA50. The key level to watch is the 61.8% Fibonacci level at $4271.63, which could provide support and determine the direction of the next move. With the RSI at 66.81, we are not yet in overbought territory, but a close eye is being kept on this indicator for signs of potential pullback.",
+  "price": "4375.57",
+  "change": "-0.0%",
+  "analysis": "Morning Briefing: Our long-term macro view remains bearish, targeting the $3200 Moody's Gap. Contrary to our macro outlook, the tactical bias is currently bullish due to the price being above the EMA20, which is in turn above the EMA50, indicating short-term momentum to the upside. The key level to watch is the 61.8% Fibonacci support at $4271.63, as a break below this could potentially shift the short-term momentum. Overall, while the tactical layer suggests a bullish bias in the near term, our macro thesis remains focused on the downside risks.",
   "action": "Watch for a reaction at the 61.8% Fib level ($4271.63) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
   "chartUrl": "https://raw.githubusercontent.com/jeromany/limitless-club-app/main/chart.png"
 }
