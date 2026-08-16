@@ -1,17 +1,18 @@
 {
-  "timestamp": "2026-08-15T12:01:32.601358+00:00",
+  "timestamp": "2026-08-16T00:55:24.857532+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4375.57,
-    "priceChangePercent": -0.02,
-    "support": 3961.81,
+    "currentPrice": 4375.69,
+    "priceChangePercent": 0.0,
+    "support": 3983.43,
     "resistance": 4449.78,
-    "fib618": 4263.38,
-    "ema20": 4258.0,
-    "ema50": 4202.11,
-    "rsi14": 66.76,
+    "fib618": 4271.63,
+    "ema20": 4269.2,
+    "ema50": 4206.61,
+    "rsi14": 66.81,
     "bias": "bearish",
+    "tacticalBias": "bullish",
     "macroTarget": 3200.0,
-    "analysis": "The current market dynamics suggest a need for caution, as the 50-period EMA is trending below the 200-period EMA, indicating a bearish momentum. The Asian session range has been relatively narrow, but we expect increased volatility as the day progresses. A liquidity sweep is necessary before entry to gauge market sentiment and potential price movements. Our macro bearish bias remains intact, with a focus on targeting key support levels."
+    "analysis": "Our macro thesis remains bearish, targeting the $3,200 Moody's Gap. On a tactical basis, the current price action suggests a bullish short-term momentum, contradicting our macro view, as the price is above the EMA20, which is in turn above the EMA50. The key level to watch is the 61.8% Fibonacci level at $4271.63, which could provide support and determine the direction of the next move. With the RSI at 66.81, we are not yet in overbought territory, but a close eye is being kept on this indicator for signs of potential pullback."
   }
 }

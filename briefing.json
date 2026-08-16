@@ -1,8 +1,8 @@
 {
-  "date": "Saturday, August 15, 2026",
-  "price": "4375.57",
-  "change": "-0.02%",
-  "analysis": "The current market dynamics suggest a need for caution, as the 50-period EMA is trending below the 200-period EMA, indicating a bearish momentum. The Asian session range has been relatively narrow, but we expect increased volatility as the day progresses. A liquidity sweep is necessary before entry to gauge market sentiment and potential price movements. Our macro bearish bias remains intact, with a focus on targeting key support levels.",
-  "action": "Watch for a reaction at the 61.8% Fib level ($4263.38) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
+  "date": "Sunday, August 16, 2026",
+  "price": "4375.69",
+  "change": "0.0%",
+  "analysis": "Our macro thesis remains bearish, targeting the $3,200 Moody's Gap. On a tactical basis, the current price action suggests a bullish short-term momentum, contradicting our macro view, as the price is above the EMA20, which is in turn above the EMA50. The key level to watch is the 61.8% Fibonacci level at $4271.63, which could provide support and determine the direction of the next move. With the RSI at 66.81, we are not yet in overbought territory, but a close eye is being kept on this indicator for signs of potential pullback.",
+  "action": "Watch for a reaction at the 61.8% Fib level ($4271.63) during the NY session. Bias remains neutral until a clean break of the Asian Session range.",
   "chartUrl": "https://raw.githubusercontent.com/jeromany/limitless-club-app/main/chart.png"
 }
