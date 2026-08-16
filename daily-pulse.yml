@@ -1,0 +1,67 @@
+name: 3x Daily Pulse
+
+on:
+  schedule:
+    # 8:00 AM AST (12:00 UTC)
+    - cron: "0 12 * * 1-5"
+    # 1:00 PM AST (17:00 UTC)
+    - cron: "0 17 * * 1-5"
+    # 6:00 PM AST (22:00 UTC)
+    - cron: "0 22 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      session:
+        description: 'Which pulse to run?'
+        required: true
+        default: 'morning'
+        type: choice
+        options:
+          - morning
+          - midday
+          - wrap
+
+jobs:
+  run-pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests matplotlib pillow groq
+
+      - name: Determine Session
+        id: get_session
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "SESSION=${{ inputs.session }}" >> $GITHUB_ENV
+          else
+            # Auto-determine based on UTC hour
+            HOUR=$(date -u +%H)
+            if [ "$HOUR" == "12" ]; then
+              echo "SESSION=morning" >> $GITHUB_ENV
+            elif [ "$HOUR" == "17" ]; then
+              echo "SESSION=midday" >> $GITHUB_ENV
+            elif [ "$HOUR" == "22" ]; then
+              echo "SESSION=wrap" >> $GITHUB_ENV
+            else
+              echo "SESSION=morning" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Run Briefing
+        env:
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN_PROD: ${{ secrets.TELEGRAM_BOT_TOKEN_PROD }}
+          TELEGRAM_CHAT_ID_PROD: ${{ secrets.TELEGRAM_CHAT_ID_PROD }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
+        run: python scripts/generate_briefing.py --session ${{ env.SESSION }}
