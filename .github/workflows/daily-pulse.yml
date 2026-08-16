@@ -8,6 +8,8 @@ on:
     - cron: "0 17 * * 1-5"
     # 6:00 PM AST (22:00 UTC)
     - cron: "0 22 * * 1-5"
+  repository_dispatch:
+    types: [generate_briefing]
   workflow_dispatch:
     inputs:
       session:
@@ -19,6 +21,9 @@ on:
           - morning
           - midday
           - wrap
+
+permissions:
+  contents: write
 
 jobs:
   run-pulse:
@@ -33,7 +38,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install requests matplotlib pillow groq
+        run: pip install -r requirements.txt
 
       - name: Determine Session
         id: get_session
@@ -41,7 +46,6 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "SESSION=${{ inputs.session }}" >> $GITHUB_ENV
           else
-            # Auto-determine based on UTC hour
             HOUR=$(date -u +%H)
             if [ "$HOUR" == "12" ]; then
               echo "SESSION=morning" >> $GITHUB_ENV
@@ -56,8 +60,8 @@ jobs:
 
       - name: Run Briefing
         env:
-          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TWELVEDATA_API_KEY: ${{ secrets.TWELVEDATA_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_BOT_TOKEN_PROD: ${{ secrets.TELEGRAM_BOT_TOKEN_PROD }}
@@ -65,3 +69,12 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
         run: python scripts/generate_briefing.py --session ${{ env.SESSION }}
+
+      - name: Commit updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add daily-briefing.json briefing.json
+          if [ -f chart.png ]; then git add chart.png; fi
+          git commit -m "Auto-update pulse: ${{ env.SESSION }}" || echo "Nothing to commit"
+          git push || echo "Push skipped"
