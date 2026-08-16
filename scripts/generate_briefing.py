@@ -1,7 +1,9 @@
 import os
 import json
+import argparse
 import requests
 from datetime import datetime, timezone
+from groq import Groq
 
 import matplotlib
 matplotlib.use("Agg")
@@ -95,7 +97,13 @@ def rsi(closes, period=14):
         return 100.0
     return round(100 - 100 / (1 + avg_g / avg_l), 2)
 
-def get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14):
+def get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14, session="morning"):
+    session_context = {
+        "morning": "Morning Briefing: Provide the full macro and tactical outlook for the NY session.",
+        "midday": "Midday Pulse: Review the morning price action. Did the morning thesis hold? Are we still in the Golden Zone? Keep it concise.",
+        "wrap": "NY Wrap: Summarize today's price action and identify the liquidity pool (Asian high/low) for the next session."
+    }
+    
     prompt = f"""
 You are Jasai, an institutional gold analyst.
 MACRO THESIS: Bearish (Targeting $3,200 Moody's Gap). This is the long-term structural view.
@@ -114,10 +122,11 @@ RULES FOR TACTICAL LAYER:
 3. RSI > 70 = Overbought (Risk of pullback).
 4. RSI < 30 = Oversold (Risk of bounce).
 
-YOUR OUTPUT:
+YOUR OUTPUT FOR THIS SESSION ({session}):
+{session_context.get(session, "")}
 Write a 3-4 sentence analysis.
 - Sentence 1: State the MACRO bias clearly (Bearish).
-- Sentence 2: State the TACTICAL bias based on the EMAs and RSI. If it contradicts macro, say so explicitly (e.g., "While macro is bearish, tactical momentum is bullish as price holds above the 20 EMA...").
+- Sentence 2: State the TACTICAL bias based on the EMAs and RSI. If it contradicts macro, say so explicitly.
 - Sentence 3: Identify the key level to watch (Fib or S/R).
 - Tone: Professional, calm, institutional. No emojis. Plain text only.
 """
@@ -258,6 +267,11 @@ def load_promo():
 
 # ---------------- MAIN ----------------
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--session", choices=["morning", "midday", "wrap"], default="morning")
+    args = parser.parse_args()
+    session = args.session
+
     source = "TwelveData spot"
     try:
         candles = fetch_twelvedata()
@@ -307,8 +321,8 @@ if __name__ == "__main__":
     else:
         tactical_bias = "neutral"
 
-    # CALL AI WITH NEW VARIABLES
-    analysis = get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14)
+    # CALL AI WITH NEW VARIABLES + SESSION
+    analysis = get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14, session)
 
     briefing = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -344,13 +358,23 @@ if __name__ == "__main__":
         json.dump(legacy, f, indent=2)
     print("✅ daily-briefing.json + briefing.json written (storefront unified)")
 
-    # UPDATED CAPTION TO SHOW TWO-LAYER BIAS
+    # SESSION-AWARE CAPTION
+    session_titles = {
+        "morning": "📊 DAILY GOLD BRIEFING",
+        "midday": "🕐 MIDDAY PULSE",
+        "wrap": "🌙 NY WRAP & ASIAN PREVIEW"
+    }
+    
     caption = (
-        "📊 DAILY GOLD BRIEFING\n\n"
+        f"{session_titles.get(session, 'UPDATE')}\n\n"
         f"💰 Price: ${price} ({sign}{change}%)\n"
         f"📉 Macro: Bearish | Tactical: {tactical_bias.capitalize()}\n"
-        f"🎯 Macro Target: ${MACRO_TARGET} (Moody's Gap)\n\n"
-        f"📝 Analysis:\n{analysis}\n\n"
+    )
+    if session == "morning":
+        caption += f"🎯 Macro Target: ${MACRO_TARGET} (Moody's Gap)\n"
+    
+    caption += f"\n📝 Analysis:\n{analysis}\n\n"
+    caption += (
         "🛡️ Key Levels:\n"
         f"- Support: ${support}\n"
         f"- Resistance: ${resistance}\n"
