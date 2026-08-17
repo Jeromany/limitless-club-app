@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-08-16T12:01:28.732391+00:00",
+  "timestamp": "2026-08-17T12:00:22.805752+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4375.57,
-    "priceChangePercent": -0.0,
+    "currentPrice": 4397.11,
+    "priceChangePercent": 0.49,
     "support": 3983.43,
     "resistance": 4449.78,
     "fib618": 4271.63,
-    "ema20": 4269.19,
-    "ema50": 4206.61,
-    "rsi14": 66.8,
+    "ema20": 4281.38,
+    "ema50": 4215.78,
+    "rsi14": 68.44,
     "bias": "bearish",
     "tacticalBias": "bullish",
     "macroTarget": 3200.0,
-    "analysis": "Morning Briefing: Our long-term macro view remains bearish, targeting the $3200 Moody's Gap. Contrary to our macro outlook, the tactical bias is currently bullish due to the price being above the EMA20, which is in turn above the EMA50, indicating short-term momentum to the upside. The key level to watch is the 61.8% Fibonacci support at $4271.63, as a break below this could potentially shift the short-term momentum. Overall, while the tactical layer suggests a bullish bias in the near term, our macro thesis remains focused on the downside risks."
+    "analysis": "Analysis unavailable. Rely on structural levels."
   }
 }
