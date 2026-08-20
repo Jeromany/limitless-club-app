@@ -70,6 +70,27 @@ jobs:
           DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
         run: python scripts/generate_briefing.py --session ${{ env.SESSION }}
 
+      - name: Post to Make (Facebook)
+        env:
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
+        run: |
+          if [ -f briefing.json ]; then
+            PRICE=$(jq -r '.price' briefing.json)
+            CHANGE=$(jq -r '.change' briefing.json)
+            
+            # Capitalize the first letter of the session (Morning, Midday, Wrap)
+            SESSION_CAP=$(echo $SESSION | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+            
+            CAPTION="XAU/USD $SESSION_CAP Pulse | \$$PRICE ($CHANGE) | Full institutional analysis and structural levels live in the Limitless Journeys desk. #XAUUSD #GoldTrading #LimitlessJourneys"
+            CHART_URL="https://raw.githubusercontent.com/jeromany/limitless-club-app/main/chart.png"
+            
+            # Build the JSON payload safely using jq
+            jq -n --arg cap "$CAPTION" --arg url "$CHART_URL" '{caption: $cap, chartImageUrl: $url}' > payload.json
+            
+            # Fire the webhook
+            curl -s -X POST -H "Content-Type: application/json" -d @payload.json "$MAKE_WEBHOOK_URL"
+          fi
+
       - name: Commit updates
         run: |
           git config user.name "github-actions[bot]"
