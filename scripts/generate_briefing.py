@@ -132,7 +132,7 @@ Write a 3-4 sentence analysis.
 """
 
     # HARDENED: try primary model twice, then backup model twice
-    models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+        models = ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]
     for model in models:
         for attempt in range(2):
             try:
