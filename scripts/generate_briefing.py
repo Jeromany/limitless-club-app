@@ -103,7 +103,7 @@ def get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rs
         "midday": "Midday Pulse: Review the morning price action. Did the morning thesis hold? Are we still in the Golden Zone? Keep it concise.",
         "wrap": "NY Wrap: Summarize today's price action and identify the liquidity pool (Asian high/low) for the next session."
     }
-    
+
     prompt = f"""
 You are Jasai, an institutional gold analyst.
 MACRO THESIS: Bearish (Targeting $3,200 Moody's Gap). This is the long-term structural view.
@@ -130,18 +130,38 @@ Write a 3-4 sentence analysis.
 - Sentence 3: Identify the key level to watch (Fib or S/R).
 - Tone: Professional, calm, institutional. No emojis. Plain text only.
 """
-    try:
-        client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-            max_tokens=200
-        )
-        return completion.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"⚠️ Groq failed: {e}")
-        return "Analysis unavailable. Rely on structural levels."
+
+    # HARDENED: try primary model twice, then backup model twice
+    models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+    for model in models:
+        for attempt in range(2):
+            try:
+                client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+                completion = client.chat.completions.create(
+                    model=model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                    max_tokens=200
+                )
+                text = completion.choices[0].message.content.strip()
+                if text:
+                    return text
+            except Exception as e:
+                print(f"⚠️ Groq {model} attempt {attempt + 1} failed: {e}")
+
+    # PROFESSIONAL FALLBACK: never show "unavailable" to members
+    if price >= resistance * 0.995:
+        position_note = f"price is pressing resistance at ${resistance}"
+    elif price <= support * 1.005:
+        position_note = f"price is testing support at ${support}"
+    else:
+        position_note = f"price is rotating between ${support} support and ${resistance} resistance"
+
+    return (
+        f"Macro thesis remains bearish toward the ${MACRO_TARGET} structural target. "
+        f"Tactically, {position_note}, with the 61.8% Fib at ${fib618} as the key pivot. "
+        f"Live AI commentary is syncing; rely on structural levels until the next pulse."
+    )
 
 # ---------------- CHART ENGINE (approved spec) ----------------
 def ema(vals, n):
