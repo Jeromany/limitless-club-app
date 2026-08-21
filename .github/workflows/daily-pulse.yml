@@ -68,6 +68,8 @@ jobs:
           TELEGRAM_CHAT_ID_PROD: ${{ secrets.TELEGRAM_CHAT_ID_PROD }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
+          TELEGRAM_CHAT_ID_FOUNDERS: ${{ secrets.TELEGRAM_CHAT_ID_FOUNDERS }}
+          DISCORD_WEBHOOK_FOUNDERS: ${{ secrets.DISCORD_WEBHOOK_FOUNDERS }}
         run: python scripts/generate_briefing.py --session ${{ env.SESSION }}
 
       - name: Commit updates
