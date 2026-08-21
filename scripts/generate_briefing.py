@@ -282,6 +282,22 @@ def post_discord(text, img):
                               files={"file": (img, f, "image/png")}, timeout=30)
         print(f"Discord {name} post:", r.status_code)
 
+def post_founders(text, img):
+    tok = os.environ.get("TELEGRAM_BOT_TOKEN_PROD")
+    chat = os.environ.get("TELEGRAM_CHAT_ID_FOUNDERS")
+    if tok and chat:
+        with open(img, "rb") as f:
+            r = requests.post(f"https://api.telegram.org/bot{tok}/sendPhoto",
+                              data={"chat_id": chat, "caption": text[:1024]},
+                              files={"photo": f}, timeout=30)
+        print("Telegram founders post:", r.status_code)
+    wh = os.environ.get("DISCORD_WEBHOOK_FOUNDERS")
+    if wh:
+        with open(img, "rb") as f:
+            r = requests.post(wh, data={"content": text[:2000], "username": "Founder Desk"},
+                              files={"file": (img, f, "image/png")}, timeout=30)
+        print("Discord founders post:", r.status_code)
+
 def load_promo():
     try:
         w = json.load(open("weekly-content.json"))
@@ -350,6 +366,21 @@ if __name__ == "__main__":
     else:
         tactical_bias = "neutral"
 
+    # ---------------- FOUNDER LAYER (structural reference levels) ----------------
+    fib786 = round(support + 0.786 * (resistance - support), 2)
+    if tactical_bias == "bullish":
+        f_entry = f"${fib786} – ${fib618} (Golden Zone)"
+        f_sl = f"${round(support * 0.995, 2)} (below structure)"
+        f_tgt = f"T1 ${resistance} | T2 ${round(resistance + 0.5 * (resistance - support), 2)}"
+    elif tactical_bias == "bearish":
+        f_entry = f"${round(resistance * 0.995, 2)} – ${resistance} (supply)"
+        f_sl = f"${round(resistance * 1.005, 2)} (above structure)"
+        f_tgt = f"T1 ${fib618} | T2 ${support}"
+    else:
+        f_entry = f"${fib618} – ${resistance} (rotation)"
+        f_sl = f"${round(support * 0.995, 2)} (below structure)"
+        f_tgt = f"T1 ${resistance} | T2 ${support}"
+
     # CALL AI WITH NEW VARIABLES + SESSION
     analysis = get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14, session)
 
@@ -410,9 +441,21 @@ if __name__ == "__main__":
         f"- 61.8% Fib: ${fib618}"
     )
 
+    # FOUNDER CAPTION (structural reference levels)
+    founder_caption = (
+        f"🎯 FOUNDER PULSE — XAU/USD ({session})\n"
+        f"Structure: S ${support} | R ${resistance} | 61.8 ${fib618}\n"
+        f"Bias: Macro bearish | Tactical {tactical_bias}\n"
+        f"Entry zone (structural): {f_entry}\n"
+        f"Stop loss (structural): {f_sl}\n"
+        f"Targets: {f_tgt}\n"
+        "Structural reference for Founders — not a signal. Educational only.\n— Jeremy"
+    )
+
     if len(candles) >= 2:
         render_chart(candles, support, resistance, fib618)
         post_telegram(caption, "chart.png")
         post_discord(caption + load_promo(), "chart.png")
+        post_founders(founder_caption, "chart.png")
     else:
         print("⚠️ No candles - chart skipped")
