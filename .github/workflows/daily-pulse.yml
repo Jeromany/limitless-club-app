@@ -77,16 +77,16 @@ jobs:
           if [ -f briefing.json ]; then
             PRICE=$(jq -r '.price' briefing.json)
             CHANGE=$(jq -r '.change' briefing.json)
-            
+
             # Capitalize the first letter of the session (Morning, Midday, Wrap)
             SESSION_CAP=$(echo $SESSION | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
-            
-            CAPTION="XAU/USD $SESSION_CAP Pulse | \$$PRICE ($CHANGE) | Full institutional analysis and structural levels live in the Limitless Journeys desk. #XAUUSD #GoldTrading #LimitlessJourneys"
-            CHART_URL="https://raw.githubusercontent.com/jeromany/limitless-club-app/main/chart.png"
-            
+
+            CAPTION="XAU/USD $SESSION_CAP Pulse | \$$PRICE ($CHANGE) | Full institutional analysis and structural levels live at the Limitless Journeys desk. #XAUUSD #GoldTrading #LimitlessJourneys"
+            CHART_URL="https://raw.githubusercontent.com/jeromany/limitless-club-app/main/chart.jpg"
+
             # Build the JSON payload safely using jq
             jq -n --arg cap "$CAPTION" --arg url "$CHART_URL" '{caption: $cap, chartImageUrl: $url}' > payload.json
-            
+
             # Fire the webhook
             curl -s -X POST -H "Content-Type: application/json" -d @payload.json "$MAKE_WEBHOOK_URL"
           fi
@@ -97,5 +97,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add daily-briefing.json briefing.json
           if [ -f chart.png ]; then git add chart.png; fi
+          if [ -f chart.jpg ]; then git add chart.jpg; fi
           git commit -m "Auto-update pulse: ${{ env.SESSION }}" || echo "Nothing to commit"
           git push || echo "Push skipped"
