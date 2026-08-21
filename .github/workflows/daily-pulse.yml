@@ -70,6 +70,16 @@ jobs:
           DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
         run: python scripts/generate_briefing.py --session ${{ env.SESSION }}
 
+      - name: Commit updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add daily-briefing.json briefing.json
+          if [ -f chart.png ]; then git add chart.png; fi
+          if [ -f chart.jpg ]; then git add chart.jpg; fi
+          git commit -m "Auto-update pulse: ${{ env.SESSION }}" || echo "Nothing to commit"
+          git push || echo "Push skipped"
+
       - name: Post to Make (Facebook)
         env:
           MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
@@ -90,13 +100,3 @@ jobs:
             # Fire the webhook
             curl -s -X POST -H "Content-Type: application/json" -d @payload.json "$MAKE_WEBHOOK_URL"
           fi
-
-      - name: Commit updates
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add daily-briefing.json briefing.json
-          if [ -f chart.png ]; then git add chart.png; fi
-          if [ -f chart.jpg ]; then git add chart.jpg; fi
-          git commit -m "Auto-update pulse: ${{ env.SESSION }}" || echo "Nothing to commit"
-          git push || echo "Push skipped"
