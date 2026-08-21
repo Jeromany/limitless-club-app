@@ -231,8 +231,17 @@ def render_chart(candles, support, resistance, fib618, path="chart.png"):
         t.set_color(COL_BULL)
 
     fig.savefig(path, facecolor=COL_BG)
-    plt.close(fig)
     print("✅ Chart rendered:", path)
+
+    # JPEG TWIN for Instagram (Meta requires JPEG, not PNG)
+    try:
+        jpg_path = path.replace(".png", ".jpg")
+        fig.savefig(jpg_path, facecolor=COL_BG)
+        print("✅ Chart JPG rendered:", jpg_path)
+    except Exception as e:
+        print("⚠️ JPG render failed:", e)
+
+    plt.close(fig)
 
 # ---------------- DELIVERY (dual broadcast) ----------------
 def post_telegram(text, img):
