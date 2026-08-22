@@ -294,8 +294,9 @@ async function loadWeeklyRoadmap() {
                     <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 10px;">(Opens in YouTube app)</p>
                 `;
             }
-            if (cards[1]) {
-                cards[1].innerHTML = `
+                        const levelsCard = document.getElementById('levels-card');
+            if (levelsCard) {
+                levelsCard.innerHTML = `
                     <h3>📌 Key Levels This Week</h3>
                     <div class="fib-level"><span>Resistance</span> <span class="price">${r.resistance}</span></div>
                     <div class="fib-level"><span>Support</span> <span class="price">${r.support}</span></div>
