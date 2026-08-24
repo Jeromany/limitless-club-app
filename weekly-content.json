@@ -1,19 +1,22 @@
-{
-  "weekOf": "July 28, 2026",
+{  
+  "weekOf": "August 24, 2026",
   "roadmap": {
     "videoUrl": "https://youtube.com/shorts/clcX147n8Ng",
-    "title": "Weekly Roadmap",
-    "resistance": "4,096 - 4,112",
-    "support": "3,950 - 3,920",
-    "bias": "Bearish"
+    "title": "Weekly Roadmap — Aug 24–28",
+    "resistance": "4,615 – 4,665 (Sell Zone / Weekly Supply)",
+    "support": "4,436 – 4,324 (Fib Bear Targets)",
+    "bias": "Bearish — rejection watch at the sell zone"
   },
   "warRoom": {
     "videoUrl": "https://youtube.com/shorts/tHbDUV_ucEw",
     "episode": "EP. 25",
-    "theme": "Macro Perimeter Under Siege",
+    "theme": "Sell Zone Engaged — Perimeter Defense",
     "bias": "Bear Campaign Active",
-    "liquidityZone": "4,015 - 4,050",
-    "macroTarget": "3,886 - 3,500",
+    "liquidityZone": "4,615 – 4,665",
+    "macroTarget": "4,018 → 3,884",
     "rule": "Patience over participation. We don't gamble. We trade the structural reality."
-  }
+  },
+  "guide": "The 9-Rule Institutional Checklist",
+  "price": "Free",
+  "link": "https://jeromany.github.io/limitless-club-app/checklist.html"
 }
