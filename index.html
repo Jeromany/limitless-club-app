@@ -287,11 +287,14 @@
                 </ul>
                 <a href="https://payhip.com/b/2IJq7" target="_blank" class="payhip-btn">Upgrade Monthly - $19.99/mo</a>
                 <a href="https://payhip.com/b/puVSQ" target="_blank" class="payhip-btn" style="background-color: #1a1a1a; color: #FFD700; border: 1px solid #FFD700; margin-top: 10px;">Get Lifetime Access - $97</a>
-                <div class="divider"><span>OR</span></div>
-                <p class="passcode-prompt">Already a member? Enter your passcode:</p>
-                <input type="password" id="passcode-input" class="fib-input" placeholder="Enter Passcode" style="text-align: center; letter-spacing: 2px;">
-                <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700;">Unlock</button>
-                <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px; color: #FF3D00;">Invalid passcode.</p>
+            <div class="divider"><span>OR</span></div>
+                <div style="border: 1px solid #FFD700; border-radius: 8px; padding: 14px; margin-top: 10px; background: #0d0d0d;">
+                    <p class="passcode-prompt" style="color: #FFD700; font-weight: bold; margin-bottom: 8px;">🔑 Already a member? Unlock instantly — no payment needed:</p>
+                    <input type="password" id="passcode-input" class="fib-input" placeholder="e.g. LIMITLESS2026" style="text-align: center; letter-spacing: 2px;">
+                    <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700; width: 100%;">Unlock</button>
+                    <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px; color: #FF3D00;">Invalid passcode.</p>
+                    <p style="font-size: 0.75rem; color: #888; margin-top: 8px;">Your passcode is in your purchase confirmation. Once unlocked, this device stays unlocked.</p>
+                </div>
             </div>
         </div>
     </div>
