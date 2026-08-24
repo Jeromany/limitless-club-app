@@ -270,34 +270,37 @@
     </div>
 
     <!-- PREMIUM UPGRADE MODAL -->
-    <div id="premium-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🔒 Premium Feature</h2>
-                <button class="close-modal" onclick="closePremiumModal()">×</button>
+<div id="premium-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>🔒 Premium Feature</h2>
+            <button class="close-modal" onclick="closePremiumModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <p>Unlock the full <strong>Limitless Journeys Club</strong> experience.</p>
+            
+            <div class="divider"><span>OR — ALREADY A MEMBER?</span></div>
+            <div style="border: 1px solid #FFD700; border-radius: 8px; padding: 14px; margin: 10px 0 15px 0; background: #0d0d0d;">
+                <p class="passcode-prompt" style="color: #FFD700; font-weight: bold; margin-bottom: 8px;">🔑 Member? Unlock instantly — no payment needed:</p>
+                <input type="password" id="passcode-input" class="fib-input" placeholder="Your member passcode" style="text-align: center; letter-spacing: 2px;">
+                <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700; width: 100%;">Unlock</button>
+                <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px; color: #FF3D00;">Invalid passcode.</p>
+                <p style="font-size: 0.75rem; color: #888; margin-top: 8px;">Your passcode is in your purchase confirmation. Once unlocked, this device stays unlocked.</p>
             </div>
-            <div class="modal-body">
-                <p>Unlock the full <strong>Limitless Journeys Club</strong> experience.</p>
-                <ul class="premium-perks">
-                    <li>✅ Advanced Trading Journal</li>
-                    <li>✅ Golden Zone Fib Calculator</li>
-                    <li>✅ Asian Session Range Tracker</li>
-                    <li>✅ Weekly Gold Roadmap Access</li>
-                    <li>✅ Gold War Room Access</li>
-                </ul>
-                <a href="https://payhip.com/b/2IJq7" target="_blank" class="payhip-btn">Upgrade Monthly - $19.99/mo</a>
-                <a href="https://payhip.com/b/puVSQ" target="_blank" class="payhip-btn" style="color: #1a1a1a; font-weight: 800; margin-top: 10px; border: 2px solid #1a1a1a;">⭐ BEST VALUE — Get Lifetime Access - $97</a>
-            <div class="divider"><span>OR</span></div>
-                <div style="border: 1px solid #FFD700; border-radius: 8px; padding: 14px; margin-top: 10px; background: #0d0d0d;">
-                    <p class="passcode-prompt" style="color: #FFD700; font-weight: bold; margin-bottom: 8px;">🔑 Already a member? Unlock instantly — no payment needed:</p>
-                    <input type="password" id="passcode-input" class="fib-input" placeholder="Your member passcode" style="text-align: center; letter-spacing: 2px;">
-                    <button class="calculate-btn" onclick="verifyPasscode()" style="margin-top: 10px; background-color: #333; color: #FFD700; border: 1px solid #FFD700; width: 100%;">Unlock</button>
-                    <p id="passcode-error" class="pin-error" style="display: none; margin-top: 10px; color: #FF3D00;">Invalid passcode.</p>
-                    <p style="font-size: 0.75rem; color: #888; margin-top: 8px;">Your passcode is in your purchase confirmation. Once unlocked, this device stays unlocked.</p>
-                </div>
-            </div>
+
+            <p style="text-align: center; color: #888; font-size: 0.85rem; margin: 10px 0;">Not a member yet? See what's inside:</p>
+            <ul class="premium-perks">
+                <li>✅ Advanced Trading Journal</li>
+                <li>✅ Golden Zone Fib Calculator</li>
+                <li>✅ Asian Session Range Tracker</li>
+                <li>✅ Weekly Gold Roadmap Access</li>
+                <li>✅ Gold War Room Access</li>
+            </ul>
+            <a href="https://payhip.com/b/2IJq7" target="_blank" class="payhip-btn">Upgrade Monthly - $19.99/mo</a>
+            <a href="https://payhip.com/b/puVSQ" target="_blank" class="payhip-btn" style="color: #1a1a1a; font-weight: 800; margin-top: 10px; border: 2px solid #1a1a1a;">⭐ BEST VALUE — Get Lifetime Access - $97</a>
         </div>
     </div>
+</div>
 
     <script src="script.js"></script>
 </body>
