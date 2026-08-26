@@ -23,13 +23,13 @@ function goBack() {
 }
 
 // --- PREMIUM ACCESS ---
-// Per-member passcodes. Add or revoke a member by editing ONE line here.
-// Members who already unlocked keep access (their device stores the premium flag).
-const MEMBER_CODES = {
-    'LIMITLESS2026': 'Master Code',
-    'ALVIN-01': 'Alvin (Lifetime)',
-    'TESTER-01': 'Beta Tester (Africa)'
-};
+// Fetches live registry from GitHub. Codes are hashed for security.
+async function hashString(str) {
+    const buffer = new TextEncoder().encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 function checkPremiumAccess(tool) {
     const isPremium = localStorage.getItem('limitless_premium') === 'true';
@@ -44,17 +44,35 @@ function closePremiumModal() {
     document.getElementById('premium-modal').style.display = 'none';
     document.getElementById('passcode-input').value = '';
     document.getElementById('passcode-error').style.display = 'none';
+    document.getElementById('passcode-error').textContent = 'Invalid passcode.';
 }
 
-function verifyPasscode() {
+async function verifyPasscode() {
     const input = document.getElementById('passcode-input').value.trim();
-    if (MEMBER_CODES[input]) {
-        localStorage.setItem('limitless_premium', 'true');
-        localStorage.setItem('limitless_member', MEMBER_CODES[input]);
-        closePremiumModal();
-        alert('Welcome to the Limitless Journeys Club!');
-    } else {
-        document.getElementById('passcode-error').style.display = 'block';
+    const errorMsg = document.getElementById('passcode-error');
+    errorMsg.style.display = 'none';
+
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/app_registry.json');
+        const registry = await response.json();
+        const inputHash = await hashString(input);
+        const user = registry.users.find(u => u.codeHash === inputHash);
+        
+        if (user && user.status === 'active') {
+            localStorage.setItem('limitless_premium', 'true');
+            localStorage.setItem('limitless_member', user.name);
+            closePremiumModal();
+            alert(`Welcome, ${user.name}!`);
+        } else if (user && user.status !== 'active') {
+            errorMsg.textContent = 'Access paused. Message Jeremy to reactivate.';
+            errorMsg.style.display = 'block';
+        } else {
+            errorMsg.textContent = 'Invalid code. Check your DMs or message Jeremy.';
+            errorMsg.style.display = 'block';
+        }
+    } catch (err) {
+        errorMsg.textContent = 'Network error. Please try again.';
+        errorMsg.style.display = 'block';
     }
 }
 

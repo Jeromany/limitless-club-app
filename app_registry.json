@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "name": "Alvin Tuting",
+      "codeHash": "c68292f18a5fcc1e5b709c9876c1b8114b09bb1deb5c7417c1fa268cef4fb8cf",
+      "status": "active",
+      "tier": "lifetime_founder"
+    },
+    {
+      "name": "Antonio Thompson",
+      "codeHash": "7929a3f793d15de5e1bb604f220554c09785005cc546af845c22220e6f748930",
+      "status": "active",
+      "tier": "family_founder"
+    },
+    {
+      "name": "Mikwiz",
+      "codeHash": "e6412122d7934fd22f78a008e00bddd18997dacbf3aa7d4dc2a1f4a3b883a70e",
+      "status": "active",
+      "tier": "family_founder"
+    },
+    {
+      "name": "Noraa Trahkcol",
+      "codeHash": "a509903320d05f829c8e553f42ef3d069b710514248bfec85705e4559e8564d7",
+      "status": "active",
+      "tier": "mentor"
+    },
+    {
+      "name": "Bin Wright Chieff",
+      "codeHash": "af4f8b1da9ce23fc583a8ccf0a436e2505f34d31854fd646bf62748382ca87cb",
+      "status": "active",
+      "tier": "mentor"
+    },
+    {
+      "name": "Mark Romany",
+      "codeHash": "3387a694d07cb1dc906370e1ea9d17e492da144c8cb4ba6398624bf0f897e410",
+      "status": "active",
+      "tier": "partner"
+    },
+    {
+      "name": "Alyssas Dad",
+      "codeHash": "ade44585131ced1338d42c53d4f1f58c07b4cc4ee61c68c3c7d92e9f923c433b",
+      "status": "pending_feedback",
+      "tier": "beta_free"
+    },
+    {
+      "name": "Ka Comrade",
+      "codeHash": "3820c7b2c7e4c64dc872d36d8cb7cb7494531edba27c92909a3356a43d685a4e",
+      "status": "pending_feedback",
+      "tier": "beta_free"
+    }
+  ]
+}
