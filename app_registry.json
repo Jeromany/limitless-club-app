@@ -47,6 +47,12 @@
       "codeHash": "3820c7b2c7e4c64dc872d36d8cb7cb7494531edba27c92909a3356a43d685a4e",
       "status": "active",
       "tier": "beta_free"
+    },
+    {
+      "name": "Albert Urena Albert",
+      "codeHash": "98a8e555d2ae4670ff5b5a03db9ff817f35bc572a418b8c16c0322f431979165",
+      "status": "active",
+      "tier": "beta_free"
     }
   ]
 }
