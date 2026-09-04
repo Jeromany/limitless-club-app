@@ -41,6 +41,16 @@
       "codeHash": "98a8e555d2ae4670ff5b5a03db9ff817f35bc572a418b8c16c0322f431979165",
       "tier": "beta_free",
       "status": "active"
+    },
+    {
+      "name": "KEDIJHA",
+      "codeHash": "40d89e3b0a0ab8af4be74dc985618061689ac942256fe90cf5dfefb6d0813699",
+      "status": "active"
+    },
+    {
+      "name": "SHARED",
+      "codeHash": "27f7a2062f0ad462bf5d5d221d962e54ee5544f7b0b9725d69521c4555b2470a",
+      "status": "active"
     }
   ]
 }
