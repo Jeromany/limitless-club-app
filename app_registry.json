@@ -1,56 +1,64 @@
 {
   "users": [
     {
-      "name": "alvin_tuting",
+      "name": "Alvin Tuting",
       "codeHash": "c68292f18a5fcc1e5b709c9876c1b8114b09bb1deb5c7417c1fa268cef4fb8cf",
-      "tier": "lifetime_founder",
-      "status": "active"
+      "status": "active",
+      "tier": "lifetime_founder"
     },
     {
-      "name": "antonio_thompson",
+      "name": "Antonio Thompson",
       "codeHash": "7929a3f793d15de5e1bb604f220554c09785005cc546af845c22220e6f748930",
-      "tier": "family_founder",
-      "status": "active"
+      "status": "active",
+      "tier": "family_founder"
     },
     {
-      "name": "mikwiz",
+      "name": "Mikwiz",
       "codeHash": "e6412122d7934fd22f78a008e00bddd18997dacbf3aa7d4dc2a1f4a3b883a70e",
-      "tier": "family_founder",
-      "status": "active"
+      "status": "active",
+      "tier": "family_founder"
     },
     {
-      "name": "noraa_trahkcol",
+      "name": "Noraa Trahkcol",
       "codeHash": "a509903320d05f829c8e553f42ef3d069b710514248bfec85705e4559e8564d7",
-      "tier": "mentor",
-      "status": "active"
+      "status": "active",
+      "tier": "mentor"
     },
     {
-      "name": "bin_wright_chieff",
+      "name": "Bin Wright Chieff",
       "codeHash": "af4f8b1da9ce23fc583a8ccf0a436e2505f34d31854fd646bf62748382ca87cb",
-      "tier": "mentor",
-      "status": "active"
+      "status": "active",
+      "tier": "mentor"
     },
     {
-      "name": "mark_romany",
+      "name": "Mark Romany",
       "codeHash": "3387a694d07cb1dc906370e1ea9d17e492da144c8cb4ba6398624bf0f897e410",
-      "tier": "partner",
-      "status": "active"
+      "status": "active",
+      "tier": "partner"
     },
     {
-      "name": "albert_urena_alba",
-      "codeHash": "98a8e555d2ae4670ff5b5a03db9ff817f35bc572a418b8c16c0322f431979165",
-      "tier": "beta_free",
-      "status": "active"
+      "name": "Alyssas Dad",
+      "codeHash": "ade44585131ced1338d42c53d4f1f58c07b4cc4ee61c68c3c7d92e9f923c433b",
+      "status": "revoked",
+      "tier": "beta_free"
     },
     {
-      "name": "KEDIJHA",
+      "name": "Ka Comrade",
+      "codeHash": "3820c7b2c7e4c64dc872d36d8cb7cb7494531edba27c92909a3356a43d685a4e",
+      "status": "revoked",
+      "tier": "beta_free"
+    },
+    {
+      "name": "Khedijha Francois",
       "codeHash": "40d89e3b0a0ab8af4be74dc985618061689ac942256fe90cf5dfefb6d0813699",
-      "status": "active"
+      "status": "active",
+      "tier": "learner"
     },
     {
-      "name": "SHARED",
-      "codeHash": "27f7a2062f0ad462bf5d5d221d962e54ee5544f7b0b9725d69521c4555b2470a",
-      "status": "active"
+      "name": "Albert Urena Alba",
+      "codeHash": "98a8e555d2ae4670ff5b5a03db9ff817f35bc572a418b8c16c0322f431979165",
+      "status": "active",
+      "tier": "beta_free"
     }
   ]
 }
