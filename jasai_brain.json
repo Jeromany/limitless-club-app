@@ -1,5 +1,6 @@
 {
   "commands": [
+    { "keywords": ["should i", "buy now", "sell now", "short now", "enter now", "stop loss"], "answer": "I don't give entry calls in static mode — that's managed live in the War Room with full context: https://discord.gg/BE7pTpbubk" },
     { "keywords": ["price", "current", "gold"], "answer": "Current Gold Price: ${price}." },
     { "keywords": ["trend", "read", "bias", "tape"], "answer": "Daily tape: Price ${price}. Bias ${bias}. Support at ${sup}, Resistance at ${res}. Patience over participation." },
     { "keywords": ["levels", "support", "resistance", "containment"], "answer": "Core containment: Support ${sup}, Resistance ${res}. Watch the walls." },
