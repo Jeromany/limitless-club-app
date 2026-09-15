@@ -1,0 +1,16 @@
+{
+  "commands": [
+    { "keywords": ["price", "current", "gold"], "answer": "Current Gold Price: ${price}." },
+    { "keywords": ["trend", "read", "bias", "tape"], "answer": "Daily tape: Price ${price}. Bias ${bias}. Support at ${sup}, Resistance at ${res}. Patience over participation." },
+    { "keywords": ["levels", "support", "resistance", "containment"], "answer": "Core containment: Support ${sup}, Resistance ${res}. Watch the walls." },
+    { "keywords": ["fib", "golden", "ratio", "618"], "answer": "The 61.8% Golden Ratio is currently sitting at ${fib}." },
+    { "keywords": ["weekly", "roadmap", "map"], "answer": "Weekly roadmap: Head and shoulders printing. Right shoulder into supply. Target 4300. Invalidation 4697." },
+    { "keywords": ["asian", "session", "tracker"], "answer": "The Asian Session Tracker auto-records the last 3 ranges inside the app. Check the toolkit tab." },
+    { "keywords": ["checklist", "rules", "institutional"], "answer": "The 9 institutional rules checklist is available in the toolkit tab. Plan the trade, trade the plan." },
+    { "keywords": ["access", "join", "buy", "seat"], "answer": "There are limited Founder seats remaining at $97 lifetime. Secure your passcode via the checkout link on the main page." },
+    { "keywords": ["discord", "room", "chat", "war room"], "answer": "Step into the live War Room here: https://discord.gg/BE7pTpbubk" },
+    { "keywords": ["youtube", "video", "channel"], "answer": "Catch the cinematic weekly roadmaps on YouTube: @LimitlessJourneysClub" },
+    { "keywords": ["telegram", "wire", "updates"], "answer": "Join the public broadcast wire: https://t.me/+8lv9KzLTlHRjMzJh" }
+  ],
+  "fallback": "My static module tracks macro levels and infrastructure. For real-time trade management and deep chart dives, ask me in the War Room: https://discord.gg/BE7pTpbubk"
+}
