@@ -373,6 +373,16 @@ async function loadJasai() {
 }
 loadJasai();
 
+let jasaiBrain = { commands: [], fallback: "" };
+
+async function loadBrain() {
+    try {
+        const res = await fetch("https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/jasai_brain.json");
+        jasaiBrain = await res.json();
+    } catch (e) { console.error("Brain fetch failed", e); }
+}
+loadBrain();
+
 function jasaiSend() {
     const input = document.getElementById('jasai-input');
     const chat = document.getElementById('jasai-chat');
@@ -390,16 +400,30 @@ function jasaiSend() {
     const res = jasaiData.resistance || 'pending';
     const fib = jasaiData.fib618 || 'pending';
     const discord = "https://discord.gg/BE7pTpbubk";
-    let reply = "";
+    
+    let reply = jasaiBrain.fallback || `My static module only tracks macro levels. For real-time trade management, ask me in the War Room: ${discord}`;
 
-    if (p.includes('help')) reply = `Commands: price, trend, bias, levels, fib, discord.`;
-    else if (p.includes('price')) reply = `Current Gold Price: $${price}`;
-    else if (p.includes('trend') || p.includes('read')) reply = `Daily tape: Price $${price}. Bias ${bias}. Support at $${sup}, Resistance at $${res}. Patience over participation.`;
-    else if (p.includes('bias')) reply = `Current institutional bias: ${bias}.`;
-    else if (p.includes('levels') || p.includes('support') || p.includes('resistance')) reply = `Core containment: Support $${sup}, Resistance $${res}.`;
-    else if (p.includes('fib')) reply = `61.8% Golden Ratio: $${fib}.`;
-    else if (p.includes('discord') || p.includes('room')) reply = `Step into the live War Room: ${discord}`;
-    else reply = `My static module only tracks macro levels. For real-time trade management and deep dives, ask me in the War Room: ${discord}`;
+    // Find the first matching command in the brain
+    for (let cmd of jasaiBrain.commands) {
+        if (cmd.keywords.some(word => p.includes(word))) {
+            reply = cmd.answer;
+            break; // Stop at the first match
+        }
+    }
+
+    // Inject live data into the reply
+    reply = reply.replace(/\${price}/g, price);
+    reply = reply.replace(/\${bias}/g, bias);
+    reply = reply.replace(/\${sup}/g, sup);
+    reply = reply.replace(/\${res}/g, res);
+    reply = reply.replace(/\${fib}/g, fib);
+    reply = reply.replace(/\${discord}/g, discord);
+
+    setTimeout(() => {
+        chat.innerHTML += `<div class="j-msg j-bot">${reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+    }, 400);
+}
 
     setTimeout(() => {
         chat.innerHTML += `<div class="j-msg j-bot">${reply}</div>`;
