@@ -333,7 +333,7 @@
     // Run it when the page loads
     loadBriefing();
 </script>
-<!-- JASAI STATIC WIDGET -->
+<!-- JASAI STATIC WIDGET v2 -->
 <style>
 #jasai-launcher{position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#D4AF37;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 15px rgba(212,175,55,0.4);z-index:9999;font-size:24px;color:#0B0B0C;font-weight:bold;}
 #jasai-window{position:fixed;bottom:90px;right:20px;width:340px;height:450px;background:#0B0B0C;border:1px solid #2a2a2a;border-radius:12px;display:none;flex-direction:column;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.5);font-family:Helvetica,Arial,sans-serif;}
@@ -362,7 +362,9 @@
 
 <script>
 const JASAI_DATA_URL = "https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/daily-briefing.json";
+const JASAI_BRAIN_URL = "https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/jasai_brain.json";
 let jasaiData = {};
+let jasaiBrain = { commands: [], fallback: "" };
 
 async function loadJasai() {
     try {
@@ -371,16 +373,13 @@ async function loadJasai() {
         jasaiData = json.gold || {};
     } catch (e) { console.error("Jasai data fetch failed", e); }
 }
-loadJasai();
-
-let jasaiBrain = { commands: [], fallback: "" };
-
 async function loadBrain() {
     try {
-        const res = await fetch("https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/jasai_brain.json");
+        const res = await fetch(JASAI_BRAIN_URL);
         jasaiBrain = await res.json();
-    } catch (e) { console.error("Brain fetch failed", e); }
+    } catch (e) { console.error("Jasai brain fetch failed", e); }
 }
+loadJasai();
 loadBrain();
 
 function jasaiSend() {
@@ -389,7 +388,8 @@ function jasaiSend() {
     const prompt = input.value.trim();
     if (!prompt) return;
 
-    chat.innerHTML += `<div class="j-msg j-user">${prompt}</div>`;
+    chat.innerHTML += '<div class="j-msg j-user"></div>';
+    chat.lastChild.textContent = prompt;
     input.value = '';
     chat.scrollTop = chat.scrollHeight;
 
@@ -400,35 +400,30 @@ function jasaiSend() {
     const res = jasaiData.resistance || 'pending';
     const fib = jasaiData.fib618 || 'pending';
     const discord = "https://discord.gg/BE7pTpbubk";
-    
-    let reply = jasaiBrain.fallback || `My static module only tracks macro levels. For real-time trade management, ask me in the War Room: ${discord}`;
 
-    // Find the first matching command in the brain
-    for (let cmd of jasaiBrain.commands) {
-        if (cmd.keywords.some(word => p.includes(word))) {
-            reply = cmd.answer;
-            break; // Stop at the first match
+    let reply = jasaiBrain.fallback || ("My static module tracks macro levels and infrastructure. For real-time trade management, ask me in the War Room: " + discord);
+
+    for (let i = 0; i < jasaiBrain.commands.length; i++) {
+        const cmd = jasaiBrain.commands[i];
+        let hit = false;
+        for (let k = 0; k < cmd.keywords.length; k++) {
+            if (p.indexOf(cmd.keywords[k]) !== -1) { hit = true; break; }
         }
+        if (hit) { reply = cmd.answer; break; }
     }
 
-    // Inject live data into the reply
-    reply = reply.replace(/\${price}/g, price);
-    reply = reply.replace(/\${bias}/g, bias);
-    reply = reply.replace(/\${sup}/g, sup);
-    reply = reply.replace(/\${res}/g, res);
-    reply = reply.replace(/\${fib}/g, fib);
-    reply = reply.replace(/\${discord}/g, discord);
+    reply = reply.split("${price}").join(price);
+    reply = reply.split("${bias}").join(bias);
+    reply = reply.split("${sup}").join(sup);
+    reply = reply.split("${res}").join(res);
+    reply = reply.split("${fib}").join(fib);
+    reply = reply.split("${discord}").join(discord);
 
-    setTimeout(() => {
-        chat.innerHTML += `<div class="j-msg j-bot">${reply}</div>`;
-        chat.scrollTop = chat.scrollHeight;
-    }, 400);
-}
-
-    setTimeout(() => {
-        chat.innerHTML += `<div class="j-msg j-bot">${reply}</div>`;
+    setTimeout(function () {
+        chat.innerHTML += '<div class="j-msg j-bot"></div>';
+        chat.lastChild.textContent = reply;
         chat.scrollTop = chat.scrollHeight;
     }, 400);
 }
 </script>
-<!-- END JASAI WIDGET -->
+<!-- END JASAI WIDGET v2 -->
