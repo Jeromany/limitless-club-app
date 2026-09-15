@@ -1,17 +1,25 @@
 {
   "commands": [
-    { "keywords": ["should i", "buy now", "sell now", "short now", "enter now", "stop loss"], "answer": "I don't give entry calls in static mode — that's managed live in the War Room with full context: https://discord.gg/BE7pTpbubk" },
-    { "keywords": ["price", "current", "gold"], "answer": "Current Gold Price: ${price}." },
-    { "keywords": ["trend", "read", "bias", "tape"], "answer": "Daily tape: Price ${price}. Bias ${bias}. Support at ${sup}, Resistance at ${res}. Patience over participation." },
-    { "keywords": ["levels", "support", "resistance", "containment"], "answer": "Core containment: Support ${sup}, Resistance ${res}. Watch the walls." },
-    { "keywords": ["fib", "golden", "ratio", "618"], "answer": "The 61.8% Golden Ratio is currently sitting at ${fib}." },
-    { "keywords": ["weekly", "roadmap", "map"], "answer": "Weekly roadmap: Head and shoulders printing. Right shoulder into supply. Target 4300. Invalidation 4697." },
-    { "keywords": ["asian", "session", "tracker"], "answer": "The Asian Session Tracker auto-records the last 3 ranges inside the app. Check the toolkit tab." },
-    { "keywords": ["checklist", "rules", "institutional"], "answer": "The 9 institutional rules checklist is available in the toolkit tab. Plan the trade, trade the plan." },
-    { "keywords": ["access", "join", "buy", "seat"], "answer": "There are limited Founder seats remaining at $97 lifetime. Secure your passcode via the checkout link on the main page." },
-    { "keywords": ["discord", "room", "chat", "war room"], "answer": "Step into the live War Room here: https://discord.gg/BE7pTpbubk" },
+    { "keywords": ["should i", "buy now", "sell now", "short now", "long now", "enter now", "stop loss", "take profit now"], "answer": "I don't give entry calls in static mode — that's managed live in the War Room with full context: ${discord}" },
+    { "keywords": ["help", "commands", "what can you do"], "answer": "Commands: price, trend, bias, levels, fib, weekly, asian, checklist, tools, calendar, access, discord, telegram, youtube, time. Tap the speaker on any reply to hear it." },
+    { "keywords": ["hello", "hey there", "who are you", "your name", "good morning"], "answer": "I am Jasai — desk officer of Limitless Journeys. I read the tape, brand the charts, and keep the desk awake so Jeremy doesn't have to." },
+    { "keywords": ["price", "current", "how much is gold"], "answer": "Current Gold Price: ${price}." },
+    { "keywords": ["trend", "read", "bias", "tape", "direction"], "answer": "Daily tape: Price ${price}. Bias ${bias}. Support at ${sup}, Resistance at ${res}. Patience over participation." },
+    { "keywords": ["levels", "support", "resistance", "containment", "walls", "zones"], "answer": "Core containment: Support ${sup}, Resistance ${res}. Walls are permission, not prediction." },
+    { "keywords": ["fib", "golden", "ratio", "618", "61.8"], "answer": "The 61.8% Golden Ratio is currently sitting at ${fib}." },
+    { "keywords": ["weekly", "roadmap", "road map"], "answer": "Weekly roadmap: Head and shoulders printing. Right shoulder into supply. Target 4300. Invalidation 4697." },
+    { "keywords": ["asian", "session", "tracker", "tokyo"], "answer": "The Asian Session Tracker auto-records the last 3 ranges inside the toolkit tab." },
+    { "keywords": ["checklist", "rules", "institutional"], "answer": "The 9 institutional rules checklist lives in the toolkit tab. Plan the trade, trade the plan." },
+    { "keywords": ["journal", "tool", "tools", "calculator", "toolkit"], "answer": "The toolkit tab holds the Trade Journal, Fib Calculator, and Asian Session Tracker. Yours forever with your passcode." },
+    { "keywords": ["calendar", "economic", "news", "events", "cpi", "nfp"], "answer": "High-impact events are tracked in the Economic Calendar tab. Trade the plan, not the headline." },
+    { "keywords": ["access", "join", "buy", "seat", "founder", "passcode", "checkout", "membership", "cost", "how much does"], "answer": "There are limited Founder seats remaining at $97 lifetime. Secure your passcode via the checkout link on the main page." },
+    { "keywords": ["discord", "room", "war room", "community"], "answer": "Step into the live War Room here: ${discord}" },
+    { "keywords": ["telegram", "wire", "updates"], "answer": "Join the public broadcast wire: https://t.me/+8lv9KzLTlHRjMzJh" },
     { "keywords": ["youtube", "video", "channel"], "answer": "Catch the cinematic weekly roadmaps on YouTube: @LimitlessJourneysClub" },
-    { "keywords": ["telegram", "wire", "updates"], "answer": "Join the public broadcast wire: https://t.me/+8lv9KzLTlHRjMzJh" }
+    { "keywords": ["pulse", "briefing", "when do you"], "answer": "The daily pulse fires at 8:00 AM AST, with the voiced video briefing at 8:05 AM AST. Every day, rain or shine." },
+    { "keywords": ["time", "day", "date", "clock"], "answer": "Desk clock: ${time}, ${date} on your device. The pulse fires 8:00 AM AST daily." },
+    { "keywords": ["speak", "voice", "audio", "talk", "sound", "hear"], "answer": "Tap the speaker on any reply and I'll say it out loud. My full voiced pulse drops daily at 8:05 AM AST." },
+    { "keywords": ["thank", "thanks", "appreciate"], "answer": "Anytime. Plan the trade, trade the plan. Trade Without Limits." }
   ],
-  "fallback": "My static module tracks macro levels and infrastructure. For real-time trade management and deep chart dives, ask me in the War Room: https://discord.gg/BE7pTpbubk"
+  "fallback": "My static module tracks macro levels and infrastructure. For real-time trade management and deep chart dives, ask me in the War Room: ${discord}"
 }
