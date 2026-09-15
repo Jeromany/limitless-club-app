@@ -61,6 +61,8 @@ async function verifyPasscode() {
         if (user && user.status === 'active') {
             localStorage.setItem('limitless_premium', 'true');
             localStorage.setItem('limitless_member', user.name);
+            localStorage.setItem('limitless_key_hash', inputHash);
+            localStorage.setItem('limitless_device_fp', generateDeviceFingerprint());
             closePremiumModal();
             alert(`Welcome, ${user.name}!`);
         } else if (user && user.status !== 'active') {
@@ -74,6 +76,49 @@ async function verifyPasscode() {
         errorMsg.textContent = 'Network error. Please try again.';
         errorMsg.style.display = 'block';
     }
+}
+
+function generateDeviceFingerprint() {
+    const data = [
+        navigator.userAgent,
+        navigator.language,
+        screen.width + 'x' + screen.height,
+        new Date().getTimezoneOffset()
+    ].join('|');
+    return btoa(data).substring(0, 24);
+}
+
+async function validateSession() {
+    const isPremium = localStorage.getItem('limitless_premium') === 'true';
+    if (!isPremium) return;
+
+    const storedHash = localStorage.getItem('limitless_key_hash');
+    const storedMember = localStorage.getItem('limitless_member');
+    if (!storedHash || !storedMember) {
+        lockSession();
+        return;
+    }
+
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/app_registry.json');
+        const registry = await response.json();
+        const user = registry.users.find(u => u.codeHash === storedHash);
+        
+        if (!user || user.status !== 'active') {
+            lockSession();
+            alert('Your access has been revoked. Message Jeremy to reactivate.');
+            document.getElementById('premium-modal').style.display = 'flex';
+        }
+    } catch (err) {
+        console.warn('Session validation failed:', err);
+    }
+}
+
+function lockSession() {
+    localStorage.removeItem('limitless_premium');
+    localStorage.removeItem('limitless_member');
+    localStorage.removeItem('limitless_key_hash');
+    localStorage.removeItem('limitless_device_fp');
 }
 
 // --- FIBONACCI CALCULATOR ---
@@ -342,9 +387,11 @@ async function loadWeeklyContent() {
 }
 
 // --- INITIALIZATION ---
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     document.querySelectorAll('.tool-screen').forEach(screen => screen.style.display = 'none');
     document.getElementById('premium-modal').style.display = 'none';
+    
+    await validateSession();
     
     loadDailyBriefing();
     loadWeeklyContent();  // Loads BOTH Roadmap and War Room from JSON
