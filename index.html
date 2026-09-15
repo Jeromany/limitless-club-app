@@ -333,3 +333,78 @@
     // Run it when the page loads
     loadBriefing();
 </script>
+<!-- JASAI STATIC WIDGET -->
+<style>
+#jasai-launcher{position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#D4AF37;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 15px rgba(212,175,55,0.4);z-index:9999;font-size:24px;color:#0B0B0C;font-weight:bold;}
+#jasai-window{position:fixed;bottom:90px;right:20px;width:340px;height:450px;background:#0B0B0C;border:1px solid #2a2a2a;border-radius:12px;display:none;flex-direction:column;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.5);font-family:Helvetica,Arial,sans-serif;}
+#jasai-header{padding:15px;background:#141414;border-bottom:1px solid #2a2a2a;border-radius:12px 12px 0 0;color:#D4AF37;font-size:14px;letter-spacing:1px;font-weight:bold;}
+#jasai-chat{flex:1;padding:15px;overflow-y:auto;color:#F4E9D0;font-size:13px;line-height:1.5;}
+.j-msg{margin-bottom:10px;padding:8px 12px;border-radius:8px;max-width:85%;word-wrap:break-word;}
+.j-bot{background:#1a1a1a;border:1px solid #2a2a2a;}
+.j-user{background:#D4AF37;color:#0B0B0C;margin-left:auto;text-align:right;}
+#jasai-input-area{padding:10px;border-top:1px solid #2a2a2a;display:flex;gap:8px;}
+#jasai-input{flex:1;background:#141414;border:1px solid #333;color:#F4E9D0;padding:8px;border-radius:6px;font-size:13px;outline:none;}
+#jasai-send{background:#D4AF37;color:#0B0B0C;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:13px;}
+</style>
+
+<div id="jasai-launcher" onclick="document.getElementById('jasai-window').style.display = document.getElementById('jasai-window').style.display === 'flex' ? 'none' : 'flex'">J</div>
+
+<div id="jasai-window">
+  <div id="jasai-header">JASAI // LIMITLESS DESK</div>
+  <div id="jasai-chat">
+    <div class="j-msg j-bot">I am Jasai. Ask me for a trend read, price, levels, or bias. (Data updates daily at 8 AM AST).</div>
+  </div>
+  <div id="jasai-input-area">
+    <input type="text" id="jasai-input" placeholder="Ask for a trend read..." onkeypress="if(event.key==='Enter')document.getElementById('jasai-send').click()">
+    <button id="jasai-send" onclick="jasaiSend()">SEND</button>
+  </div>
+</div>
+
+<script>
+const JASAI_DATA_URL = "https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/daily-briefing.json";
+let jasaiData = {};
+
+async function loadJasai() {
+    try {
+        const res = await fetch(JASAI_DATA_URL);
+        const json = await res.json();
+        jasaiData = json.gold || {};
+    } catch (e) { console.error("Jasai data fetch failed", e); }
+}
+loadJasai();
+
+function jasaiSend() {
+    const input = document.getElementById('jasai-input');
+    const chat = document.getElementById('jasai-chat');
+    const prompt = input.value.trim();
+    if (!prompt) return;
+
+    chat.innerHTML += `<div class="j-msg j-user">${prompt}</div>`;
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    const p = prompt.toLowerCase();
+    const price = jasaiData.currentPrice || 'pending';
+    const bias = jasaiData.bias || 'pending';
+    const sup = jasaiData.support || 'pending';
+    const res = jasaiData.resistance || 'pending';
+    const fib = jasaiData.fib618 || 'pending';
+    const discord = "https://discord.gg/BE7pTpbubk";
+    let reply = "";
+
+    if (p.includes('help')) reply = `Commands: price, trend, bias, levels, fib, discord.`;
+    else if (p.includes('price')) reply = `Current Gold Price: $${price}`;
+    else if (p.includes('trend') || p.includes('read')) reply = `Daily tape: Price $${price}. Bias ${bias}. Support at $${sup}, Resistance at $${res}. Patience over participation.`;
+    else if (p.includes('bias')) reply = `Current institutional bias: ${bias}.`;
+    else if (p.includes('levels') || p.includes('support') || p.includes('resistance')) reply = `Core containment: Support $${sup}, Resistance $${res}.`;
+    else if (p.includes('fib')) reply = `61.8% Golden Ratio: $${fib}.`;
+    else if (p.includes('discord') || p.includes('room')) reply = `Step into the live War Room: ${discord}`;
+    else reply = `My static module only tracks macro levels. For real-time trade management and deep dives, ask me in the War Room: ${discord}`;
+
+    setTimeout(() => {
+        chat.innerHTML += `<div class="j-msg j-bot">${reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+    }, 400);
+}
+</script>
+<!-- END JASAI WIDGET -->
