@@ -3,13 +3,9 @@
     {
       "name": "Jeremy",
       "codeHash": "3d9c0068505618a671ed2a5f74041342b3e3e4ed8f80191f62e296739995162a",
-      "status": "active"
+      "status": "active",
+      "tier": "owner"
     },
-    {
-      "name": "Member Name",
-      "codeHash": "abc123...",
-      "status": "active"
-    }
     {
       "name": "Alvin Tuting",
       "codeHash": "c68292f18a5fcc1e5b709c9876c1b8114b09bb1deb5c7417c1fa268cef4fb8cf",
