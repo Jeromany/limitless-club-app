@@ -63,6 +63,8 @@ async function verifyPasscode() {
             localStorage.setItem('limitless_member', user.name);
             localStorage.setItem('limitless_key_hash', inputHash);
             localStorage.setItem('limitless_device_fp', generateDeviceFingerprint());
+            localStorage.setItem('limitless_key_hash', inputHash);
+            localStorage.setItem('limitless_device_fp', generateDeviceFingerprint());
             closePremiumModal();
             alert(`Welcome, ${user.name}!`);
         } else if (user && user.status !== 'active') {
@@ -112,6 +114,32 @@ async function validateSession() {
     } catch (err) {
         console.warn('Session validation failed:', err);
     }
+}
+
+function lockSession() {
+    localStorage.removeItem('limitless_premium');
+    localStorage.removeItem('limitless_member');
+    localStorage.removeItem('limitless_key_hash');
+    localStorage.removeItem('limitless_device_fp');
+}
+function generateDeviceFingerprint() {
+    const data = [navigator.userAgent, navigator.language, screen.width + 'x' + screen.height, new Date().getTimezoneOffset()].join('|');
+    return btoa(data).substring(0, 24);
+}
+
+async function validateSession() {
+    if (localStorage.getItem('limitless_premium') !== 'true') return;
+    const storedHash = localStorage.getItem('limitless_key_hash');
+    if (!storedHash) { lockSession(); return; }
+    try {
+        const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/app_registry.json');
+        const registry = await response.json();
+        const user = registry.users.find(u => u.codeHash === storedHash);
+        if (!user || user.status !== 'active') {
+            lockSession();
+            document.getElementById('premium-modal').style.display = 'flex';
+        }
+    } catch (err) { console.warn('Session validation skipped:', err); }
 }
 
 function lockSession() {
