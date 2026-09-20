@@ -390,15 +390,40 @@ function toggleAuto() {
     document.getElementById('jasai-autospeak').textContent = jasaiAutoSpeak ? 'AUTO ON' : 'AUTO OFF';
 }
 
+// --- JASAI VOICE LOCK v1: male-preference picker (Sep 20) ---
+let jasaiVoice = null;
+const JASAI_VOICE_PREF = ["Andrew", "Alex", "Daniel", "David", "Guy",
+                          "Mark", "Ryan", "Brian", "Aaron", "Fred", "Male"];
+
+function pickJasaiVoice() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return;
+    for (let i = 0; i < JASAI_VOICE_PREF.length; i++) {          // pass 1: named males
+        const hit = voices.find(v => v.name.indexOf(JASAI_VOICE_PREF[i]) !== -1);
+        if (hit) { jasaiVoice = hit; return; }
+    }
+    const male = voices.find(v => /male/i.test(v.name) && /^en/i.test(v.lang)); // pass 2
+    if (male) { jasaiVoice = male; return; }
+    const en = voices.find(v => /^en/i.test(v.lang));            // pass 3: any English
+    if (en) jasaiVoice = en;
+}
+if ('speechSynthesis' in window) {
+    pickJasaiVoice();
+    window.speechSynthesis.onvoiceschanged = pickJasaiVoice;     // mobile loads voices late
+}
+
 function speakText(t) {
     try {
-        if (!('speechSynthesis' in window)) return;
+        if (!('speechSynthesis' in window)) { console.warn("Jasai: no speech engine here"); return; }
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(t);
         u.rate = 1.0;
-        u.pitch = 1.0;
+        u.pitch = 0.9;          // a touch lower = desk tone, not chipmunk
+        u.volume = 1.0;
+        if (jasaiVoice) u.voice = jasaiVoice;
         window.speechSynthesis.speak(u);
-    } catch (e) { }
+    } catch (e) { console.error("Jasai speak failed", e); }
 }
 
 function jasaiSend() {
