@@ -366,10 +366,10 @@ if __name__ == "__main__":
     else:
         tactical_bias = "neutral"
 
-    # ---------------- FOUNDER LAYER (structural reference levels) ----------------
+        # ---------------- FOUNDER LAYER (structural reference levels) ----------------
     fib786 = round(support + 0.786 * (resistance - support), 2)
     if tactical_bias == "bullish":
-        f_entry = f"${fib786} – ${fib618} (Golden Zone)"
+        f_entry = f"${fib786} – ${fib618} (Golden Zone demand)"
         f_sl = f"${round(support * 0.995, 2)} (below structure)"
         f_tgt = f"T1 ${resistance} | T2 ${round(resistance + 0.5 * (resistance - support), 2)}"
     elif tactical_bias == "bearish":
@@ -377,9 +377,10 @@ if __name__ == "__main__":
         f_sl = f"${round(resistance * 1.005, 2)} (above structure)"
         f_tgt = f"T1 ${fib618} | T2 ${support}"
     else:
-        f_entry = f"${fib618} – ${resistance} (rotation)"
-        f_sl = f"${round(support * 0.995, 2)} (below structure)"
-        f_tgt = f"T1 ${resistance} | T2 ${support}"
+        # NEUTRAL: Pure rotation. No directional trade setup.
+        f_entry = f"${fib618} – ${resistance} (rotation range)"
+        f_sl = f"No directional setup"
+        f_tgt = f"Watch boundaries for breakout/breakdown"
 
     # CALL AI WITH NEW VARIABLES + SESSION
     analysis = get_ai_analysis(price, change, support, resistance, fib618, ema20, ema50, rsi14, session)
