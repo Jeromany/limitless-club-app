@@ -366,7 +366,7 @@ if __name__ == "__main__":
     else:
         tactical_bias = "neutral"
 
-        # ---------------- FOUNDER LAYER (structural reference levels) ----------------
+                # ---------------- FOUNDER LAYER (structural reference levels) ----------------
     fib786 = round(support + 0.786 * (resistance - support), 2)
     if tactical_bias == "bullish":
         f_entry = f"${fib786} – ${fib618} (Golden Zone demand)"
