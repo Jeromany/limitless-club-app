@@ -455,7 +455,11 @@ if __name__ == "__main__":
 
     if len(candles) >= 2:
         render_chart(candles, support, resistance, fib618)
-        post_telegram(caption, "chart.png")
+                tg_footer = ("\n\n---\n🌍 Limitless Journeys Inner Circle\n"
+                     "🔗 Channel: https://t.me/+8lv9KzLTlHRjMzJh\n"
+                     "📋 Free 9-Rule Checklist: https://jeromany.github.io/limitless-club-app/checklist.html\n"
+                     "🚪 Lifetime seats: 6 left at $97")
+        post_telegram(caption + load_promo() + tg_footer, "chart.png")
         post_discord(caption + load_promo(), "chart.png")
         post_founders(founder_caption, "chart.png")
     else:
