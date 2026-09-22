@@ -65,6 +65,12 @@
       "codeHash": "98a8e555d2ae4670ff5b5a03db9ff817f35bc572a418b8c16c0322f431979165",
       "status": "revoked",
       "tier": "beta_free"
+    },
+    {
+      "name": "Lyndon",
+      "codeHash": "073aa23c1b3285cbe7d8a6fedbc47f0e6cbd787eb2c051ec31da4b5f14caa1a7",
+      "status": "active",
+      "tier": "beta"
     }
   ]
 }
