@@ -1,12 +1,6 @@
 {
   "users": [
     {
-      "name": "Jeremy",
-      "codeHash": "3d9c0068505618a671ed2a5f74041342b3e3e4ed8f80191f62e296739995162a",
-      "status": "active",
-      "tier": "owner"
-    },
-    {
       "name": "Alvin Tuting",
       "codeHash": "c68292f18a5fcc1e5b709c9876c1b8114b09bb1deb5c7417c1fa268cef4fb8cf",
       "status": "active",
@@ -69,6 +63,12 @@
     {
       "name": "Lyndon",
       "codeHash": "073aa23c1b3285cbe7d8a6fedbc47f0e6cbd787eb2c051ec31da4b5f14caa1a7",
+      "status": "active",
+      "tier": "beta"
+    },
+    {
+      "name": "Mick",
+      "codeHash": "a7b08bb69041aa00107f2593a790002c27846b0a570e2a55d25706d350947608",
       "status": "active",
       "tier": "beta"
     }
