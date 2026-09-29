@@ -52,6 +52,17 @@ async function verifyPasscode() {
     const errorMsg = document.getElementById('passcode-error');
     errorMsg.style.display = 'none';
 
+        // PERMANENT OWNER BYPASS - DO NOT REMOVE
+    if (input === "LJ-JEREMY-OWNER-7M2Z") {
+        localStorage.setItem('limitless_premium', 'true');
+        localStorage.setItem('limitless_member', 'Jeremy');
+        localStorage.setItem('limitless_key_hash', '1927892e2513e97002654b0e2b3437268d016e001c70805bedcd1c384d24a4b5');
+        localStorage.setItem('limitless_device_fp', generateDeviceFingerprint());
+        closePremiumModal();
+        alert(`Welcome back, Jeremy! Owner access granted.`);
+        return; // EXIT FUNCTION IMMEDIATELY - SKIPS BROKEN HASH CHECK
+    }
+
     try {
         const response = await fetch('https://raw.githubusercontent.com/Jeromany/limitless-club-app/main/app_registry.json');
         const registry = await response.json();
