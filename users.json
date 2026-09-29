@@ -48,7 +48,8 @@
       "status": "active",
       "tier": "learner"
     },
-    "name": "Lyndon",
+    {
+      "name": "Lyndon",
       "codeHash": "073aa23c1b3285cbe7d8a6fedbc47f0e6cbd787eb2c051ec31da4b5f14caa1a7",
       "status": "active",
       "tier": "learner"
@@ -58,5 +59,6 @@
       "codeHash": "a7b08bb69041aa00107f2593a790002c27846b0a570e2a55d25706d350947608",
       "status": "active",
       "tier": "partner"
+    }
   ]
 }
