@@ -1,0 +1,62 @@
+{
+  "users": [
+    {
+      "name": "Jeremy",
+      "codeHash": "3d9c0068505618a671ed2a5f74041342b3e3e4ed8f80191f62e296739995162a",
+      "status": "active",
+      "tier": "owner"
+    },
+    {
+      "name": "Alvin Tuting",
+      "codeHash": "c68292f18a5fcc1e5b709c9876c1b8114b09bb1deb5c7417c1fa268cef4fb8cf",
+      "status": "active",
+      "tier": "lifetime_founder"
+    },
+    {
+      "name": "Antonio Thompson",
+      "codeHash": "7929a3f793d15de5e1bb604f220554c09785005cc546af845c22220e6f748930",
+      "status": "active",
+      "tier": "family_founder"
+    },
+    {
+      "name": "Mikwiz",
+      "codeHash": "e6412122d7934fd22f78a008e00bddd18997dacbf3aa7d4dc2a1f4a3b883a70e",
+      "status": "active",
+      "tier": "family_founder"
+    },
+    {
+      "name": "Noraa Trahkcol",
+      "codeHash": "a509903320d05f829c8e553f42ef3d069b710514248bfec85705e4559e8564d7",
+      "status": "active",
+      "tier": "mentor"
+    },
+    {
+      "name": "Bin Wright Chieff",
+      "codeHash": "af4f8b1da9ce23fc583a8ccf0a436e2505f34d31854fd646bf62748382ca87cb",
+      "status": "active",
+      "tier": "mentor"
+    },
+    {
+      "name": "Mark Romany",
+      "codeHash": "3387a694d07cb1dc906370e1ea9d17e490da144c8cb4ba6398624bf0f897e410",
+      "status": "active",
+      "tier": "partner"
+    },
+    {
+      "name": "Khedijha Francois",
+      "codeHash": "40d89e3b0a0ab8af4be74dc985618061689ac942256fe90cf5dfefb6d0813699",
+      "status": "active",
+      "tier": "learner"
+    },
+    "name": "Lyndon",
+      "codeHash": "073aa23c1b3285cbe7d8a6fedbc47f0e6cbd787eb2c051ec31da4b5f14caa1a7",
+      "status": "active",
+      "tier": "learner"
+    },
+    {
+      "name": "Mick",
+      "codeHash": "a7b08bb69041aa00107f2593a790002c27846b0a570e2a55d25706d350947608",
+      "status": "active",
+      "tier": "partner"
+  ]
+}
