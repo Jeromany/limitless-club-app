@@ -1,3 +1,6 @@
+html { scroll-behavior: auto; }
+#main-app { min-height: 100vh; }
+
 /* ===== BASE STYLES ===== */
 * {
     margin: 0;

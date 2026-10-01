@@ -16,10 +16,12 @@ function showScreen(screenId) {
 }
 
 function goBack() {
-    document.querySelectorAll('.tool-screen').forEach(screen => {
-        screen.style.display = 'none';
-    });
+    const scrollPos = window.scrollY;
+    
+    document.querySelectorAll('.tool-screen').forEach(s => s.style.display = 'none');
     document.getElementById('main-app').style.display = 'block';
+    
+    window.scrollTo(0, scrollPos);
 }
 
 // --- PREMIUM ACCESS ---
@@ -435,6 +437,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadDailyBriefing();
     loadWeeklyContent();  // Loads BOTH Roadmap and War Room from JSON
     
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('trade-date').value = today;
+    const localNow = new Date();
+    const yyyy = localNow.getFullYear();
+    const mm = String(localNow.getMonth() + 1).padStart(2, '0');
+    const dd = String(localNow.getDate()).padStart(2, '0');
+    document.getElementById('trade-date').value = `${yyyy}-${mm}-${dd}`;
+
 });
