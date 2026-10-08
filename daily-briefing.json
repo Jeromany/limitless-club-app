@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-10-08T01:27:26.247916+00:00",
+  "timestamp": "2026-10-08T12:01:34.766650+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4127.49,
-    "priceChangePercent": 0.66,
+    "currentPrice": 4124.32,
+    "priceChangePercent": 0.58,
     "support": 4061.73,
     "resistance": 4430.46,
     "fib618": 4289.61,
-    "ema20": 4198.94,
-    "ema50": 4264.0,
-    "rsi14": 37.82,
+    "ema20": 4198.63,
+    "ema50": 4263.87,
+    "rsi14": 37.36,
     "bias": "bearish",
     "tacticalBias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "Macro outlook remains bearish,"
+    "analysis": "Macro thesis remains bearish toward the $3200.0 structural target. Tactically, price is rotating between $4061.73 support and $4430.46 resistance, with the 61.8% Fib at $4289.61 as the key pivot. Live AI commentary is syncing; rely on structural levels until the next pulse."
   }
 }
