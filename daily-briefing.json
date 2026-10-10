@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-10-10T01:25:16.567744+00:00",
+  "timestamp": "2026-10-10T12:01:12.462701+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4195.88,
+    "currentPrice": 4195.91,
     "priceChangePercent": 0.02,
     "support": 4061.73,
     "resistance": 4399.22,
