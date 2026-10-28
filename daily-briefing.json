@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-10-28T12:00:37.818121+00:00",
+  "timestamp": "2026-10-28T17:37:58.225743+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 4046.47,
-    "priceChangePercent": -0.39,
+    "currentPrice": 4040.83,
+    "priceChangePercent": -0.53,
     "support": 3975.83,
     "resistance": 4225.62,
     "fib618": 4130.2,
-    "ema20": 4093.73,
-    "ema50": 4171.01,
-    "rsi14": 39.72,
+    "ema20": 4093.2,
+    "ema50": 4170.78,
+    "rsi14": 39.12,
     "bias": "bearish",
     "tacticalBias": "bearish",
     "macroTarget": 3200.0,
-    "analysis": "Macro outlook remains bearish, targeting a long\u2011term low around the $3,200 Moody\u2019s Gap. Tactical bias is also bearish as price sits below both the 20\u2011day EMA ($4,"
+    "analysis": "The macro outlook remains bearish, targeting the $3,200 Moody\u2019s Gap as the long\u2011term structural view. Tactical momentum is also bearish, as"
   }
 }
