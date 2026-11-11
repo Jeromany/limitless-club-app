@@ -124,22 +124,22 @@ async def get_price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception:
         await update.message.reply_text("⚠️ Price data unavailable right now.")
 
-async def buy_access(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("⏳ Processing your request for Lifetime Access...")
-    link = create_crypto_invoice()
-
-    if link:
-        msg = (
-            "🚀 *Limitless Journeys Inner Circle*\n\n"
-            "You are about to secure 1 of 7 Lifetime Spots.\n"
-            "Price: $97 (Crypto)\n\n"
-            "Click the secure link below to complete your payment via Bitcoin or USDT (TRC-20):\n\n"
-            f"👉 {link}\n\n"
-            "Once paid, you will receive instant access to the private Telegram group!"
-        )
-        await update.message.reply_text(msg, parse_mode='Markdown', disable_web_page_preview=True)
-    else:
-        await update.message.reply_text("❌ Payment gateway is currently unavailable. Please try again later.")
+async def buy_pilot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Updated /buy command → now points to $297 Whop pilot"""
+    await update.message.reply_text(
+        "🏛️ *Jasai Structural Intelligence Engine - 14-Day Pilot*\n\n"
+        "AI-powered institutional gold analysis. Real-time voice briefings • Branded charts • Zero predictions.\n\n"
+        "💰 *$297 One-Time Payment* | Limited to 6 Seats\n\n"
+        "✅ *Option 1 (Recommended):* Card/PayPal via Whop\n"
+        "👉 https://jsie-14-day-pilot.whop.site/\n\n"
+        "✅ *Option 2:* PayHip Backup (same price)\n"
+        "👉 https://payhip.com/b/puVSQ\n\n"
+        "✅ *Option 3:* Crypto (BTC/USDT) — $297 equivalent\n"
+        "👉 https://nowpayments.io/payment/?iid=4714895181\n\n"
+        "📥 After purchase, DM 'DESK' on WhatsApp for instant access + welcome guide.",
+        parse_mode='Markdown',
+        disable_web_page_preview=True
+    )
 
 # --- START THE ENGINE ---
 def run_telegram_bot():
