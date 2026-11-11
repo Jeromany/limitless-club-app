@@ -135,7 +135,7 @@ async def buy_pilot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "✅ *Option 2:* PayHip Backup (same price)\n"
         "👉 https://payhip.com/b/puVSQ\n\n"
         "✅ *Option 3:* Crypto (BTC/USDT) — $297 equivalent\n"
-        "👉 https://nowpayments.io/payment/?iid=4714895181\n\n"
+        "👉 https://nowpayments.io/payment/?iid=5862584155\n\n"
         "📥 After purchase, DM 'DESK' on WhatsApp for instant access + welcome guide.",
         parse_mode='Markdown',
         disable_web_page_preview=True
