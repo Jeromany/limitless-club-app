@@ -125,16 +125,13 @@ async def get_price(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("⚠️ Price data unavailable right now.")
 
 async def buy_pilot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Updated /buy command → now points to $297 Whop pilot"""
     await update.message.reply_text(
         "🏛️ *Jasai Structural Intelligence Engine - 14-Day Pilot*\n\n"
         "AI-powered institutional gold analysis. Real-time voice briefings • Branded charts • Zero predictions.\n\n"
         "💰 *$297 One-Time Payment* | Limited to 6 Seats\n\n"
-        "✅ *Option 1 (Recommended):* Card/PayPal via Whop\n"
-        "👉 https://jsie-14-day-pilot.whop.site/\n\n"
-        "✅ *Option 2:* PayHip Backup (same price)\n"
+        "✅ *Option 1 (Recommended):* Card/PayPal via PayHip\n"
         "👉 https://payhip.com/b/puVSQ\n\n"
-        "✅ *Option 3:* Crypto (BTC/USDT) — $297 equivalent\n"
+        "✅ *Option 2:* Crypto (BTC/USDT) — $297 equivalent\n"
         "👉 https://nowpayments.io/payment/?iid=5862584155\n\n"
         "📥 After purchase, DM 'DESK' on WhatsApp for instant access + welcome guide.",
         parse_mode='Markdown',
