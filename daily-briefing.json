@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-11-20T22:56:55.101565+00:00",
+  "timestamp": "2026-11-21T02:56:09.183803+00:00",
   "source": "TwelveData spot",
   "gold": {
-    "currentPrice": 3532.89,
+    "currentPrice": 3532.84,
     "priceChangePercent": 0.35,
     "support": 3503.98,
     "resistance": 4149.01,
     "fib618": 3902.61,
-    "ema20": 3844.27,
-    "ema50": 3988.51,
+    "ema20": 3844.26,
+    "ema50": 3988.5,
     "rsi14": 21.93,
     "bias": "bearish",
     "tacticalBias": "bearish",
