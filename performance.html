@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSIE Performance Log | Limitless Journeys</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: #0a0a0a; 
+            color: #e0e0e0; 
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 { 
+            color: #FFD700; 
+            font-size: 2em; 
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .disclaimer {
+            background: #1a1a1a;
+            border-left: 4px solid #FFD700;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .stat-number {
+            font-size: 2em;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        .stat-label {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th {
+            background: #FFD700;
+            color: #000;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+        }
+        tr:hover { background: #222; }
+        .hit { color: #4CAF50; font-weight: bold; }
+        .miss { color: #f44336; font-weight: bold; }
+        .partial { color: #FF9800; font-weight: bold; }
+        .bias-bearish { color: #f44336; }
+        .bias-bullish { color: #4CAF50; }
+        .bias-neutral { color: #FF9800; }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.85em;
+        }
+        .update-note {
+            background: #1a2a1a;
+            border: 1px solid #4CAF50;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ JSIE PERFORMANCE LOG</h1>
+        <p class="subtitle">Every call. Every level. Hits and misses. No cherry-picking.</p>
+        
+        <div class="update-note">
+            📅 Last updated: November 23, 2026 | Updated daily after NY close
+        </div>
+
+        <div class="disclaimer">
+            <strong>⚠️ FULL TRANSPARENCY DISCLAIMER:</strong> This log tracks every structural bias call, key level identification, and framework application since JSIE launched. It includes days when the market did NOT follow the framework. Past structural reads are not predictions of future performance. This is an educational tracking tool — not financial advice.
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-days">0</div>
+                <div class="stat-label">Days Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number hit" id="hits">0</div>
+                <div class="stat-label">Framework Confirmed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number miss" id="misses">0</div>
+                <div class="stat-label">Market Ignored Structure</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number partial" id="partials">0</div>
+                <div class="stat-label">Partial / Mixed</div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Bias Call</th>
+                    <th>Key Levels Identified</th>
+                    <th>Price Action</th>
+                    <th>Outcome</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody id="log-body">
+                <!-- ROWS GET ADDED HERE DAILY -->
+                <tr>
+                    <td>Nov 21, 2026</td>
+                    <td class="bias-bearish">MACRO BEARISH</td>
+                    <td>Resistance: $4,131 | Support: $3,500 (Moody's Basement)</td>
+                    <td>Gold tested $3,500 zone, respected weekly demand</td>
+                    <td class="hit">✅ HIT</td>
+                    <td>Framework correctly identified Moody's Basement as structural support. Price reacted within zone.</td>
+                </tr>
+                <tr>
+                    <td>Nov 20, 2026</td>
+                    <td class="bias-bearish">MACRO BEARISH</td>
+                    <td>Resistance: $4,148 | Asian Low Sweep: $4,050</td>
+                    <td>Price swept Asian lows, continued lower into NY session</td>
+                    <td class="hit">✅ HIT</td>
+                    <td>Arrow 1 (Asian Liquidity Sweep) played out textbook. Bearish continuation confirmed.</td>
+                </tr>
+                <tr>
+                    <td>Nov 19, 2026</td>
+                    <td class="bias-bearish">TACTICAL BEARISH</td>
+                    <td>EMA20: $4,140 | EMA50: $4,205 | RSI: 31.32</td>
+                    <td>Price remained below EMA stack, bearish orientation held</td>
+                    <td class="hit">✅ HIT</td>
+                    <td>Arrow 2 (Macro Bias Alignment) confirmed. No longs taken per framework rules.</td>
+                </tr>
+                <tr>
+                    <td>Nov 18, 2026</td>
+                    <td class="bias-bearish">MACRO BEARISH</td>
+                    <td>61.8% Fib: $4,203 | Weekly Supply: $4,280</td>
+                    <td>Rally attempted toward EMA stack, rejected at supply</td>
+                    <td class="hit">✅ HIT</td>
+                    <td>Arrow 3 (Golden Zone Patience) validated. Rally failed at institutional resistance.</td>
+                </tr>
+                <tr>
+                    <td>Nov 17, 2026</td>
+                    <td class="bias-neutral">CONSOLIDATION</td>
+                    <td>Range: $4,050 - $4,180</td>
+                    <td>Price chopped in range, no clean breakout</td>
+                    <td class="partial">⚠️ PARTIAL</td>
+                    <td>Framework correctly identified consolidation. No arrows fired — patience rewarded by staying flat.</td>
+                </tr>
+                <tr>
+                    <td>Nov 14, 2026</td>
+                    <td class="bias-bearish">MACRO BEARISH</td>
+                    <td>Support: $4,020 | Invalidation: $4,145</td>
+                    <td>News-driven spike above invalidation on US yields data</td>
+                    <td class="miss">❌ MISS</td>
+                    <td>Arrow 4 warning honored: "Avoid entering during major news spikes." Framework flagged risk — price temporarily invalidated structure before resuming lower. Partial miss on direction, full hit on risk management.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <p>🏛️ Jasai Structural Intelligence Engine | Limitless Journeys</p>
+            <p>Educational tracking only. Not financial advice. Grace. Calmness. Clarity. Execution.</p>
+            <p style="margin-top: 10px;">Questions about this log? Email: limitlessjourneys76@gmail.com</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-calculate stats from table rows
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('#log-body tr');
+            let hits = 0, misses = 0, partials = 0;
+            
+            rows.forEach(row => {
+                const outcome = row.querySelector('td:nth-child(5)').textContent;
+                if (outcome.includes('HIT') && !outcome.includes('MISS')) hits++;
+                else if (outcome.includes('MISS')) misses++;
+                else if (outcome.includes('PARTIAL')) partials++;
+            });
+            
+            document.getElementById('total-days').textContent = rows.length;
+            document.getElementById('hits').textContent = hits;
+            document.getElementById('misses').textContent = misses;
+            document.getElementById('partials').textContent = partials;
+        });
+    </script>
+</body>
+</html>
