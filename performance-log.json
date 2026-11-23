@@ -5,7 +5,7 @@
     "levels": "Resistance: $4,131 | Support: $3,500 (Moody's Basement)",
     "action": "Gold tested $3,500 zone, respected weekly demand",
     "outcome": "HIT",
-    "notes": "Framework correctly identified Moody's Basement as structural support."
+    "notes": "Framework correctly identified Moody's Basement as structural support. Price reacted within zone."
   },
   {
     "date": "Nov 20, 2026",
@@ -13,7 +13,7 @@
     "levels": "Resistance: $4,148 | Asian Low Sweep: $4,050",
     "action": "Price swept Asian lows, continued lower into NY session",
     "outcome": "HIT",
-    "notes": "Arrow 1 (Asian Liquidity Sweep) played out textbook."
+    "notes": "Arrow 1 (Asian Liquidity Sweep) played out textbook. Bearish continuation confirmed."
   },
   {
     "date": "Nov 19, 2026",
@@ -21,7 +21,7 @@
     "levels": "EMA20: $4,140 | EMA50: $4,205 | RSI: 31.32",
     "action": "Price remained below EMA stack, bearish orientation held",
     "outcome": "HIT",
-    "notes": "Arrow 2 confirmed. No longs taken per framework rules."
+    "notes": "Arrow 2 (Macro Bias Alignment) confirmed. No longs taken per framework rules."
   },
   {
     "date": "Nov 18, 2026",
@@ -29,7 +29,7 @@
     "levels": "61.8% Fib: $4,203 | Weekly Supply: $4,280",
     "action": "Rally attempted toward EMA stack, rejected at supply",
     "outcome": "HIT",
-    "notes": "Arrow 3 validated. Rally failed at institutional resistance."
+    "notes": "Arrow 3 (Golden Zone Patience) validated. Rally failed at institutional resistance."
   },
   {
     "date": "Nov 17, 2026",
@@ -37,7 +37,7 @@
     "levels": "Range: $4,050 - $4,180",
     "action": "Price chopped in range, no clean breakout",
     "outcome": "PARTIAL",
-    "notes": "Framework correctly identified consolidation. Patience rewarded by staying flat."
+    "notes": "Framework correctly identified consolidation. No arrows fired — patience rewarded by staying flat."
   },
   {
     "date": "Nov 14, 2026",
@@ -45,6 +45,6 @@
     "levels": "Support: $4,020 | Invalidation: $4,145",
     "action": "News-driven spike above invalidation on US yields data",
     "outcome": "MISS",
-    "notes": "Arrow 4 warning honored: 'Avoid entering during major news.' Capital protected despite directional miss."
+    "notes": "Arrow 4 warning honored: Avoid entering during major news spikes. Framework flagged risk — price temporarily invalidated structure before resuming lower. Partial miss on direction, full hit on risk management."
   }
 ]
